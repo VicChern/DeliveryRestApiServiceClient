@@ -1,16 +1,18 @@
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.file.Path;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.Parsers;
+
+import static org.springframework.http.HttpHeaders.ACCEPT;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 public class SyncHttpClient {
-    private static final String CONTENT_TYPE = "Content-Type";
-    private static final String ACCEPT = "Accept";
     private static final String APPLICATION_VND_SOFTSERVE = "application/vnd.softserve";
     private static final String JSON = "json";
     private final static Logger LOGGER = LoggerFactory.getLogger(SyncHttpClient.class);
@@ -31,7 +33,7 @@ public class SyncHttpClient {
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-        LOGGER.info("\n\n<< GET Kek REST API Call: >>\n{}\n{}", request.uri(), request.headers());
+        LOGGER.info("<< GET Kek REST API Call: >>\n{}\n{}", request.uri(), request.headers());
         if (response.statusCode() == 200 || response.statusCode() == 202) {
             LOGGER.info("\n Responce: Success!\n Status code: {}\n {}", response.statusCode(), response.body());
         } else {
@@ -41,11 +43,12 @@ public class SyncHttpClient {
     }
 
 
-
-    HttpResponse<String> sendPOST(final Path jsonPath, final URI kekUri, final String typeName)
+    public HttpResponse<String> sendPOSTFromJson(final String json, final URI kekUri, final String typeName, Type type)
             throws IOException, InterruptedException {
+
+        // add json header
         HttpRequest request = HttpRequest.newBuilder()
-                .POST(HttpRequest.BodyPublishers.ofFile(jsonPath))
+                .POST(HttpRequest.BodyPublishers.ofString(json))
                 .uri(kekUri)
                 .headers(CONTENT_TYPE, String.format("%s.%s+%s", APPLICATION_VND_SOFTSERVE, typeName, JSON),
                         ACCEPT, String.format("%s.%s+%s", APPLICATION_VND_SOFTSERVE, typeName, JSON))
@@ -53,12 +56,15 @@ public class SyncHttpClient {
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-        LOGGER.info("\n\n << POST Kek REST API Call: >>\n{}\n{}", request.uri(), request.headers());
+        String prettyJsonBody = Parsers.jsonPrettyPrinting(response.body(), type);
+
+        LOGGER.info("<< POST Kek REST API Call: >>\n{}\n{}", request.uri(), request.headers());
         if (response.statusCode() == 200 || response.statusCode() == 202) {
-            LOGGER.info("\n Responce: Success!\n Status code: {}\n {}", response.statusCode(), response.body());
+            LOGGER.info("\n Responce: Success!\n Status code: {}\n {}", response.statusCode(), prettyJsonBody);
         } else {
-            LOGGER.info("\n Responce: Failure! Status Code:{}", response.statusCode());
+            throw new RuntimeException("\n Responce: Failure! Status Code:" + response.statusCode());
         }
         return response;
+
     }
 }
