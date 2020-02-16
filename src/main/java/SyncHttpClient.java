@@ -12,6 +12,7 @@ import utils.Parsers;
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
+//TODO:: Logger request body
 public class SyncHttpClient {
     private static final String APPLICATION_VND_SOFTSERVE = "application/vnd.softserve";
     private static final String JSON = "json";
@@ -43,7 +44,7 @@ public class SyncHttpClient {
     }
 
 
-    public HttpResponse<String> sendPOSTFromJson(final String json, final URI kekUri, final String typeName, Type type)
+    public HttpResponse<String> sendPOST(final String json, final URI kekUri, final String typeName, Type type)
             throws IOException, InterruptedException {
 
         // add json header
@@ -56,13 +57,13 @@ public class SyncHttpClient {
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
-        String prettyJsonBody = Parsers.jsonPrettyPrinting(response.body(), type);
+        //String prettyJsonBody = Parsers.jsonPrettyPrinting(response.body(), type);
 
         LOGGER.info("<< POST Kek REST API Call: >>\n{}\n{}", request.uri(), request.headers());
         if (response.statusCode() == 200 || response.statusCode() == 202) {
-            LOGGER.info("\n Responce: Success!\n Status code: {}\n {}", response.statusCode(), prettyJsonBody);
+            LOGGER.info("\n Responce: Success!\n Status code: {}\n {}", response.statusCode(), response.body());
         } else {
-            throw new RuntimeException("\n Responce: Failure! Status Code:" + response.statusCode());
+            LOGGER.info("\n Responce: Failure! Status Code: {}", response.statusCode());
         }
         return response;
 

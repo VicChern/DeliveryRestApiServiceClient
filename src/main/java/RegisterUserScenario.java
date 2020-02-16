@@ -24,12 +24,12 @@ public class RegisterUserScenario {
         LOGGER.info("\n\n STEP 2: Adding not valid user");
         user.setName(null);
         String jsonUser1 = new Gson().toJson(user);
-        SYNC_HTTP_CLIENT.sendPOSTFromJson(jsonUser1, usersEndpoint, "user", User.class);
+        SYNC_HTTP_CLIENT.sendPOST(jsonUser1, usersEndpoint, "user", User.class);
 
         LOGGER.info("\n\n STEP 3: Adding completely new user");
         user.setName("Julia");
         String jsonUser = new Gson().toJson(user);
-        final HttpResponse<String> response = SYNC_HTTP_CLIENT.sendPOSTFromJson(jsonUser, usersEndpoint,
+        final HttpResponse<String> response = SYNC_HTTP_CLIENT.sendPOST(jsonUser, usersEndpoint,
                 "user", User.class);
         User obj = new Gson().fromJson(response.body(), User.class);
         String userGuid = obj.getGuid();
@@ -40,6 +40,6 @@ public class RegisterUserScenario {
 
         //TODO:: json prettyPrinting for List
         URI addressesEndpoint = URI.create(String.format("%s/users/%s/addresses", HOST, userGuid));
-        SYNC_HTTP_CLIENT.sendPOSTFromJson(jsonAddresses, addressesEndpoint, "address", AddressesList.class);
+        SYNC_HTTP_CLIENT.sendPOST(jsonAddresses, addressesEndpoint, "address", AddressesList.class);
     }
 }

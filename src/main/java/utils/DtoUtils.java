@@ -7,6 +7,8 @@ import dto.AddressesList;
 import dto.Details;
 import dto.Order;
 import dto.OrderDetails;
+import dto.OrderEvent;
+import dto.OrderEventTypes;
 import dto.Tenant;
 import dto.TenantDetails;
 import dto.User;
@@ -71,5 +73,14 @@ public class DtoUtils {
         order.setTenant(tenant.getGuid());
         order.setUser(customer.getGuid());
         return order;
+    }
+
+    public static OrderEvent getOrderEventFor(User user, Order order, OrderEventTypes type) {
+        OrderEvent orderEvent = new OrderEvent();
+        orderEvent.setGuid(user.getGuid());
+        orderEvent.setPayload("some msg");
+        orderEvent.setOrderId(order.getGuid());
+        orderEvent.setType(type);
+        return orderEvent;
     }
 }

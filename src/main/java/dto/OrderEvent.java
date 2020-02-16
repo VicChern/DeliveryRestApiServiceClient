@@ -35,6 +35,22 @@ public class OrderEvent {
         return type;
     }
 
+    public void setGuid(String guid) {
+        this.guid = guid;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public void setPayload(String payload) {
+        this.payload = payload;
+    }
+
+    public void setType(OrderEventTypes type) {
+        this.type = type;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
