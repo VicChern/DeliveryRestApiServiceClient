@@ -1,4 +1,4 @@
-package dto;
+package com.softserve.itacademy.kek.rest.model;
 
 public enum OrderEventTypes {
     CREATED,
