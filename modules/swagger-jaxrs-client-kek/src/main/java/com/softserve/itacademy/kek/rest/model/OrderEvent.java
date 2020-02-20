@@ -1,15 +1,12 @@
 package com.softserve.itacademy.kek.rest.model;
 
 
-import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
+import javax.xml.bind.annotation.XmlType;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 
 public class OrderEvent  {
   
@@ -19,38 +16,6 @@ public class OrderEvent  {
   @ApiModelProperty(value = "")
   private String order = null;
 
-
-@XmlType(name="TypeEnum")
-@XmlEnum(String.class)
-public enum TypeEnum {
-
-@XmlEnumValue("created") CREATED(String.valueOf("created")), @XmlEnumValue("assigned") ASSIGNED(String.valueOf("assigned")), @XmlEnumValue("started") STARTED(String.valueOf("started")), @XmlEnumValue("delivered") DELIVERED(String.valueOf("delivered"));
-
-
-    private String value;
-
-    TypeEnum (String v) {
-        value = v;
-    }
-
-    public String value() {
-        return value;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(value);
-    }
-
-    public static TypeEnum fromValue(String v) {
-        for (TypeEnum b : TypeEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
-                return b;
-            }
-        }
-        return null;
-    }
-}
 
   @ApiModelProperty(value = "order event type")
  /**
@@ -153,7 +118,7 @@ public enum TypeEnum {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

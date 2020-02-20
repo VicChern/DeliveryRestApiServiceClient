@@ -23,14 +23,12 @@ paths:
       description: "Finds all users"
       operationId: "getUserList"
       produces:
-        - "application/vnd.softserve.user+json"
+        - "application/vnd.softserve.userList+json"
       responses:
         200:
           description: "List of users"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/user"
+            $ref: "#/definitions/userList"
     post:
       tags:
         - "users"
@@ -40,6 +38,7 @@ paths:
         - "application/vnd.softserve.user+json"
       produces:
         - "application/vnd.softserve.user+json"
+        - "application/vnd.softserve.errorList+json"
       parameters:
         - name: "user"
           in: "body"
@@ -51,6 +50,10 @@ paths:
           description: "The newly created user object"
           schema:
             $ref: "#/definitions/user"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
 
   /users/{guid}:
     get:
@@ -80,6 +83,7 @@ paths:
         - "application/vnd.softserve.user+json"
       produces:
         - "application/vnd.softserve.user+json"
+        - "application/vnd.softserve.errorList+json"
       parameters:
         - name: "guid"
           in: "path"
@@ -96,6 +100,10 @@ paths:
           description: "The modified user object"
           schema:
             $ref: "#/definitions/user"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
     delete:
       tags:
         - "users"
@@ -118,7 +126,7 @@ paths:
       summary: "Finds addressess of the specific user"
       operationId: "getUserAddresses"
       produces:
-        - "application/vnd.softserve.address+json"
+        - "application/vnd.softserve.addressList+json"
       parameters:
         - name: "guid"
           in: "path"
@@ -129,18 +137,17 @@ paths:
         200:
           description: "List of user addresses"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/address"
+            $ref: "#/definitions/addressList"
     post:
       tags:
         - "users"
       summary: "Adds a new addresses"
       operationId: "addUserAddresses"
       consumes:
-        - "application/vnd.softserve.address+json"
+        - "application/vnd.softserve.addressList+json"
       produces:
-        - "application/vnd.softserve.address+json"
+        - "application/vnd.softserve.addressList+json"
+        - "application/vnd.softserve.errorList+json"
       parameters:
         - name: "guid"
           in: "path"
@@ -151,16 +158,16 @@ paths:
           in: "body"
           description: "List of addresses"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/address"
+            $ref: "#/definitions/addressList"
       responses:
         200:
           description: "List of added user addresses"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/address"
+            $ref: "#/definitions/addressList"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
 
   /users/{guid}/addresses/{addrguid}:
     get:
@@ -195,6 +202,7 @@ paths:
         - "application/vnd.softserve.address+json"
       produces:
         - "application/vnd.softserve.address+json"
+        - "application/vnd.softserve.errorList+json"
       parameters:
         - name: "guid"
           in: "path"
@@ -216,6 +224,10 @@ paths:
           description: "The modified address object"
           schema:
             $ref: "#/definitions/address"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
     delete:
       tags:
         - "users"
@@ -244,14 +256,12 @@ paths:
       description: "Finds all tenants"
       operationId: "getTenantList"
       produces:
-        - "application/vnd.softserve.tenant+json"
+        - "application/vnd.softserve.tenantList+json"
       responses:
         200:
           description: "List of tenants"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/tenant"
+            $ref: "#/definitions/tenantList"
     post:
       tags:
         - "tenants"
@@ -261,6 +271,7 @@ paths:
         - "application/vnd.softserve.tenant+json"
       produces:
         - "application/vnd.softserve.tenant+json"
+        - "application/vnd.softserve.errorList+json"
       parameters:
         - name: "tenant"
           in: "body"
@@ -272,6 +283,10 @@ paths:
           description: "The newly created tenant object"
           schema:
             $ref: "#/definitions/tenant"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
 
   /tenants/{guid}:
     get:
@@ -301,6 +316,7 @@ paths:
         - "application/vnd.softserve.tenant+json"
       produces:
         - "application/vnd.softserve.tenant+json"
+        - "application/vnd.softserve.errorList+json"
       parameters:
         - name: "guid"
           in: "path"
@@ -317,6 +333,10 @@ paths:
           description: "The modified tenant object"
           schema:
             $ref: "#/definitions/tenant"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
     delete:
       tags:
         - "tenants"
@@ -339,7 +359,7 @@ paths:
       summary: "Finds properties of the specific tenant"
       operationId: "getTenantProperties"
       produces:
-        - "application/vnd.softserve.tenantproperty+json"
+        - "application/vnd.softserve.tenantPropertyList+json"
       parameters:
         - name: "guid"
           in: "path"
@@ -350,18 +370,17 @@ paths:
         200:
           description: "List of tenant properties"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/tenantProperty"
+            $ref: "#/definitions/tenantPropertyList"
     post:
       tags:
         - "tenants"
       summary: "Adds tenant properties"
       operationId: "addTenantProperties"
       consumes:
-        - "application/vnd.softserve.tenantproperty+json"
+        - "application/vnd.softserve.tenantPropertyList+json"
       produces:
-        - "application/vnd.softserve.tenantproperty+json"
+        - "application/vnd.softserve.tenantPropertyList+json"
+        - "application/vnd.softserve.errorList+json"
       parameters:
         - name: "guid"
           in: "path"
@@ -372,16 +391,16 @@ paths:
           in: "body"
           description: "List of properties"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/tenantProperty"
+            $ref: "#/definitions/tenantPropertyList"
       responses:
         200:
           description: "List of added tenant properties"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/tenantProperty"
+            $ref: "#/definitions/tenantPropertyList"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
 
   /tenants/{guid}/properties/{propguid}:
     get:
@@ -390,7 +409,7 @@ paths:
       summary: "Finds specific property of the specific tenant"
       operationId: "getTenantProperty"
       produces:
-        - "application/vnd.softserve.tenantproperty+json"
+        - "application/vnd.softserve.tenantProperty+json"
       parameters:
         - name: "guid"
           in: "path"
@@ -413,9 +432,10 @@ paths:
       summary: "Modifies the specific tenant property"
       operationId: "modifyTenantProperty"
       consumes:
-        - "application/vnd.softserve.tenantproperty+json"
+        - "application/vnd.softserve.tenantProperty+json"
       produces:
-        - "application/vnd.softserve.tenantproperty+json"
+        - "application/vnd.softserve.tenantProperty+json"
+        - "application/vnd.softserve.errorList+json"
       parameters:
         - name: "guid"
           in: "path"
@@ -437,6 +457,10 @@ paths:
           description: "The modified tenant property object"
           schema:
             $ref: "#/definitions/tenantProperty"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
     delete:
       tags:
         - "tenants"
@@ -464,7 +488,7 @@ paths:
       summary: "Finds addressess of the specific tenant"
       operationId: "getTenantAddresses"
       produces:
-        - "application/vnd.softserve.address+json"
+        - "application/vnd.softserve.addressList+json"
       parameters:
         - name: "guid"
           in: "path"
@@ -475,18 +499,17 @@ paths:
         200:
           description: "List of tenant addresses"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/address"
+            $ref: "#/definitions/addressList"
     post:
       tags:
         - "tenants"
       summary: "Adds a new addresses"
       operationId: "addTenantAddresses"
       consumes:
-        - "application/vnd.softserve.address+json"
+        - "application/vnd.softserve.addressList+json"
       produces:
-        - "application/vnd.softserve.address+json"
+        - "application/vnd.softserve.addressList+json"
+        - "application/vnd.softserve.errorList+json"
       parameters:
         - name: "guid"
           in: "path"
@@ -497,16 +520,16 @@ paths:
           in: "body"
           description: "List of addresses"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/address"
+            $ref: "#/definitions/addressList"
       responses:
         200:
           description: "List of added tenant addresses"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/address"
+            $ref: "#/definitions/addressList"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
 
   /tenants/{guid}/addresses/{addrguid}:
     get:
@@ -541,6 +564,7 @@ paths:
         - "application/vnd.softserve.address+json"
       produces:
         - "application/vnd.softserve.address+json"
+        - "application/vnd.softserve.errorList+json"
       parameters:
         - name: "guid"
           in: "path"
@@ -562,6 +586,10 @@ paths:
           description: "The modified address object"
           schema:
             $ref: "#/definitions/address"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
     delete:
       tags:
         - "tenants"
@@ -590,12 +618,12 @@ paths:
       description: "Finds all orders"
       operationId: "getOrderList"
       produces:
-        - "application/vnd.softserve.order+json"
+        - "application/vnd.softserve.orderList+json"
       responses:
         200:
           description: "The order object"
           schema:
-            $ref: "#/definitions/order"
+            $ref: "#/definitions/orderList"
     post:
       tags:
         - "orders"
@@ -605,6 +633,7 @@ paths:
         - "application/vnd.softserve.order+json"
       produces:
         - "application/vnd.softserve.order+json"
+        - "application/vnd.softserve.errorList+json"
       parameters:
         - name: "order"
           in: "body"
@@ -616,6 +645,10 @@ paths:
           description: "The newly created order object"
           schema:
             $ref: "#/definitions/order"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
 
   /orders/{guid}:
     get:
@@ -645,6 +678,7 @@ paths:
         - "application/vnd.softserve.order+json"
       produces:
         - "application/vnd.softserve.order+json"
+        - "application/vnd.softserve.errorList+json"
       parameters:
         - name: "guid"
           in: "path"
@@ -661,6 +695,10 @@ paths:
           description: "The modified order object"
           schema:
             $ref: "#/definitions/order"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
     delete:
       tags:
         - "orders"
@@ -684,7 +722,7 @@ paths:
       summary: "Finds the specific order events"
       operationId: "getEvents"
       produces:
-        - "application/vnd.softserve.event+json"
+        - "application/vnd.softserve.eventList+json"
       parameters:
         - name: "guid"
           in: "path"
@@ -695,9 +733,7 @@ paths:
         200:
           description: "The list of order event objects"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/orderEvent"
+            $ref: "#/definitions/orderEventList"
     post:
       tags:
         - "orders"
@@ -707,6 +743,7 @@ paths:
         - "application/vnd.softserve.event+json"
       produces:
         - "application/vnd.softserve.event+json"
+        - "application/vnd.softserve.errorList+json"
       parameters:
         - name: "guid"
           in: "path"
@@ -722,11 +759,20 @@ paths:
         200:
           description: "The list of order event objects"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/orderEvent"
+            $ref: "#/definitions/orderEvent"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
 
 definitions:
+  userList:
+    type: "object"
+    properties:
+      userList:
+        type: "array"
+        items:
+          $ref: "#/definitions/user"
   user:
     type: "object"
     properties:
@@ -750,6 +796,13 @@ definitions:
       imageURL:
         type: "string"
 
+  tenantList:
+    type: "object"
+    properties:
+      tenantList:
+        type: "array"
+        items:
+          $ref: "#/definitions/tenant"
   tenant:
     type: "object"
     properties:
@@ -770,6 +823,13 @@ definitions:
         type: "string"
       imageURL:
         type: "string"
+  tenantPropertyList:
+    type: "object"
+    properties:
+      tenantPropertyList:
+        type: "array"
+        items:
+          $ref: "#/definitions/tenantProperty"
   tenantProperty:
     type: "object"
     properties:
@@ -784,12 +844,22 @@ definitions:
       value:
         type: "string"
 
+  orderList:
+    type: "object"
+    properties:
+      orderList:
+        type: "array"
+        items:
+          $ref: "#/definitions/order"
   order:
     type: "object"
     properties:
       tenant:
         type: "string"
         description: "tenant id"
+      user:
+        type: "string"
+        description: "user id"
       guid:
         type: "string"
       summary:
@@ -803,6 +873,14 @@ definitions:
         type: "string"
       imageURL:
         type: "string"
+
+  orderEventList:
+    type: "object"
+    properties:
+      orderEventList:
+        type: "array"
+        items:
+          $ref: "#/definitions/orderEvent"
   orderEvent:
     type: "object"
     properties:
@@ -821,6 +899,13 @@ definitions:
       payload:
         type: "string"
 
+  addressList:
+    type: "object"
+    properties:
+      addressList:
+        type: "array"
+        items:
+          $ref: "#/definitions/address"
   address:
     type: "object"
     properties:
@@ -831,6 +916,21 @@ definitions:
       address:
         type: "string"
       notes:
+        type: "string"
+
+  errorList:
+    type: "object"
+    properties:
+      errorlList:
+        type: "array"
+        items:
+          $ref: "#/definitions/error"
+  error:
+    type: "object"
+    properties:
+      error:
+        type: "string"
+      details:
         type: "string"
 
 # Added by API Auto Mocking Plugin

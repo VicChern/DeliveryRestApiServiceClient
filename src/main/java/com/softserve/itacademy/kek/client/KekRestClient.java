@@ -1,6 +1,5 @@
 package com.softserve.itacademy.kek.client;
 
-import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,11 +12,18 @@ import com.softserve.itacademy.kek.rest.api.OrdersApi;
 import com.softserve.itacademy.kek.rest.api.TenantsApi;
 import com.softserve.itacademy.kek.rest.api.UsersApi;
 import com.softserve.itacademy.kek.rest.model.Address;
+import com.softserve.itacademy.kek.rest.model.AddressList;
 import com.softserve.itacademy.kek.rest.model.Order;
 import com.softserve.itacademy.kek.rest.model.OrderEvent;
+import com.softserve.itacademy.kek.rest.model.OrderEventList;
+import com.softserve.itacademy.kek.rest.model.OrderList;
 import com.softserve.itacademy.kek.rest.model.Tenant;
+import com.softserve.itacademy.kek.rest.model.TenantList;
 import com.softserve.itacademy.kek.rest.model.TenantProperty;
+import com.softserve.itacademy.kek.rest.model.TenantPropertyList;
 import com.softserve.itacademy.kek.rest.model.User;
+import com.softserve.itacademy.kek.rest.model.UserList;
+
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -43,7 +49,7 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
     @Consumes({"application/vnd.softserve.event+json"})
     @Path("/orders/{guid}/events")
     @POST
-    public List<OrderEvent> addEvent(String guid, OrderEvent event)
+    public OrderEvent addEvent(String guid, OrderEvent event)
     {
         return ordersApi.addEvent(guid, event);
     }
@@ -79,7 +85,7 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
     @Produces({"application/vnd.softserve.event+json"})
     @Path("/orders/{guid}/events")
     @GET
-    public List<OrderEvent> getEvents(String guid)
+    public OrderEventList getEvents(String guid)
     {
         return ordersApi.getEvents(guid);
     }
@@ -103,7 +109,7 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
     @Produces({"application/vnd.softserve.order+json"})
     @Path("/orders")
     @GET
-    public Order getOrderList()
+    public OrderList getOrderList()
     {
         return ordersApi.getOrderList();
     }
@@ -142,7 +148,7 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
     @Consumes({"application/vnd.softserve.address+json"})
     @Path("/tenants/{guid}/addresses")
     @POST
-    public List<Address> addTenantAddresses(String guid, List<Address> addresses)
+    public AddressList addTenantAddresses(String guid, AddressList addresses)
     {
         return tenantsApi.addTenantAddresses(guid, addresses);
     }
@@ -155,7 +161,7 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
     @Consumes({"application/vnd.softserve.tenantproperty+json"})
     @Path("/tenants/{guid}/properties")
     @POST
-    public List<TenantProperty> addTenantProperties(String guid, List<TenantProperty> properties)
+    public TenantPropertyList addTenantProperties(String guid, TenantPropertyList properties)
     {
         return tenantsApi.addTenantProperties(guid, properties);
     }
@@ -224,7 +230,7 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
     @Produces({"application/vnd.softserve.address+json"})
     @Path("/tenants/{guid}/addresses")
     @GET
-    public List<Address> getTenantAddresses(String guid)
+    public AddressList getTenantAddresses(String guid)
     {
         return tenantsApi.getTenantAddresses(guid);
     }
@@ -236,7 +242,7 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
     @Produces({"application/vnd.softserve.tenant+json"})
     @Path("/tenants")
     @GET
-    public List<Tenant> getTenantList()
+    public TenantList getTenantList()
     {
         return tenantsApi.getTenantList();
     }
@@ -248,7 +254,7 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
     @Produces({"application/vnd.softserve.tenantproperty+json"})
     @Path("/tenants/{guid}/properties")
     @GET
-    public List<TenantProperty> getTenantProperties(String guid)
+    public TenantPropertyList getTenantProperties(String guid)
     {
         return tenantsApi.getTenantProperties(guid);
     }
@@ -321,11 +327,11 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
     @ApiResponses({
             @ApiResponse(code = 200, message = "List of added user addresses", response = Address.class, responseContainer = "List")})
     @ApiOperation(value = "Adds a new addresses", tags = {})
-    @Produces({"application/vnd.softserve.address+json"})
-    @Consumes({"application/vnd.softserve.address+json"})
+    @Produces({"application/vnd.softserve.addressList+json"})
+    @Consumes({"application/vnd.softserve.addressList+json"})
     @Path("/users/{guid}/addresses")
     @POST
-    public List<Address> addUserAddresses(String guid, List<Address> addresses)
+    public AddressList addUserAddresses(String guid, AddressList addresses)
     {
         return usersApi.addUserAddresses(guid, addresses);
     }
@@ -383,7 +389,7 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
     @Produces({"application/vnd.softserve.address+json"})
     @Path("/users/{guid}/addresses")
     @GET
-    public List<Address> getUserAddresses(String guid)
+    public AddressList getUserAddresses(String guid)
     {
         return usersApi.getUserAddresses(guid);
     }
@@ -395,7 +401,7 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
     @Produces({"application/vnd.softserve.user+json"})
     @Path("/users")
     @GET
-    public List<User> getUserList()
+    public UserList getUserList()
     {
         return usersApi.getUserList();
     }

@@ -1,22 +1,24 @@
 package com.softserve.itacademy.kek.rest.api;
 
-import com.softserve.itacademy.kek.rest.model.Address;
-import com.softserve.itacademy.kek.rest.model.User;
-
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
-import java.util.Map;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.MediaType;
-import org.apache.cxf.jaxrs.ext.multipart.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
-import io.swagger.jaxrs.PATCH;
+import io.swagger.annotations.ApiResponses;
+
+import com.softserve.itacademy.kek.rest.model.Address;
+import com.softserve.itacademy.kek.rest.model.AddressList;
+import com.softserve.itacademy.kek.rest.model.ErrorList;
+import com.softserve.itacademy.kek.rest.model.User;
+import com.softserve.itacademy.kek.rest.model.UserList;
 
 /**
  * Kinda Express King
@@ -35,10 +37,11 @@ public interface UsersApi  {
     @POST
     @Path("/users")
     @Consumes({ "application/vnd.softserve.user+json" })
-    @Produces({ "application/vnd.softserve.user+json" })
+    @Produces({ "application/vnd.softserve.user+json", "application/vnd.softserve.errorList+json" })
     @ApiOperation(value = "Creates a new user", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The newly created user object", response = User.class) })
+        @ApiResponse(code = 200, message = "The newly created user object", response = User.class),
+        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
     public User addUser(User user);
 
     /**
@@ -47,12 +50,13 @@ public interface UsersApi  {
      */
     @POST
     @Path("/users/{guid}/addresses")
-    @Consumes({ "application/vnd.softserve.address+json" })
-    @Produces({ "application/vnd.softserve.address+json" })
+    @Consumes({ "application/vnd.softserve.addressList+json" })
+    @Produces({ "application/vnd.softserve.addressList+json", "application/vnd.softserve.errorList+json" })
     @ApiOperation(value = "Adds a new addresses", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "List of added user addresses", response = Address.class, responseContainer = "List") })
-    public List<Address> addUserAddresses(@PathParam("guid") String guid, List<Address> addresses);
+        @ApiResponse(code = 200, message = "List of added user addresses", response = AddressList.class),
+        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
+    public AddressList addUserAddresses(@PathParam("guid") String guid, AddressList addresses);
 
     /**
      * Deletes the specific user
@@ -106,11 +110,11 @@ public interface UsersApi  {
      */
     @GET
     @Path("/users/{guid}/addresses")
-    @Produces({ "application/vnd.softserve.address+json" })
+    @Produces({ "application/vnd.softserve.addressList+json" })
     @ApiOperation(value = "Finds addressess of the specific user", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "List of user addresses", response = Address.class, responseContainer = "List") })
-    public List<Address> getUserAddresses(@PathParam("guid") String guid);
+        @ApiResponse(code = 200, message = "List of user addresses", response = AddressList.class) })
+    public AddressList getUserAddresses(@PathParam("guid") String guid);
 
     /**
      * Searches for users
@@ -120,11 +124,11 @@ public interface UsersApi  {
      */
     @GET
     @Path("/users")
-    @Produces({ "application/vnd.softserve.user+json" })
+    @Produces({ "application/vnd.softserve.userList+json" })
     @ApiOperation(value = "Searches for users", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "List of users", response = User.class, responseContainer = "List") })
-    public List<User> getUserList();
+        @ApiResponse(code = 200, message = "List of users", response = UserList.class) })
+    public UserList getUserList();
 
     /**
      * Modifies the specific user
@@ -133,10 +137,11 @@ public interface UsersApi  {
     @PUT
     @Path("/users/{guid}")
     @Consumes({ "application/vnd.softserve.user+json" })
-    @Produces({ "application/vnd.softserve.user+json" })
+    @Produces({ "application/vnd.softserve.user+json", "application/vnd.softserve.errorList+json" })
     @ApiOperation(value = "Modifies the specific user", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The modified user object", response = User.class) })
+        @ApiResponse(code = 200, message = "The modified user object", response = User.class),
+        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
     public User modifyUser(@PathParam("guid") String guid, User user);
 
     /**
@@ -146,10 +151,11 @@ public interface UsersApi  {
     @PUT
     @Path("/users/{guid}/addresses/{addrguid}")
     @Consumes({ "application/vnd.softserve.address+json" })
-    @Produces({ "application/vnd.softserve.address+json" })
+    @Produces({ "application/vnd.softserve.address+json", "application/vnd.softserve.errorList+json" })
     @ApiOperation(value = "Modifies the specific user address", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The modified address object", response = Address.class) })
+        @ApiResponse(code = 200, message = "The modified address object", response = Address.class),
+        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
     public Address modifyUserAddress(@PathParam("guid") String guid, @PathParam("addrguid") String addrguid, Address address);
 }
 

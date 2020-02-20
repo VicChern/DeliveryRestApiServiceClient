@@ -9,11 +9,15 @@ import com.softserve.itacademy.kek.client.utils.ModelUtils;
 import com.softserve.itacademy.kek.rest.api.OrdersApi;
 import com.softserve.itacademy.kek.rest.api.TenantsApi;
 import com.softserve.itacademy.kek.rest.api.UsersApi;
-import com.softserve.itacademy.kek.rest.model.Address;
+import com.softserve.itacademy.kek.rest.model.AddressList;
 import com.softserve.itacademy.kek.rest.model.Order;
+import com.softserve.itacademy.kek.rest.model.OrderEvent;
 import com.softserve.itacademy.kek.rest.model.OrderEventTypes;
 import com.softserve.itacademy.kek.rest.model.Tenant;
 import com.softserve.itacademy.kek.rest.model.User;
+
+
+import static com.softserve.itacademy.kek.client.utils.ModelUtils.getUserWithName;
 
 
 public class MainFlow
@@ -27,18 +31,18 @@ public class MainFlow
 
     public static void main(String[] args)
     {
-        final User user1 = ModelUtils.getUserWithName("Currier");
+        final User user1 = getUserWithName("Currier");
         User userForCustomer = usersApi.addUser(user1);
 
-        final User user2 = ModelUtils.getUserWithName("Customer");
+        final User user2 = getUserWithName("Customer");
         User userForCurrier = usersApi.addUser(user2);
 
-        final User user3 = ModelUtils.getUserWithName("Tenant");
+        final User user3 = getUserWithName("Tenant");
         User userForTenant = usersApi.addUser(user3);
         LOGGER.info("\n\n STEP 1: Added new users: for customer {}, for currier {}, for tenant {}",
                 user1, user2, user3);
 
-        List<Address> addresses = usersApi.addUserAddresses(userForCustomer.getGuid(), ModelUtils.getAddresses());
+        AddressList addresses = usersApi.addUserAddresses(userForCustomer.getGuid(), ModelUtils.getAddresses());
         LOGGER.info("\n\n STEP 2: Added addresses {} for user guid={}", addresses, userForCustomer.getGuid());
 
         Tenant tenant = tenantApi.addTenant(ModelUtils.getTenantFor(userForTenant));
@@ -53,20 +57,36 @@ public class MainFlow
                 userForCustomer.getGuid(),
                 userForTenant.getGuid());
 
-        //TODO:: in Kek app create endpoint /assignCurrier that accept (user_currier_guid, order_guid, eventDTO)
-        //TODO:: for this endpoint required service that will store event with type ASSIGNED and actor with ROLE CURRIER
-        //Tenant assign currier: Tenant add event (order_guid, user_guid(tenant), event_type ASSIGNED)
-        //System automatically added actor (tenant_ID, user_tenant(currier), time)
+        //System automatically added actor (user_guid(customer)) and role CUSTOMER
+//System automatically added event (EventDTO) and event_type CREATED
 
-        //Currier accept delivery: User currier add event (order_guid, user_guid(currier), event_type STARTED)
-        //System automatically added actor (tenant_ID, user_guid(currier), time)
+        OrderEvent eventCreated = ordersApi.addEvent(userForCustomer.getGuid(),
+                ModelUtils.getOrderEventFor(OrderEventTypes.CREATED));
+        LOGGER.info("\n\n STEP 4: Added new event {} for orderGuid={}", order.getGuid(), eventCreated);
 
-        //User customer send request to get geolocation of an order
+//Currier takes order: Currier add event (EventDTO, user_guid(currier)), event_type ASSIGNED
+//System automatically added actor (user_guid(currier)) and role CURRIER
 
-        //Currier  delivery: User currier add event (order_guid, user_guid(currier), event_type DELIVERED)
-        //System automatically added actor (tenant_ID, user_guid(currier), time)
+        OrderEvent eventAssigned = ordersApi.addEvent(userForCustomer.getGuid(),
+                ModelUtils.getOrderEventFor(OrderEventTypes.ASSIGNED));
+        LOGGER.info("\n\n STEP 4: Added new event {} for orderGuid={}", order.getGuid(), eventAssigned);
 
-        //Tenant guid send request to get all information about events of actor (what role had user (currier, admin...)
-        // for order)
+//Currier started delivery: Currier add event (EventDTO, user_guid(currier)), event_type STARTED
+//System automatically added actor (user_guid(currier)) and role CURRIER (this step only if CURRIER is chenged to another user)
+
+        OrderEvent eventStarted = ordersApi.addEvent(userForCustomer.getGuid(),
+                ModelUtils.getOrderEventFor(OrderEventTypes.STARTED));
+        LOGGER.info("\n\n STEP 4: Added new event {} for orderGuid={}", order.getGuid(), eventStarted);
+
+//Customer send request to get geolocation of an order
+
+//Currier finished delivery: Currier added event (EventDTO, user_guid(currier)) with event_type DELIVERED
+        OrderEvent eventDelivered = ordersApi.addEvent(userForCustomer.getGuid(),
+                ModelUtils.getOrderEventFor(OrderEventTypes.DELIVERED));
+        LOGGER.info("\n\n STEP 4: Added new event {} for orderGuid={}", order.getGuid(), eventDelivered);
+
+//Tenant guid send request to get all information about events of actor (what role had user (currier, admin...)
+// at different time for what order)
+
     }
 }

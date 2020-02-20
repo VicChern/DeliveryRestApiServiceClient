@@ -1,23 +1,26 @@
 package com.softserve.itacademy.kek.rest.api;
 
-import com.softserve.itacademy.kek.rest.model.Address;
-import com.softserve.itacademy.kek.rest.model.Tenant;
-import com.softserve.itacademy.kek.rest.model.TenantProperty;
-
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
-import java.util.Map;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.MediaType;
-import org.apache.cxf.jaxrs.ext.multipart.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
-import io.swagger.jaxrs.PATCH;
+import io.swagger.annotations.ApiResponses;
+
+import com.softserve.itacademy.kek.rest.model.Address;
+import com.softserve.itacademy.kek.rest.model.AddressList;
+import com.softserve.itacademy.kek.rest.model.ErrorList;
+import com.softserve.itacademy.kek.rest.model.Tenant;
+import com.softserve.itacademy.kek.rest.model.TenantList;
+import com.softserve.itacademy.kek.rest.model.TenantProperty;
+import com.softserve.itacademy.kek.rest.model.TenantPropertyList;
 
 /**
  * Kinda Express King
@@ -36,10 +39,11 @@ public interface TenantsApi  {
     @POST
     @Path("/tenants")
     @Consumes({ "application/vnd.softserve.tenant+json" })
-    @Produces({ "application/vnd.softserve.tenant+json" })
+    @Produces({ "application/vnd.softserve.tenant+json", "application/vnd.softserve.errorList+json" })
     @ApiOperation(value = "Creates a new tenant", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The newly created tenant object", response = Tenant.class) })
+        @ApiResponse(code = 200, message = "The newly created tenant object", response = Tenant.class),
+        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
     public Tenant addTenant(Tenant tenant);
 
     /**
@@ -48,12 +52,13 @@ public interface TenantsApi  {
      */
     @POST
     @Path("/tenants/{guid}/addresses")
-    @Consumes({ "application/vnd.softserve.address+json" })
-    @Produces({ "application/vnd.softserve.address+json" })
+    @Consumes({ "application/vnd.softserve.addressList+json" })
+    @Produces({ "application/vnd.softserve.addressList+json", "application/vnd.softserve.errorList+json" })
     @ApiOperation(value = "Adds a new addresses", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "List of added tenant addresses", response = Address.class, responseContainer = "List") })
-    public List<Address> addTenantAddresses(@PathParam("guid") String guid, List<Address> addresses);
+        @ApiResponse(code = 200, message = "List of added tenant addresses", response = AddressList.class),
+        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
+    public AddressList addTenantAddresses(@PathParam("guid") String guid, AddressList addresses);
 
     /**
      * Adds tenant properties
@@ -61,12 +66,13 @@ public interface TenantsApi  {
      */
     @POST
     @Path("/tenants/{guid}/properties")
-    @Consumes({ "application/vnd.softserve.tenantproperty+json" })
-    @Produces({ "application/vnd.softserve.tenantproperty+json" })
+    @Consumes({ "application/vnd.softserve.tenantPropertyList+json" })
+    @Produces({ "application/vnd.softserve.tenantPropertyList+json", "application/vnd.softserve.errorList+json" })
     @ApiOperation(value = "Adds tenant properties", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "List of added tenant properties", response = TenantProperty.class, responseContainer = "List") })
-    public List<TenantProperty> addTenantProperties(@PathParam("guid") String guid, List<TenantProperty> properties);
+        @ApiResponse(code = 200, message = "List of added tenant properties", response = TenantPropertyList.class),
+        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
+    public TenantPropertyList addTenantProperties(@PathParam("guid") String guid, TenantPropertyList properties);
 
     /**
      * Deletes the specific tenant
@@ -131,11 +137,11 @@ public interface TenantsApi  {
      */
     @GET
     @Path("/tenants/{guid}/addresses")
-    @Produces({ "application/vnd.softserve.address+json" })
+    @Produces({ "application/vnd.softserve.addressList+json" })
     @ApiOperation(value = "Finds addressess of the specific tenant", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "List of tenant addresses", response = Address.class, responseContainer = "List") })
-    public List<Address> getTenantAddresses(@PathParam("guid") String guid);
+        @ApiResponse(code = 200, message = "List of tenant addresses", response = AddressList.class) })
+    public AddressList getTenantAddresses(@PathParam("guid") String guid);
 
     /**
      * Searches for tenants
@@ -145,11 +151,11 @@ public interface TenantsApi  {
      */
     @GET
     @Path("/tenants")
-    @Produces({ "application/vnd.softserve.tenant+json" })
+    @Produces({ "application/vnd.softserve.tenantList+json" })
     @ApiOperation(value = "Searches for tenants", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "List of tenants", response = Tenant.class, responseContainer = "List") })
-    public List<Tenant> getTenantList();
+        @ApiResponse(code = 200, message = "List of tenants", response = TenantList.class) })
+    public TenantList getTenantList();
 
     /**
      * Finds properties of the specific tenant
@@ -157,11 +163,11 @@ public interface TenantsApi  {
      */
     @GET
     @Path("/tenants/{guid}/properties")
-    @Produces({ "application/vnd.softserve.tenantproperty+json" })
+    @Produces({ "application/vnd.softserve.tenantPropertyList+json" })
     @ApiOperation(value = "Finds properties of the specific tenant", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "List of tenant properties", response = TenantProperty.class, responseContainer = "List") })
-    public List<TenantProperty> getTenantProperties(@PathParam("guid") String guid);
+        @ApiResponse(code = 200, message = "List of tenant properties", response = TenantPropertyList.class) })
+    public TenantPropertyList getTenantProperties(@PathParam("guid") String guid);
 
     /**
      * Finds specific property of the specific tenant
@@ -169,7 +175,7 @@ public interface TenantsApi  {
      */
     @GET
     @Path("/tenants/{guid}/properties/{propguid}")
-    @Produces({ "application/vnd.softserve.tenantproperty+json" })
+    @Produces({ "application/vnd.softserve.tenantProperty+json" })
     @ApiOperation(value = "Finds specific property of the specific tenant", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Specific tenant tenant property", response = TenantProperty.class) })
@@ -182,10 +188,11 @@ public interface TenantsApi  {
     @PUT
     @Path("/tenants/{guid}")
     @Consumes({ "application/vnd.softserve.tenant+json" })
-    @Produces({ "application/vnd.softserve.tenant+json" })
+    @Produces({ "application/vnd.softserve.tenant+json", "application/vnd.softserve.errorList+json" })
     @ApiOperation(value = "Modifies the specific tenant", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The modified tenant object", response = Tenant.class) })
+        @ApiResponse(code = 200, message = "The modified tenant object", response = Tenant.class),
+        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
     public Tenant modifyTenant(@PathParam("guid") String guid, Tenant tenant);
 
     /**
@@ -195,10 +202,11 @@ public interface TenantsApi  {
     @PUT
     @Path("/tenants/{guid}/addresses/{addrguid}")
     @Consumes({ "application/vnd.softserve.address+json" })
-    @Produces({ "application/vnd.softserve.address+json" })
+    @Produces({ "application/vnd.softserve.address+json", "application/vnd.softserve.errorList+json" })
     @ApiOperation(value = "Modifies the specific tenant address", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The modified address object", response = Address.class) })
+        @ApiResponse(code = 200, message = "The modified address object", response = Address.class),
+        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
     public Address modifyTenantAddress(@PathParam("guid") String guid, @PathParam("addrguid") String addrguid, Address address);
 
     /**
@@ -207,11 +215,12 @@ public interface TenantsApi  {
      */
     @PUT
     @Path("/tenants/{guid}/properties/{propguid}")
-    @Consumes({ "application/vnd.softserve.tenantproperty+json" })
-    @Produces({ "application/vnd.softserve.tenantproperty+json" })
+    @Consumes({ "application/vnd.softserve.tenantProperty+json" })
+    @Produces({ "application/vnd.softserve.tenantProperty+json", "application/vnd.softserve.errorList+json" })
     @ApiOperation(value = "Modifies the specific tenant property", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The modified tenant property object", response = TenantProperty.class) })
+        @ApiResponse(code = 200, message = "The modified tenant property object", response = TenantProperty.class),
+        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
     public TenantProperty modifyTenantProperty(@PathParam("guid") String guid, @PathParam("propguid") String propguid, TenantProperty property);
 }
 

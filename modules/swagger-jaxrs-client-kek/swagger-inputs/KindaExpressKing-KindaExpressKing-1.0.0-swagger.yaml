@@ -1,0 +1,916 @@
+swagger: "2.0"
+info:
+  description: "BaaS for delivery services like Glovo, Uber or even for regular mail. Also, a simple web front-end should be provided as an example of a typical consumer's app."
+  version: "1.0.0"
+  title: "Kinda Express King"
+#  contact:
+#    email: "apiteam@softserveinc.com"
+# host: "localhost:8080"
+tags:
+  - name: "users"
+    description: "Everything about users"
+  - name: "tenants"
+    description: "Everything about tenants"
+  - name: "orders"
+    description: "Everything about orders and order events"
+
+paths:
+  /users:
+    get:
+      tags:
+        - "users"
+      summary: "Searches for users"
+      description: "Finds all users"
+      operationId: "getUserList"
+      produces: 
+        - "application/vnd.softserve.userList+json"
+      responses:
+        200:
+          description: "List of users"
+          schema:
+            $ref: "#/definitions/userList"
+  
+  /users/{guid}:
+    get:
+      tags:
+        - "users"
+      summary: "Finds the specific user"
+      operationId: "getUser"
+      produces: 
+        - "application/vnd.softserve.user+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific user"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "The user object"
+          schema:
+            $ref: "#/definitions/user"
+    put:
+      tags:
+        - "users"
+      summary: "Modifies the specific user"
+      operationId: "modifyUser"
+      consumes:
+        - "application/vnd.softserve.user+json"
+      produces: 
+        - "application/vnd.softserve.user+json"
+        - "application/vnd.softserve.errorList+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific user"
+        required: true
+        type: "string"
+      - name: "user"
+        in: "body"
+        description: "The user to modify"
+        schema:
+          $ref: "#/definitions/user"
+      responses:
+        200:
+          description: "The modified user object"
+          schema:
+            $ref: "#/definitions/user"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
+    delete:
+      tags:
+        - "users"
+      summary: "Deletes the specific user"
+      operationId: "deleteUser"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific user"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+  
+  /users/{guid}/addresses:
+    get:
+      tags:
+        - "users"
+      summary: "Finds addressess of the specific user"
+      operationId: "getUserAddresses"
+      produces: 
+        - "application/vnd.softserve.addressList+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific user"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "List of user addresses"
+          schema:
+            $ref: "#/definitions/addressList"
+    post:
+      tags:
+        - "users"
+      summary: "Adds a new addresses"
+      operationId: "addUserAddresses"
+      consumes: 
+        - "application/vnd.softserve.addressList+json"
+      produces: 
+        - "application/vnd.softserve.addressList+json"
+        - "application/vnd.softserve.errorList+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific user"
+        required: true
+        type: "string"
+      - name: "addresses"
+        in: "body"
+        description: "List of addresses"
+        schema:
+          $ref: "#/definitions/addressList"
+      responses:
+        200:
+          description: "List of added user addresses"
+          schema:
+            $ref: "#/definitions/addressList"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
+  
+  /users/{guid}/addresses/{addrguid}:
+    get:
+      tags:
+        - "users"
+      summary: "Finds addressess of the specific user"
+      operationId: "getUserAddress"
+      produces: 
+        - "application/vnd.softserve.address+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific user"
+        required: true
+        type: "string"
+      - name: "addrguid"
+        in: "path"
+        description: "ID of the specific address"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Specific user address"
+          schema:
+            $ref: "#/definitions/address"
+    put:
+      tags:
+        - "users"
+      summary: "Modifies the specific user address"
+      operationId: "modifyUserAddress"
+      consumes:
+        - "application/vnd.softserve.address+json"
+      produces: 
+        - "application/vnd.softserve.address+json"
+        - "application/vnd.softserve.errorList+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific user"
+        required: true
+        type: "string"
+      - name: "addrguid"
+        in: "path"
+        description: "ID of the specific address"
+        required: true
+        type: "string"
+      - name: "address"
+        in: "body"
+        description: "The address to modify"
+        schema:
+          $ref: "#/definitions/address"
+      responses:
+        200:
+          description: "The modified address object"
+          schema:
+            $ref: "#/definitions/address"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
+    delete:
+      tags:
+        - "users"
+      summary: "Deletes the specific user address"
+      operationId: "deleteUserAddress"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific user"
+        required: true
+        type: "string"
+      - name: "addrguid"
+        in: "path"
+        description: "ID of the specific address"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+  
+  /tenants:
+    get:
+      tags:
+        - "tenants"
+      summary: "Searches for tenants"
+      description: "Finds all tenants"
+      operationId: "getTenantList"
+      produces: 
+        - "application/vnd.softserve.tenantList+json"
+      responses:
+        200:
+          description: "List of tenants"
+          schema:
+            $ref: "#/definitions/tenantList"
+    post:
+      tags:
+        - "tenants"
+      summary: "Creates a new tenant"
+      operationId: "addTenant"
+      consumes:
+        - "application/vnd.softserve.tenant+json"
+      produces:
+        - "application/vnd.softserve.tenant+json"
+        - "application/vnd.softserve.errorList+json"
+      parameters:
+        - name: "tenant"
+          in: "body"
+          description: "The tenant to create"
+          schema:
+            $ref: "#/definitions/tenant"
+      responses:
+        200:
+          description: "The newly created tenant object"
+          schema:
+            $ref: "#/definitions/tenant"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
+  
+  /tenants/{guid}:
+    get:
+      tags:
+        - "tenants"
+      summary: "Finds the specific tenant"
+      operationId: "getTenant"
+      produces: 
+        - "application/vnd.softserve.tenant+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific tenant"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "The tenant object"
+          schema:
+            $ref: "#/definitions/tenant"
+    put:
+      tags:
+        - "tenants"
+      summary: "Modifies the specific tenant"
+      operationId: "modifyTenant"
+      consumes:
+        - "application/vnd.softserve.tenant+json"
+      produces: 
+        - "application/vnd.softserve.tenant+json"
+        - "application/vnd.softserve.errorList+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific tenant"
+        required: true
+        type: "string"
+      - name: "tenant"
+        in: "body"
+        description: "The tenant to modify"
+        schema:
+          $ref: "#/definitions/tenant"
+      responses:
+        200:
+          description: "The modified tenant object"
+          schema:
+            $ref: "#/definitions/tenant"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
+    delete:
+      tags:
+        - "tenants"
+      summary: "Deletes the specific tenant"
+      operationId: "deleteTenant"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific tenant"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+  
+  /tenants/{guid}/properties:
+    get:
+      tags:
+        - "tenants"
+      summary: "Finds properties of the specific tenant"
+      operationId: "getTenantProperties"
+      produces: 
+        - "application/vnd.softserve.tenantPropertyList+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific tenant"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "List of tenant properties"
+          schema:
+            $ref: "#/definitions/tenantPropertyList"
+    post:
+      tags:
+        - "tenants"
+      summary: "Adds tenant properties"
+      operationId: "addTenantProperties"
+      consumes: 
+        - "application/vnd.softserve.tenantPropertyList+json"
+      produces: 
+        - "application/vnd.softserve.tenantPropertyList+json"
+        - "application/vnd.softserve.errorList+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific tenant"
+        required: true
+        type: "string"
+      - name: "properties"
+        in: "body"
+        description: "List of properties"
+        schema:
+            $ref: "#/definitions/tenantPropertyList"
+      responses:
+        200:
+          description: "List of added tenant properties"
+          schema:
+            $ref: "#/definitions/tenantPropertyList"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
+  
+  /tenants/{guid}/properties/{propguid}:
+    get:
+      tags:
+        - "tenants"
+      summary: "Finds specific property of the specific tenant"
+      operationId: "getTenantProperty"
+      produces: 
+        - "application/vnd.softserve.tenantProperty+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific tenant"
+        required: true
+        type: "string"
+      - name: "propguid"
+        in: "path"
+        description: "ID of the specific tenant property"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Specific tenant tenant property"
+          schema:
+            $ref: "#/definitions/tenantProperty"
+    put:
+      tags:
+        - "tenants"
+      summary: "Modifies the specific tenant property"
+      operationId: "modifyTenantProperty"
+      consumes:
+        - "application/vnd.softserve.tenantProperty+json"
+      produces: 
+        - "application/vnd.softserve.tenantProperty+json"
+        - "application/vnd.softserve.errorList+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific tenant"
+        required: true
+        type: "string"
+      - name: "propguid"
+        in: "path"
+        description: "ID of the specific tenant property"
+        required: true
+        type: "string"
+      - name: "property"
+        in: "body"
+        description: "The tenant property to modify"
+        schema:
+          $ref: "#/definitions/tenantProperty"
+      responses:
+        200:
+          description: "The modified tenant property object"
+          schema:
+            $ref: "#/definitions/tenantProperty"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
+    delete:
+      tags:
+        - "tenants"
+      summary: "Deletes the specific tenant property"
+      operationId: "deleteTenantProperty"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific tenant"
+        required: true
+        type: "string"
+      - name: "propguid"
+        in: "path"
+        description: "ID of the specific tenant property"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+  
+  /tenants/{guid}/addresses:
+    get:
+      tags:
+        - "tenants"
+      summary: "Finds addressess of the specific tenant"
+      operationId: "getTenantAddresses"
+      produces: 
+        - "application/vnd.softserve.addressList+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific tenant"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "List of tenant addresses"
+          schema:
+              $ref: "#/definitions/addressList"
+    post:
+      tags:
+        - "tenants"
+      summary: "Adds a new addresses"
+      operationId: "addTenantAddresses"
+      consumes: 
+        - "application/vnd.softserve.addressList+json"
+      produces: 
+        - "application/vnd.softserve.addressList+json"
+        - "application/vnd.softserve.errorList+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific tenant"
+        required: true
+        type: "string"
+      - name: "addresses"
+        in: "body"
+        description: "List of addresses"
+        schema:
+          $ref: "#/definitions/addressList"
+      responses:
+        200:
+          description: "List of added tenant addresses"
+          schema:
+            $ref: "#/definitions/addressList"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
+  
+  /tenants/{guid}/addresses/{addrguid}:
+    get:
+      tags:
+        - "tenants"
+      summary: "Finds specific address of the specific tenant"
+      operationId: "getTenantAddress"
+      produces: 
+        - "application/vnd.softserve.address+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific tenant"
+        required: true
+        type: "string"
+      - name: "addrguid"
+        in: "path"
+        description: "ID of the specific address"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Specific tenant address"
+          schema:
+            $ref: "#/definitions/address"
+    put:
+      tags:
+        - "tenants"
+      summary: "Modifies the specific tenant address"
+      operationId: "modifyTenantAddress"
+      consumes:
+        - "application/vnd.softserve.address+json"
+      produces: 
+        - "application/vnd.softserve.address+json"
+        - "application/vnd.softserve.errorList+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific tenant"
+        required: true
+        type: "string"
+      - name: "addrguid"
+        in: "path"
+        description: "ID of the specific address"
+        required: true
+        type: "string"
+      - name: "address"
+        in: "body"
+        description: "The address to modify"
+        schema:
+          $ref: "#/definitions/address"
+      responses:
+        200:
+          description: "The modified address object"
+          schema:
+            $ref: "#/definitions/address"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
+    delete:
+      tags:
+        - "tenants"
+      summary: "Deletes the specific tenant address"
+      operationId: "deleteTenantAddress"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific tenant"
+        required: true
+        type: "string"
+      - name: "addrguid"
+        in: "path"
+        description: "ID of the specific address"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+  
+  /orders:
+    get:
+      tags:
+        - "orders"
+      summary: "Searches for orders"
+      description: "Finds all orders"
+      operationId: "getOrderList"
+      produces: 
+        - "application/vnd.softserve.orderList+json"
+      responses:
+        200:
+          description: "The order object"
+          schema:
+            $ref: "#/definitions/orderList"
+    post:
+      tags:
+        - "orders"
+      summary: "Creates a new order"
+      operationId: "addOrder"
+      consumes:
+        - "application/vnd.softserve.orderList+json"
+      produces:
+        - "application/vnd.softserve.orderListr+json"
+        - "application/vnd.softserve.errorList+json"
+      parameters:
+        - name: "order"
+          in: "body"
+          description: "The order to create"
+          schema:
+            $ref: "#/definitions/orderList"
+      responses:
+        200:
+          description: "The newly created order object"
+          schema:
+            $ref: "#/definitions/orderList"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
+  
+  /orders/{guid}:
+    get:
+      tags:
+        - "orders"
+      summary: "Finds the specific order"
+      operationId: "getOrder"
+      produces: 
+        - "application/vnd.softserve.order+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific order"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "The order object"
+          schema:
+            $ref: "#/definitions/order"
+    put:
+      tags:
+        - "orders"
+      summary: "Modifies the specific order"
+      operationId: "modifyOrder"
+      consumes:
+        - "application/vnd.softserve.order+json"
+      produces: 
+        - "application/vnd.softserve.order+json"
+        - "application/vnd.softserve.errorList+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific order"
+        required: true
+        type: "string"
+      - name: "order"
+        in: "body"
+        description: "The order to modify"
+        schema:
+          $ref: "#/definitions/order"
+      responses:
+        200:
+          description: "The modified order object"
+          schema:
+            $ref: "#/definitions/order"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
+    delete:
+      tags:
+        - "orders"
+      summary: "Deletes the specific order"
+      operationId: "deleteOrder"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific order"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+  
+  
+  /orders/{guid}/events:
+    get:
+      tags:
+        - "orders"
+      summary: "Finds the specific order events"
+      operationId: "getEvents"
+      produces: 
+        - "application/vnd.softserve.eventList+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific order"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "The list of order event objects"
+          schema:
+            $ref: "#/definitions/orderEventList"
+    post:
+      tags:
+        - "orders"
+      summary: "Adds an order event"
+      operationId: "addEvent"
+      consumes:
+        - "application/vnd.softserve.event+json"
+      produces: 
+        - "application/vnd.softserve.event+json"
+        - "application/vnd.softserve.errorList+json"
+      parameters:
+      - name: "guid"
+        in: "path"
+        description: "ID of the specific order"
+        required: true
+        type: "string"
+      - name: "event"
+        in: "body"
+        description: "The order event to add"
+        schema:
+          $ref: "#/definitions/orderEvent"
+      responses:
+        200:
+          description: "The list of order event objects"
+          schema:
+            $ref: "#/definitions/orderEvent"
+        400:
+          description: "Fields validation failed"
+          schema:
+            $ref: "#/definitions/errorList"
+
+definitions:
+  userList:
+    type: "object"
+    properties:
+      userList:
+        type: "array"
+        items:
+          $ref: "#/definitions/user"
+  user:
+    type: "object"
+    properties:
+      guid:
+        type: "string"
+      name:
+        type: "string"
+      nickname:
+        type: "string"
+      email:
+        type: "string"
+      phone:
+        type: "string"
+      details:
+        $ref: "#/definitions/userDetails"
+  userDetails:
+    type: "object"
+    properties:
+      payload: 
+        type: "string"
+      imageURL:
+        type: "string"
+  
+  tenantList:
+    type: "object"
+    properties:
+      tenantList:
+        type: "array"
+        items:
+          $ref: "#/definitions/tenant"
+  tenant:
+    type: "object"
+    properties:
+      guid:
+        type: "string"
+      owner:
+        type: "string"
+        description: "tenant owner ID"
+      name:
+        type: "string"
+      details:
+        $ref: "#/definitions/tenantDetails"
+
+  tenantDetails:
+    type: "object"
+    properties:
+      payload: 
+        type: "string"
+      imageURL:
+        type: "string"
+  tenantPropertyList:
+    type: "object"
+    properties:
+      tenantPropertyList:
+        type: "array"
+        items:
+          $ref: "#/definitions/tenantProperty"
+  tenantProperty:
+    type: "object"
+    properties:
+      guid:
+        type: "string"
+      tenant:
+        type: "string"
+      type:
+        type: "string"
+      key:
+        type: "string"
+      value:
+        type: "string"
+  
+  orderList:
+    type: "object"
+    properties:
+      orderList:
+        type: "array"
+        items:
+          $ref: "#/definitions/order"
+  order:
+    type: "object"
+    properties:
+      tenant:
+        type: "string"
+        description: "tenant id"
+      guid:
+        type: "string"
+      summary:
+        type: "string"
+      details:
+        $ref: "#/definitions/orderDetails"
+  orderDetails:
+    type: "object"
+    properties:
+      payload: 
+        type: "string"
+      imageURL:
+        type: "string"
+        
+  orderEventList:
+    type: "object"
+    properties:
+      orderEventList:
+        type: "array"
+        items:
+          $ref: "#/definitions/orderEvent"
+  orderEvent:
+    type: "object"
+    properties:
+      guid:
+        type: "string"
+      order:
+       type: "string"
+      type:
+        type: "string"
+        description: "order event type"
+        orderEventType:
+          type: "object"
+          enum:
+            - "created"
+            - "assigned"
+            - "started"
+            - "delivered"
+      payload: 
+        type: "string"
+
+  addressList:
+    type: "object"
+    properties:
+      addressList:
+        type: "array"
+        items:
+          $ref: "#/definitions/address"
+  address:
+    type: "object"
+    properties:
+      guid:
+        type: "string"
+      alias:
+        type: "string"
+      address:
+        type: "string"
+      notes:
+        type: "string"
+        
+  errorList:
+    type: "object"
+    properties:
+      errorlList:
+        type: "array"
+        items:
+          $ref: "#/definitions/error"
+  error:
+    type: "object"
+    properties:
+      error:
+        type: "string"
+      details:
+        type: "string"
+  
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+# basePath: /burnkr/kek/1.0.0
+schemes:
+ - https
+# Added by API Auto Mocking Plugin
+basePath: /KindaExpressKing/KindaExpressKing/1.0.0

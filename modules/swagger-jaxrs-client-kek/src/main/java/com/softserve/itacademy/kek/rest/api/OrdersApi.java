@@ -1,22 +1,24 @@
 package com.softserve.itacademy.kek.rest.api;
 
-import com.softserve.itacademy.kek.rest.model.Order;
-import com.softserve.itacademy.kek.rest.model.OrderEvent;
-
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
-import java.util.Map;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.MediaType;
-import org.apache.cxf.jaxrs.ext.multipart.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
-import io.swagger.jaxrs.PATCH;
+import io.swagger.annotations.ApiResponses;
+
+import com.softserve.itacademy.kek.rest.model.ErrorList;
+import com.softserve.itacademy.kek.rest.model.Order;
+import com.softserve.itacademy.kek.rest.model.OrderEvent;
+import com.softserve.itacademy.kek.rest.model.OrderEventList;
+import com.softserve.itacademy.kek.rest.model.OrderList;
 
 /**
  * Kinda Express King
@@ -35,11 +37,12 @@ public interface OrdersApi  {
     @POST
     @Path("/orders/{guid}/events")
     @Consumes({ "application/vnd.softserve.event+json" })
-    @Produces({ "application/vnd.softserve.event+json" })
+    @Produces({ "application/vnd.softserve.event+json", "application/vnd.softserve.errorList+json" })
     @ApiOperation(value = "Adds an order event", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The list of order event objects", response = OrderEvent.class, responseContainer = "List") })
-    public List<OrderEvent> addEvent(@PathParam("guid") String guid, OrderEvent event);
+        @ApiResponse(code = 200, message = "The list of order event objects", response = OrderEvent.class),
+        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
+    public OrderEvent addEvent(@PathParam("guid") String guid, OrderEvent event);
 
     /**
      * Creates a new order
@@ -48,10 +51,11 @@ public interface OrdersApi  {
     @POST
     @Path("/orders")
     @Consumes({ "application/vnd.softserve.order+json" })
-    @Produces({ "application/vnd.softserve.order+json" })
+    @Produces({ "application/vnd.softserve.order+json", "application/vnd.softserve.errorList+json" })
     @ApiOperation(value = "Creates a new order", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The newly created order object", response = Order.class) })
+        @ApiResponse(code = 200, message = "The newly created order object", response = Order.class),
+        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
     public Order addOrder(Order order);
 
     /**
@@ -71,11 +75,11 @@ public interface OrdersApi  {
      */
     @GET
     @Path("/orders/{guid}/events")
-    @Produces({ "application/vnd.softserve.event+json" })
+    @Produces({ "application/vnd.softserve.eventList+json" })
     @ApiOperation(value = "Finds the specific order events", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The list of order event objects", response = OrderEvent.class, responseContainer = "List") })
-    public List<OrderEvent> getEvents(@PathParam("guid") String guid);
+        @ApiResponse(code = 200, message = "The list of order event objects", response = OrderEventList.class) })
+    public OrderEventList getEvents(@PathParam("guid") String guid);
 
     /**
      * Finds the specific order
@@ -97,11 +101,11 @@ public interface OrdersApi  {
      */
     @GET
     @Path("/orders")
-    @Produces({ "application/vnd.softserve.order+json" })
+    @Produces({ "application/vnd.softserve.orderList+json" })
     @ApiOperation(value = "Searches for orders", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The order object", response = Order.class) })
-    public Order getOrderList();
+        @ApiResponse(code = 200, message = "The order object", response = OrderList.class) })
+    public OrderList getOrderList();
 
     /**
      * Modifies the specific order
@@ -110,10 +114,11 @@ public interface OrdersApi  {
     @PUT
     @Path("/orders/{guid}")
     @Consumes({ "application/vnd.softserve.order+json" })
-    @Produces({ "application/vnd.softserve.order+json" })
+    @Produces({ "application/vnd.softserve.order+json", "application/vnd.softserve.errorList+json" })
     @ApiOperation(value = "Modifies the specific order", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The modified order object", response = Order.class) })
+        @ApiResponse(code = 200, message = "The modified order object", response = Order.class),
+        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
     public Order modifyOrder(@PathParam("guid") String guid, Order order);
 }
 
