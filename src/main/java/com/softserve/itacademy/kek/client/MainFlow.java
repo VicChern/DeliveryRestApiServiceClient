@@ -1,7 +1,5 @@
 package com.softserve.itacademy.kek.client;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,18 +31,18 @@ public class MainFlow
     public static void main(String[] args)
     {
         final User user1 = getUserWithName("Customer");
-        User userForCustomer = usersApi.addUser(user1);
+        User customer = usersApi.addUser(user1);
 
         final User user2 = getUserWithName("Currier");
-        User userForCurrier = usersApi.addUser(user2);
+        User currier = usersApi.addUser(user2);
 
         final User user3 = getUserWithName("Tenant");
         final User userForTenant = usersApi.addUser(user3);
         LOGGER.info("\n\n STEP 1: Added new users: for customer {}, for currier {}, for tenant {}",
                 user1, user2, user3);
 
-        final AddressList addresses = usersApi.addUserAddresses(userForCustomer.getGuid(), ModelUtils.getAddresses());
-        LOGGER.info("\n\n STEP 2: Added addresses {} for customer guid={}", addresses, userForCustomer.getGuid());
+        final AddressList addresses = usersApi.addUserAddresses(customer.getGuid(), ModelUtils.getAddresses());
+        LOGGER.info("\n\n STEP 2: Added addresses {} for customer guid={}", addresses, customer.getGuid());
 
         final Tenant tenant = tenantApi.addTenant(ModelUtils.getTenantFor(userForTenant));
         LOGGER.info("\n\n STEP 3: Added new tenant {} for user guid={}, name={}",
@@ -52,47 +50,42 @@ public class MainFlow
                 userForTenant.getGuid(),
                 userForTenant.getName());
 
-        final Order order = ModelUtils.getOrderFor(userForCustomer, tenant);
-
         //System automatically added actor (user_guid(customer)) and role CUSTOMER
         //System automatically added event (EventDTO) and event_type CREATED
-        final OrderList orderList = ordersApi.addOrder(ModelUtils.getSingletonOrderList(order), userForCustomer.getGuid());
-        final Order savedOrder = orderList.getOrderList().get(0);
+        final Order orderStub = ModelUtils.getOrderFor(customer, tenant);
+        final OrderList orderList = ordersApi.addOrder(ModelUtils.getSingletonOrderList(orderStub), customer.getGuid());
+        final Order order = orderList.getOrderList().get(0);
         LOGGER.info("\n\n STEP 4: Added new order {} from customer guid={} for tenant guid={}",
-                savedOrder,
-                userForCustomer.getGuid(),
+                order,
+                customer.getGuid(),
                 tenant.getGuid());
 
         //Currier takes order: Currier add event (EventDTO, user_guid(currier)), event_type ASSIGNED
         //System automatically added actor (user_guid(currier)) and role CURRIER
-        final OrderEvent eventAssigned = ordersApi.addEvent(savedOrder.getGuid(), userForCurrier.getGuid(),
-                ModelUtils.getOrderEventForOrder(savedOrder, OrderEventTypes.ASSIGNED));
-        LOGGER.info("\n\n STEP 4: Added new event {} for orderGuid={}",  eventAssigned, savedOrder.getGuid());
+        final OrderEvent eventAssigned = ordersApi.addEvent(order.getGuid(), currier.getGuid(),
+                ModelUtils.getOrderEvent(order, OrderEventTypes.ASSIGNED));
+        LOGGER.info("\n\n STEP 5: Added new event {} for orderGuid={}",  eventAssigned, order.getGuid());
 
 
         //Currier started delivery: Currier add event (EventDTO, user_guid(currier)), event_type STARTED
         //System automatically added actor (user_guid(currier)) and role CURRIER (this step only if CURRIER is changed to another user)
-        final OrderEvent eventStarted1 = ordersApi.addEvent(savedOrder.getGuid(), userForCurrier.getGuid(),
-                ModelUtils.getOrderEventForOrder(savedOrder, OrderEventTypes.STARTED));
-        LOGGER.info("\n\n STEP 4: Added new event {} for orderGuid={}", eventStarted1, savedOrder.getGuid());
+        Delivery delivery = new Delivery(currier, order);
+        Thread thread = new Thread(delivery);
+        thread.start();
 
-        final OrderEvent eventStarted2 = ordersApi.addEvent(savedOrder.getGuid(), userForCurrier.getGuid(),
-                ModelUtils.getOrderEventForOrder(savedOrder, OrderEventTypes.STARTED));
-        LOGGER.info("\n\n STEP 4: Added new event {} for orderGuid={}", eventStarted2, savedOrder.getGuid());
-
-        final OrderEvent eventStarted3 = ordersApi.addEvent(savedOrder.getGuid(), userForCurrier.getGuid(),
-                ModelUtils.getOrderEventForOrder(savedOrder, OrderEventTypes.STARTED));
-        LOGGER.info("\n\n STEP 4: Added new event {} for orderGuid={}", eventStarted3, savedOrder.getGuid());
+        try{
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         //Customer send request to get geolocation of an order
 
         //Currier finished delivery: Currier added event (EventDTO, user_guid(currier)) with event_type DELIVERED
-        final OrderEvent eventDelivered = ordersApi.addEvent(savedOrder.getGuid(), userForCurrier.getGuid(),
-                ModelUtils.getOrderEventForOrder(savedOrder, OrderEventTypes.DELIVERED));
-        LOGGER.info("\n\n STEP 4: Added new event {} for orderGuid={}", eventDelivered, savedOrder.getGuid());
-
-        //Tenant guid send request to get all information about events of actor (what role had user (currier, admin...)
-        // at different time for what order)
+        final OrderEvent eventDelivered = ordersApi.addEvent(order.getGuid(), currier.getGuid(),
+                ModelUtils.getOrderEvent(order, OrderEventTypes.DELIVERED));
+        LOGGER.info("\n\n STEP 6: Added new event {} for orderGuid={}", eventDelivered, order.getGuid());
 
     }
+
 }

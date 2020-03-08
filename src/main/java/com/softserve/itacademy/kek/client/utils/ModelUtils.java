@@ -90,11 +90,19 @@ public class ModelUtils {
         return orderEvent;
     }
 
-    public static OrderEvent getOrderEventForOrder(Order order, OrderEventTypes typeEnum) {
+    public static OrderEvent getOrderEvent(Order order, OrderEventTypes typeEnum) {
         OrderEvent orderEvent = new OrderEvent();
         orderEvent.setOrder(order);
 //        orderEvent.setGuid(String.valueOf(UUID.randomUUID()));
         orderEvent.setPayload("lat: 54.123, lng:52.456");
+        orderEvent.setType(typeEnum);
+        return orderEvent;
+    }
+
+    public static OrderEvent getOrderEvent(Order order, OrderEventTypes typeEnum, String payload) {
+        OrderEvent orderEvent = new OrderEvent();
+        orderEvent.setOrder(order);
+        orderEvent.setPayload(payload);
         orderEvent.setType(typeEnum);
         return orderEvent;
     }
