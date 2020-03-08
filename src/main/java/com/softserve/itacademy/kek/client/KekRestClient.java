@@ -47,24 +47,24 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
     @ApiOperation(value = "Adds an order event", tags = {})
     @Produces({"application/vnd.softserve.event+json"})
     @Consumes({"application/vnd.softserve.event+json"})
-    @Path("/orders/{guid}/events")
+    @Path("/orders/{orderGuid}/{actorGuid}/events")
     @POST
-    public OrderEvent addEvent(String guid, OrderEvent event)
+    public OrderEvent addEvent(String orderGuid, String actorGuid, OrderEvent event)
     {
-        return ordersApi.addEvent(guid, event);
+        return ordersApi.addEvent(orderGuid, actorGuid, event);
     }
 
     @Override
     @ApiResponses({
             @ApiResponse(code = 200, message = "The newly created order object", response = Order.class)})
     @ApiOperation(value = "Creates a new order", tags = {})
-    @Produces({"application/vnd.softserve.order+json"})
-    @Consumes({"application/vnd.softserve.order+json"})
-    @Path("/orders")
+    @Produces({"application/vnd.softserve.orderList+json"})
+    @Consumes({"application/vnd.softserve.orderList+json"})
+    @Path("/orders/{customerGuid}")
     @POST
-    public Order addOrder(Order order)
+    public OrderList addOrder(OrderList orderList, String customerGuid)
     {
-        return ordersApi.addOrder(order);
+        return ordersApi.addOrder(orderList, customerGuid);
     }
 
     @Override

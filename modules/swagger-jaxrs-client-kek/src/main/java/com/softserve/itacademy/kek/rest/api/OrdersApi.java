@@ -35,28 +35,28 @@ public interface OrdersApi  {
      *
      */
     @POST
-    @Path("/orders/{guid}/events")
+    @Path("/orders/{orderGuid}/{actorGuid}/events")
     @Consumes({ "application/vnd.softserve.event+json" })
     @Produces({ "application/vnd.softserve.event+json", "application/vnd.softserve.errorList+json" })
     @ApiOperation(value = "Adds an order event", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The list of order event objects", response = OrderEvent.class),
-        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
-    public OrderEvent addEvent(@PathParam("guid") String guid, OrderEvent event);
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "The list of order event objects", response = OrderEvent.class),
+            @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
+    public OrderEvent addEvent(@PathParam("orderGuid") String orderGuid, @PathParam("actorGuid") String actorGuid, OrderEvent event);
 
     /**
      * Creates a new order
      *
      */
     @POST
-    @Path("/orders")
-    @Consumes({ "application/vnd.softserve.order+json" })
-    @Produces({ "application/vnd.softserve.order+json", "application/vnd.softserve.errorList+json" })
+    @Path("/orders/{customerGuid}")
+    @Consumes({ "application/vnd.softserve.orderList+json" })
+    @Produces({ "application/vnd.softserve.orderList+json", "application/vnd.softserve.errorList+json" })
     @ApiOperation(value = "Creates a new order", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The newly created order object", response = Order.class),
-        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
-    public Order addOrder(Order order);
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "The newly created order object", response = Order.class),
+            @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
+    public OrderList addOrder(OrderList orderList, @PathParam("customerGuid") String customerGuid);
 
     /**
      * Deletes the specific order
@@ -65,8 +65,8 @@ public interface OrdersApi  {
     @DELETE
     @Path("/orders/{guid}")
     @ApiOperation(value = "Deletes the specific order", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Successful operation") })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful operation") })
     public void deleteOrder(@PathParam("guid") String guid);
 
     /**
@@ -77,8 +77,8 @@ public interface OrdersApi  {
     @Path("/orders/{guid}/events")
     @Produces({ "application/vnd.softserve.eventList+json" })
     @ApiOperation(value = "Finds the specific order events", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The list of order event objects", response = OrderEventList.class) })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "The list of order event objects", response = OrderEventList.class) })
     public OrderEventList getEvents(@PathParam("guid") String guid);
 
     /**
@@ -89,8 +89,8 @@ public interface OrdersApi  {
     @Path("/orders/{guid}")
     @Produces({ "application/vnd.softserve.order+json" })
     @ApiOperation(value = "Finds the specific order", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The order object", response = Order.class) })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "The order object", response = Order.class) })
     public Order getOrder(@PathParam("guid") String guid);
 
     /**
@@ -103,8 +103,8 @@ public interface OrdersApi  {
     @Path("/orders")
     @Produces({ "application/vnd.softserve.orderList+json" })
     @ApiOperation(value = "Searches for orders", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The order object", response = OrderList.class) })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "The order object", response = OrderList.class) })
     public OrderList getOrderList();
 
     /**
@@ -116,9 +116,9 @@ public interface OrdersApi  {
     @Consumes({ "application/vnd.softserve.order+json" })
     @Produces({ "application/vnd.softserve.order+json", "application/vnd.softserve.errorList+json" })
     @ApiOperation(value = "Modifies the specific order", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The modified order object", response = Order.class),
-        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "The modified order object", response = Order.class),
+            @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
     public Order modifyOrder(@PathParam("guid") String guid, Order order);
 }
 
