@@ -1,15 +1,6 @@
 package com.softserve.itacademy.kek.rest.model;
 
-import com.softserve.itacademy.kek.rest.model.OrderDetails;
-
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Order  {
@@ -19,12 +10,6 @@ public class Order  {
      * tenant id
      **/
     private String tenant = null;
-
-    @ApiModelProperty(value = "user id")
-    /**
-     * user id
-     **/
-    private String user = null;
 
     @ApiModelProperty(value = "")
     private String guid = null;
@@ -49,24 +34,6 @@ public class Order  {
 
     public Order tenant(String tenant) {
         this.tenant = tenant;
-        return this;
-    }
-
-    /**
-     * user id
-     * @return user
-     **/
-    @JsonProperty("user")
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public Order user(String user) {
-        this.user = user;
         return this;
     }
 
@@ -131,7 +98,6 @@ public class Order  {
         sb.append("class Order {\n");
 
         sb.append("    tenant: ").append(toIndentedString(tenant)).append("\n");
-        sb.append("    user: ").append(toIndentedString(user)).append("\n");
         sb.append("    guid: ").append(toIndentedString(guid)).append("\n");
         sb.append("    summary: ").append(toIndentedString(summary)).append("\n");
         sb.append("    details: ").append(toIndentedString(details)).append("\n");
