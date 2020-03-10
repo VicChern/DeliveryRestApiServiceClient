@@ -66,7 +66,7 @@ public class MainFlow
                 ModelUtils.getOrderEvent(order, OrderEventTypes.ASSIGNED));
         LOGGER.info("\n\n STEP 5: Added new event {} for orderGuid={}",  eventAssigned, order.getGuid());
 
-
+//http://localhost:8080/api/v1/orders/e5e010a3-2da8-47db-8d5a-c4a6c6f41281/tracking/
         //Currier started delivery: Currier add event (EventDTO, user_guid(currier)), event_type STARTED
         //System automatically added actor (user_guid(currier)) and role CURRIER (this step only if CURRIER is changed to another user)
         Delivery delivery = new Delivery(currier, order);
