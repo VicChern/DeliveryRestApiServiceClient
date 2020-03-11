@@ -85,7 +85,7 @@ public class ModelUtils {
     public static OrderEvent getOrderEventFor(OrderEventTypes typeEnum) {
         OrderEvent orderEvent = new OrderEvent();
 //        orderEvent.setGuid(String.valueOf(UUID.randomUUID()));
-        orderEvent.setPayload("lat: 54.123, lng:52.456");
+        orderEvent.setPayload("{\"lat\":50.53132, \"lon\":30.62783}");
         orderEvent.setType(typeEnum);
         return orderEvent;
     }
@@ -94,7 +94,7 @@ public class ModelUtils {
         OrderEvent orderEvent = new OrderEvent();
         orderEvent.setOrder(order);
 //        orderEvent.setGuid(String.valueOf(UUID.randomUUID()));
-        orderEvent.setPayload("lat: 54.123, lng:52.456");
+        orderEvent.setPayload("{\"lat\":50.53132, \"lon\":30.62783}");
         orderEvent.setType(typeEnum);
         return orderEvent;
     }
