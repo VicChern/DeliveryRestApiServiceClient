@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.softserve.itacademy.kek.client.utils.ModelUtils;
 import com.softserve.itacademy.kek.rest.api.OrdersApi;
+import com.softserve.itacademy.kek.rest.api.OrdersApi;
 import com.softserve.itacademy.kek.rest.api.TenantsApi;
 import com.softserve.itacademy.kek.rest.api.UsersApi;
 import com.softserve.itacademy.kek.rest.model.AddressList;

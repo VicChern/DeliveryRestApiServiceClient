@@ -1,57 +1,64 @@
 package com.softserve.itacademy.kek.rest.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.softserve.itacademy.kek.rest.model.TenantDetails;
+import java.util.UUID;
+
 import io.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Tenant  {
   
   @ApiModelProperty(value = "")
-  private String guid = null;
+  private TenantDetails details = null;
 
-  @ApiModelProperty(value = "tenant owner ID")
- /**
-   * tenant owner ID
-  **/
-  private String owner = null;
+  @ApiModelProperty(value = "")
+  private UUID guid = null;
 
   @ApiModelProperty(value = "")
   private String name = null;
 
   @ApiModelProperty(value = "")
-  private TenantDetails details = null;
+  private UUID owner = null;
+ /**
+   * Get details
+   * @return details
+  **/
+  @JsonProperty("details")
+  public TenantDetails getDetails() {
+    return details;
+  }
+
+  public void setDetails(TenantDetails details) {
+    this.details = details;
+  }
+
+  public Tenant details(TenantDetails details) {
+    this.details = details;
+    return this;
+  }
+
  /**
    * Get guid
    * @return guid
   **/
   @JsonProperty("guid")
-  public String getGuid() {
+  public UUID getGuid() {
     return guid;
   }
 
-  public void setGuid(String guid) {
+  public void setGuid(UUID guid) {
     this.guid = guid;
   }
 
-  public Tenant guid(String guid) {
+  public Tenant guid(UUID guid) {
     this.guid = guid;
-    return this;
-  }
-
- /**
-   * tenant owner ID
-   * @return owner
-  **/
-  @JsonProperty("owner")
-  public String getOwner() {
-    return owner;
-  }
-
-  public void setOwner(String owner) {
-    this.owner = owner;
-  }
-
-  public Tenant owner(String owner) {
-    this.owner = owner;
     return this;
   }
 
@@ -74,20 +81,20 @@ public class Tenant  {
   }
 
  /**
-   * Get details
-   * @return details
+   * Get owner
+   * @return owner
   **/
-  @JsonProperty("details")
-  public TenantDetails getDetails() {
-    return details;
+  @JsonProperty("owner")
+  public UUID getOwner() {
+    return owner;
   }
 
-  public void setDetails(TenantDetails details) {
-    this.details = details;
+  public void setOwner(UUID owner) {
+    this.owner = owner;
   }
 
-  public Tenant details(TenantDetails details) {
-    this.details = details;
+  public Tenant owner(UUID owner) {
+    this.owner = owner;
     return this;
   }
 
@@ -97,10 +104,10 @@ public class Tenant  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Tenant {\n");
     
-    sb.append("    guid: ").append(toIndentedString(guid)).append("\n");
-    sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    details: ").append(toIndentedString(details)).append("\n");
+    sb.append("    guid: ").append(toIndentedString(guid)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -109,7 +116,7 @@ public class Tenant  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private static String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

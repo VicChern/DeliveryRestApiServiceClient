@@ -1,16 +1,41 @@
 package com.softserve.itacademy.kek.rest.model;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OrderDetails  {
   
   @ApiModelProperty(value = "")
-  private String payload = null;
+  private String imageUrl = null;
 
   @ApiModelProperty(value = "")
-  private String imageURL = null;
+  private String payload = null;
+ /**
+   * Get imageUrl
+   * @return imageUrl
+  **/
+  @JsonProperty("imageUrl")
+  public String getImageUrl() {
+    return imageUrl;
+  }
+
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
+
+  public OrderDetails imageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+    return this;
+  }
+
  /**
    * Get payload
    * @return payload
@@ -29,32 +54,14 @@ public class OrderDetails  {
     return this;
   }
 
- /**
-   * Get imageURL
-   * @return imageURL
-  **/
-  @JsonProperty("imageURL")
-  public String getImageURL() {
-    return imageURL;
-  }
-
-  public void setImageURL(String imageURL) {
-    this.imageURL = imageURL;
-  }
-
-  public OrderDetails imageURL(String imageURL) {
-    this.imageURL = imageURL;
-    return this;
-  }
-
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class OrderDetails {\n");
     
+    sb.append("    imageUrl: ").append(toIndentedString(imageUrl)).append("\n");
     sb.append("    payload: ").append(toIndentedString(payload)).append("\n");
-    sb.append("    imageURL: ").append(toIndentedString(imageURL)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -63,7 +70,7 @@ public class OrderDetails  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private static String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

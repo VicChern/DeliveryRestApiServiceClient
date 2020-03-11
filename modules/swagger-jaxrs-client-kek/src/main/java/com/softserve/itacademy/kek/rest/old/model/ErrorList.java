@@ -1,4 +1,4 @@
-package com.softserve.itacademy.kek.rest.model;
+package com.softserve.itacademy.kek.rest.old.model;
 
 import java.util.List;
 
@@ -8,26 +8,26 @@ import io.swagger.annotations.ApiModelProperty;
 public class ErrorList  {
   
   @ApiModelProperty(value = "")
-  private List<Error> errorlList = null;
+  private List<java.lang.Error> errorlList = null;
  /**
    * Get errorlList
    * @return errorlList
   **/
   @JsonProperty("errorlList")
-  public List<Error> getErrorlList() {
+  public List<java.lang.Error> getErrorlList() {
     return errorlList;
   }
 
-  public void setErrorlList(List<Error> errorlList) {
+  public void setErrorlList(List<java.lang.Error> errorlList) {
     this.errorlList = errorlList;
   }
 
-  public ErrorList errorlList(List<Error> errorlList) {
+  public ErrorList errorlList(List<java.lang.Error> errorlList) {
     this.errorlList = errorlList;
     return this;
   }
 
-  public ErrorList addErrorlListItem(Error errorlListItem) {
+  public ErrorList addErrorlListItem(java.lang.Error errorlListItem) {
     this.errorlList.add(errorlListItem);
     return this;
   }

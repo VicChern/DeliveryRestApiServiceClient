@@ -1,10 +1,10 @@
-package com.softserve.itacademy.kek.rest.model;
+package com.softserve.itacademy.kek.rest.old.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 
-public class UserDetails  {
+public class OrderDetails  {
   
   @ApiModelProperty(value = "")
   private String payload = null;
@@ -24,7 +24,7 @@ public class UserDetails  {
     this.payload = payload;
   }
 
-  public UserDetails payload(String payload) {
+  public OrderDetails payload(String payload) {
     this.payload = payload;
     return this;
   }
@@ -42,7 +42,7 @@ public class UserDetails  {
     this.imageURL = imageURL;
   }
 
-  public UserDetails imageURL(String imageURL) {
+  public OrderDetails imageURL(String imageURL) {
     this.imageURL = imageURL;
     return this;
   }
@@ -51,7 +51,7 @@ public class UserDetails  {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class UserDetails {\n");
+    sb.append("class OrderDetails {\n");
     
     sb.append("    payload: ").append(toIndentedString(payload)).append("\n");
     sb.append("    imageURL: ").append(toIndentedString(imageURL)).append("\n");

@@ -1,226 +1,266 @@
 package com.softserve.itacademy.kek.rest.api;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-
 import com.softserve.itacademy.kek.rest.model.Address;
 import com.softserve.itacademy.kek.rest.model.AddressList;
-import com.softserve.itacademy.kek.rest.model.ErrorList;
+import com.softserve.itacademy.kek.rest.model.ResponseEntity;
 import com.softserve.itacademy.kek.rest.model.Tenant;
 import com.softserve.itacademy.kek.rest.model.TenantList;
 import com.softserve.itacademy.kek.rest.model.TenantProperty;
 import com.softserve.itacademy.kek.rest.model.TenantPropertyList;
 
+import java.util.Map;
+import javax.ws.rs.*;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiResponse;
+
 /**
- * Kinda Express King
+ * KEK
  *
- * <p>BaaS for delivery services like Glovo, Uber or even for regular mail. Also, a simple web front-end should be provided as an example of a typical consumer's app.
+ * <p>BaaS for delivery services like Glovo, Uber or even for regular mail.
  *
  */
 @Path("/")
 @Api(value = "/", description = "")
-public interface TenantsApi  {
+public interface TenantsApi {
 
     /**
-     * Creates a new tenant
+     * addTenantAddresses
+     *
+     */
+    @POST
+    @Path("/tenants/{guid}/addresses")
+    @Consumes({ "application/vnd.softserve.address+json" })
+    @Produces({ "application/vnd.softserve.address+json" })
+    @ApiOperation(value = "addTenantAddresses", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = AddressList.class),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    public AddressList addTenantAddresses(@PathParam("guid") String guid, AddressList newAddresses);
+
+    /**
+     * addTenantProperties
+     *
+     */
+    @POST
+    @Path("/tenants/{guid}/properties")
+    @Consumes({ "application/vnd.softserve.tenantproperty+json" })
+    @Produces({ "application/vnd.softserve.tenantproperty+json" })
+    @ApiOperation(value = "addTenantProperties", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = TenantPropertyList.class),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    public TenantPropertyList addTenantProperties(@PathParam("guid") String guid, TenantPropertyList tenantPropertiesList);
+
+    /**
+     * addTenant
      *
      */
     @POST
     @Path("/tenants")
     @Consumes({ "application/vnd.softserve.tenant+json" })
-    @Produces({ "application/vnd.softserve.tenant+json", "application/vnd.softserve.errorList+json" })
-    @ApiOperation(value = "Creates a new tenant", tags={  })
+    @Produces({ "application/vnd.softserve.tenant+json" })
+    @ApiOperation(value = "addTenant", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The newly created tenant object", response = Tenant.class),
-        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
+        @ApiResponse(code = 200, message = "OK", response = Tenant.class),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
     public Tenant addTenant(Tenant tenant);
 
     /**
-     * Adds a new addresses
-     *
-     */
-    @POST
-    @Path("/tenants/{guid}/addresses")
-    @Consumes({ "application/vnd.softserve.addressList+json" })
-    @Produces({ "application/vnd.softserve.addressList+json", "application/vnd.softserve.errorList+json" })
-    @ApiOperation(value = "Adds a new addresses", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "List of added tenant addresses", response = AddressList.class),
-        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
-    public AddressList addTenantAddresses(@PathParam("guid") String guid, AddressList addresses);
-
-    /**
-     * Adds tenant properties
-     *
-     */
-    @POST
-    @Path("/tenants/{guid}/properties")
-    @Consumes({ "application/vnd.softserve.tenantPropertyList+json" })
-    @Produces({ "application/vnd.softserve.tenantPropertyList+json", "application/vnd.softserve.errorList+json" })
-    @ApiOperation(value = "Adds tenant properties", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "List of added tenant properties", response = TenantPropertyList.class),
-        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
-    public TenantPropertyList addTenantProperties(@PathParam("guid") String guid, TenantPropertyList properties);
-
-    /**
-     * Deletes the specific tenant
-     *
-     */
-    @DELETE
-    @Path("/tenants/{guid}")
-    @ApiOperation(value = "Deletes the specific tenant", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Successful operation") })
-    public void deleteTenant(@PathParam("guid") String guid);
-
-    /**
-     * Deletes the specific tenant address
+     * deleteTenantAddress
      *
      */
     @DELETE
     @Path("/tenants/{guid}/addresses/{addrguid}")
-    @ApiOperation(value = "Deletes the specific tenant address", tags={  })
+    @Produces({ "*/*" })
+    @ApiOperation(value = "deleteTenantAddress", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Successful operation") })
-    public void deleteTenantAddress(@PathParam("guid") String guid, @PathParam("addrguid") String addrguid);
+        @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden") })
+    public ResponseEntity deleteTenantAddress(@PathParam("addrguid") String addrguid, @PathParam("guid") String guid);
 
     /**
-     * Deletes the specific tenant property
+     * deleteTenantProperty
      *
      */
     @DELETE
     @Path("/tenants/{guid}/properties/{propguid}")
-    @ApiOperation(value = "Deletes the specific tenant property", tags={  })
+    @Produces({ "*/*" })
+    @ApiOperation(value = "deleteTenantProperty", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Successful operation") })
-    public void deleteTenantProperty(@PathParam("guid") String guid, @PathParam("propguid") String propguid);
+        @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden") })
+    public ResponseEntity deleteTenantProperty(@PathParam("guid") String guid, @PathParam("propguid") String propguid);
 
     /**
-     * Finds the specific tenant
+     * deleteTenant
      *
      */
-    @GET
+    @DELETE
     @Path("/tenants/{guid}")
-    @Produces({ "application/vnd.softserve.tenant+json" })
-    @ApiOperation(value = "Finds the specific tenant", tags={  })
+    @Produces({ "*/*" })
+    @ApiOperation(value = "deleteTenant", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The tenant object", response = Tenant.class) })
-    public Tenant getTenant(@PathParam("guid") String guid);
+        @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden") })
+    public ResponseEntity deleteTenant(@PathParam("guid") String guid);
 
     /**
-     * Finds specific address of the specific tenant
+     * getTenantAddress
      *
      */
     @GET
     @Path("/tenants/{guid}/addresses/{addrguid}")
     @Produces({ "application/vnd.softserve.address+json" })
-    @ApiOperation(value = "Finds specific address of the specific tenant", tags={  })
+    @ApiOperation(value = "getTenantAddress", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Specific tenant address", response = Address.class) })
-    public Address getTenantAddress(@PathParam("guid") String guid, @PathParam("addrguid") String addrguid);
+        @ApiResponse(code = 200, message = "OK", response = Address.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    public Address getTenantAddress(@PathParam("addrguid") String addrguid, @PathParam("guid") String guid);
 
     /**
-     * Finds addressess of the specific tenant
+     * getTenantAddresses
      *
      */
     @GET
     @Path("/tenants/{guid}/addresses")
-    @Produces({ "application/vnd.softserve.addressList+json" })
-    @ApiOperation(value = "Finds addressess of the specific tenant", tags={  })
+    @Produces({ "application/vnd.softserve.addresslist+json" })
+    @ApiOperation(value = "getTenantAddresses", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "List of tenant addresses", response = AddressList.class) })
+        @ApiResponse(code = 200, message = "OK", response = AddressList.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
     public AddressList getTenantAddresses(@PathParam("guid") String guid);
 
     /**
-     * Searches for tenants
-     *
-     * Finds all tenants
+     * getTenantList
      *
      */
     @GET
     @Path("/tenants")
-    @Produces({ "application/vnd.softserve.tenantList+json" })
-    @ApiOperation(value = "Searches for tenants", tags={  })
+    @Produces({ "application/vnd.softserve.tenantlist+json" })
+    @ApiOperation(value = "getTenantList", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "List of tenants", response = TenantList.class) })
+        @ApiResponse(code = 200, message = "OK", response = TenantList.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
     public TenantList getTenantList();
 
     /**
-     * Finds properties of the specific tenant
+     * getTenantProperties
      *
      */
     @GET
     @Path("/tenants/{guid}/properties")
-    @Produces({ "application/vnd.softserve.tenantPropertyList+json" })
-    @ApiOperation(value = "Finds properties of the specific tenant", tags={  })
+    @Produces({ "application/vnd.softserve.tenantproperty+json" })
+    @ApiOperation(value = "getTenantProperties", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "List of tenant properties", response = TenantPropertyList.class) })
+        @ApiResponse(code = 200, message = "OK", response = TenantPropertyList.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
     public TenantPropertyList getTenantProperties(@PathParam("guid") String guid);
 
     /**
-     * Finds specific property of the specific tenant
+     * getTenantProperty
      *
      */
     @GET
     @Path("/tenants/{guid}/properties/{propguid}")
-    @Produces({ "application/vnd.softserve.tenantProperty+json" })
-    @ApiOperation(value = "Finds specific property of the specific tenant", tags={  })
+    @Produces({ "application/vnd.softserve.tenantproperty+json" })
+    @ApiOperation(value = "getTenantProperty", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Specific tenant tenant property", response = TenantProperty.class) })
+        @ApiResponse(code = 200, message = "OK", response = TenantProperty.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
     public TenantProperty getTenantProperty(@PathParam("guid") String guid, @PathParam("propguid") String propguid);
 
     /**
-     * Modifies the specific tenant
+     * getTenant
      *
      */
-    @PUT
+    @GET
     @Path("/tenants/{guid}")
-    @Consumes({ "application/vnd.softserve.tenant+json" })
-    @Produces({ "application/vnd.softserve.tenant+json", "application/vnd.softserve.errorList+json" })
-    @ApiOperation(value = "Modifies the specific tenant", tags={  })
+    @Produces({ "application/vnd.softserve.tenant+json" })
+    @ApiOperation(value = "getTenant", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The modified tenant object", response = Tenant.class),
-        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
-    public Tenant modifyTenant(@PathParam("guid") String guid, Tenant tenant);
+        @ApiResponse(code = 200, message = "OK", response = Tenant.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    public Tenant getTenant(@PathParam("guid") String guid);
 
     /**
-     * Modifies the specific tenant address
+     * modifyTenantAddress
      *
      */
     @PUT
     @Path("/tenants/{guid}/addresses/{addrguid}")
     @Consumes({ "application/vnd.softserve.address+json" })
-    @Produces({ "application/vnd.softserve.address+json", "application/vnd.softserve.errorList+json" })
-    @ApiOperation(value = "Modifies the specific tenant address", tags={  })
+    @Produces({ "application/vnd.softserve.address+json" })
+    @ApiOperation(value = "modifyTenantAddress", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The modified address object", response = Address.class),
-        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
-    public Address modifyTenantAddress(@PathParam("guid") String guid, @PathParam("addrguid") String addrguid, Address address);
+        @ApiResponse(code = 200, message = "OK", response = Address.class),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    public Address modifyTenantAddress(@PathParam("addrguid") String addrguid, @PathParam("guid") String guid, Address tenantAddress);
 
     /**
-     * Modifies the specific tenant property
+     * modifyTenantProperty
      *
      */
     @PUT
     @Path("/tenants/{guid}/properties/{propguid}")
-    @Consumes({ "application/vnd.softserve.tenantProperty+json" })
-    @Produces({ "application/vnd.softserve.tenantProperty+json", "application/vnd.softserve.errorList+json" })
-    @ApiOperation(value = "Modifies the specific tenant property", tags={  })
+    @Consumes({ "application/vnd.softserve.tenantproperty+json" })
+    @Produces({ "application/vnd.softserve.tenantproperty+json" })
+    @ApiOperation(value = "modifyTenantProperty", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The modified tenant property object", response = TenantProperty.class),
-        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
-    public TenantProperty modifyTenantProperty(@PathParam("guid") String guid, @PathParam("propguid") String propguid, TenantProperty property);
+        @ApiResponse(code = 200, message = "OK", response = TenantProperty.class),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    public TenantProperty modifyTenantProperty(@PathParam("guid") String guid, @PathParam("propguid") String propguid, TenantProperty tenantProperties);
+
+    /**
+     * modifyTenant
+     *
+     */
+    @PUT
+    @Path("/tenants/{guid}")
+    @Consumes({ "application/vnd.softserve.tenant+json" })
+    @Produces({ "application/vnd.softserve.tenant+json" })
+    @ApiOperation(value = "modifyTenant", tags={  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = Tenant.class),
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    public Tenant modifyTenant(@PathParam("guid") String guid, Tenant tenant);
 }
 
