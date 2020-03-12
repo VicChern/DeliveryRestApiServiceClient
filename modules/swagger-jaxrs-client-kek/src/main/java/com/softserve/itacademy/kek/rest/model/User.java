@@ -1,28 +1,18 @@
 package com.softserve.itacademy.kek.rest.model;
 
-import com.softserve.itacademy.kek.rest.model.Details;
-import java.util.UUID;
-
 import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User  {
   
   @ApiModelProperty(value = "")
-  private Details details = null;
+  private UserDetails userDetails = null;
 
   @ApiModelProperty(value = "")
   private String email = null;
 
   @ApiModelProperty(value = "")
-  private UUID guid = null;
+  private String guid = null;
 
   @ApiModelProperty(value = "")
   private String name = null;
@@ -37,16 +27,16 @@ public class User  {
    * @return details
   **/
   @JsonProperty("details")
-  public Details getDetails() {
-    return details;
+  public UserDetails getUserDetails() {
+    return userDetails;
   }
 
-  public void setDetails(Details details) {
-    this.details = details;
+  public void setUserDetails(UserDetails userDetails) {
+    this.userDetails = userDetails;
   }
 
-  public User details(Details details) {
-    this.details = details;
+  public User details(UserDetails userDetails) {
+    this.userDetails = userDetails;
     return this;
   }
 
@@ -73,15 +63,15 @@ public class User  {
    * @return guid
   **/
   @JsonProperty("guid")
-  public UUID getGuid() {
+  public String getGuid() {
     return guid;
   }
 
-  public void setGuid(UUID guid) {
+  public void setGuid(String guid) {
     this.guid = guid;
   }
 
-  public User guid(UUID guid) {
+  public User guid(String guid) {
     this.guid = guid;
     return this;
   }
@@ -146,7 +136,7 @@ public class User  {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
     
-    sb.append("    details: ").append(toIndentedString(details)).append("\n");
+    sb.append("    details: ").append(toIndentedString(userDetails)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    guid: ").append(toIndentedString(guid)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

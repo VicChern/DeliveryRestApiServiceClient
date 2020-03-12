@@ -90,7 +90,7 @@ public interface TenantsApi {
         @ApiResponse(code = 204, message = "No Content"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden") })
-    public ResponseEntity deleteTenantAddress(@PathParam("addrguid") String addrguid, @PathParam("guid") String guid);
+    public void deleteTenantAddress(@PathParam("addrguid") String addrguid, @PathParam("guid") String guid);
 
     /**
      * deleteTenantProperty
@@ -105,7 +105,7 @@ public interface TenantsApi {
         @ApiResponse(code = 204, message = "No Content"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden") })
-    public ResponseEntity deleteTenantProperty(@PathParam("guid") String guid, @PathParam("propguid") String propguid);
+    public void deleteTenantProperty(@PathParam("guid") String guid, @PathParam("propguid") String propguid);
 
     /**
      * deleteTenant
@@ -120,7 +120,7 @@ public interface TenantsApi {
         @ApiResponse(code = 204, message = "No Content"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden") })
-    public ResponseEntity deleteTenant(@PathParam("guid") String guid);
+    public void deleteTenant(@PathParam("guid") String guid);
 
     /**
      * getTenantAddress

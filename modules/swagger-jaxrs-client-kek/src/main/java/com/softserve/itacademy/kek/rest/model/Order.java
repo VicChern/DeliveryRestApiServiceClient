@@ -19,13 +19,13 @@ public class Order  {
   private OrderDetails details = null;
 
   @ApiModelProperty(value = "")
-  private UUID guid = null;
+  private String guid = null;
 
   @ApiModelProperty(value = "")
   private String summary = null;
 
   @ApiModelProperty(value = "")
-  private UUID tenant = null;
+  private String tenant = null;
  /**
    * Get details
    * @return details
@@ -49,15 +49,15 @@ public class Order  {
    * @return guid
   **/
   @JsonProperty("guid")
-  public UUID getGuid() {
+  public String getGuid() {
     return guid;
   }
 
-  public void setGuid(UUID guid) {
+  public void setGuid(String guid) {
     this.guid = guid;
   }
 
-  public Order guid(UUID guid) {
+  public Order guid(String guid) {
     this.guid = guid;
     return this;
   }
@@ -85,15 +85,15 @@ public class Order  {
    * @return tenant
   **/
   @JsonProperty("tenant")
-  public UUID getTenant() {
+  public String getTenant() {
     return tenant;
   }
 
-  public void setTenant(UUID tenant) {
+  public void setTenant(String tenant) {
     this.tenant = tenant;
   }
 
-  public Order tenant(UUID tenant) {
+  public Order tenant(String tenant) {
     this.tenant = tenant;
     return this;
   }

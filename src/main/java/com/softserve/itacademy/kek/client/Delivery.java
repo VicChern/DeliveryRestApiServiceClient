@@ -50,7 +50,7 @@ public class Delivery implements Runnable {
             }
             String payload = geolocations.peek();
 
-            final OrderEvent event = ordersApi.addEvent(order.getGuid(), currier.getGuid(),
+            final OrderEvent event = ordersApi.addEvent(order.getGuid(),
                     ModelUtils.getOrderEvent(order, OrderEventTypes.STARTED, payload));
 
             LOGGER.info("\n\n DELIVERY: Added new event {} for orderGuid={}", event, order.getGuid());

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class TenantProperty {
   
   @ApiModelProperty(value = "")
-  private UUID guid = null;
+  private String guid = null;
 
   @ApiModelProperty(value = "")
   private String key = null;
@@ -23,15 +23,15 @@ public class TenantProperty {
    * @return guid
   **/
   @JsonProperty("guid")
-  public UUID getGuid() {
+  public String getGuid() {
     return guid;
   }
 
-  public void setGuid(UUID guid) {
+  public void setGuid(String guid) {
     this.guid = guid;
   }
 
-  public TenantProperty guid(UUID guid) {
+  public TenantProperty guid(String guid) {
     this.guid = guid;
     return this;
   }

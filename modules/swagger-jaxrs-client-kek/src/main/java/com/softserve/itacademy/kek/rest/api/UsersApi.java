@@ -78,7 +78,7 @@ public interface UsersApi {
         @ApiResponse(code = 204, message = "No Content"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden") })
-    public ResponseEntity deleteUserAddress(@PathParam("addrguid") String addrguid, @PathParam("guid") String guid);
+    public void deleteUserAddress(@PathParam("addrguid") String addrguid, @PathParam("guid") String guid);
 
     /**
      * deleteUser
@@ -93,7 +93,7 @@ public interface UsersApi {
         @ApiResponse(code = 204, message = "No Content"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden") })
-    public ResponseEntity deleteUser(@PathParam("guid") String guid);
+    public void deleteUser(@PathParam("guid") String guid);
 
     /**
      * getUserAddress

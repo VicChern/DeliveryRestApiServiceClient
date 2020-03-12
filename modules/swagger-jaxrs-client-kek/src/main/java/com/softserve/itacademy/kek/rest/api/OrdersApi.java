@@ -78,7 +78,7 @@ public interface OrdersApi {
         @ApiResponse(code = 204, message = "No Content"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden") })
-    public ResponseEntity deleteOrder(@PathParam("guid") String guid);
+    public void deleteOrder(@PathParam("guid") String guid);
 
     /**
      * getEvents

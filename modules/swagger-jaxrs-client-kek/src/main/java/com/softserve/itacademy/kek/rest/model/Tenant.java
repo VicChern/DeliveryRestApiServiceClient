@@ -19,13 +19,13 @@ public class Tenant  {
   private TenantDetails details = null;
 
   @ApiModelProperty(value = "")
-  private UUID guid = null;
+  private String guid = null;
 
   @ApiModelProperty(value = "")
   private String name = null;
 
   @ApiModelProperty(value = "")
-  private UUID owner = null;
+  private String owner = null;
  /**
    * Get details
    * @return details
@@ -49,15 +49,15 @@ public class Tenant  {
    * @return guid
   **/
   @JsonProperty("guid")
-  public UUID getGuid() {
+  public String getGuid() {
     return guid;
   }
 
-  public void setGuid(UUID guid) {
+  public void setGuid(String guid) {
     this.guid = guid;
   }
 
-  public Tenant guid(UUID guid) {
+  public Tenant guid(String guid) {
     this.guid = guid;
     return this;
   }
@@ -85,15 +85,15 @@ public class Tenant  {
    * @return owner
   **/
   @JsonProperty("owner")
-  public UUID getOwner() {
+  public String getOwner() {
     return owner;
   }
 
-  public void setOwner(UUID owner) {
+  public void setOwner(String owner) {
     this.owner = owner;
   }
 
-  public Tenant owner(UUID owner) {
+  public Tenant owner(String owner) {
     this.owner = owner;
     return this;
   }

@@ -21,7 +21,7 @@ public class Address  {
   private String alias = null;
 
   @ApiModelProperty(value = "")
-  private UUID guid = null;
+  private String guid = null;
 
   @ApiModelProperty(value = "")
   private String notes = null;
@@ -66,15 +66,15 @@ public class Address  {
    * @return guid
   **/
   @JsonProperty("guid")
-  public UUID getGuid() {
+  public String getGuid() {
     return guid;
   }
 
-  public void setGuid(UUID guid) {
+  public void setGuid(String guid) {
     this.guid = guid;
   }
 
-  public Address guid(UUID guid) {
+  public Address guid(String guid) {
     this.guid = guid;
     return this;
   }

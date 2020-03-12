@@ -21,7 +21,7 @@ public class OrderEventList  {
   private List<OrderEvent> orderEventList = null;
 
   @ApiModelProperty(value = "")
-  private UUID orderId = null;
+  private String orderId = null;
  /**
    * Get orderEventList
    * @return orderEventList
@@ -50,15 +50,15 @@ public class OrderEventList  {
    * @return orderId
   **/
   @JsonProperty("orderId")
-  public UUID getOrderId() {
+  public String getOrderId() {
     return orderId;
   }
 
-  public void setOrderId(UUID orderId) {
+  public void setOrderId(String orderId) {
     this.orderId = orderId;
   }
 
-  public OrderEventList orderId(UUID orderId) {
+  public OrderEventList orderId(String orderId) {
     this.orderId = orderId;
     return this;
   }

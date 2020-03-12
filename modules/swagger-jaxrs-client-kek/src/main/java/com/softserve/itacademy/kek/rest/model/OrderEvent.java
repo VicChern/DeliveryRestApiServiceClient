@@ -15,63 +15,35 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class OrderEvent  {
   
   @ApiModelProperty(value = "")
-  private UUID guid = null;
+  private String guid = null;
 
   @ApiModelProperty(value = "")
-  private UUID orderId = null;
+  private String orderId = null;
 
   @ApiModelProperty(value = "")
   private String payload = null;
 
+    @ApiModelProperty(value = "order event type")
+    /**
+     * order event type
+     **/
+    private OrderEventTypes type = null;
 
-@XmlType(name="TypeEnum")
-@XmlEnum(String.class)
-public enum TypeEnum {
 
-@XmlEnumValue("CREATED") CREATED(String.valueOf("CREATED")), @XmlEnumValue("ASSIGNED") ASSIGNED(String.valueOf("ASSIGNED")), @XmlEnumValue("STARTED") STARTED(String.valueOf("STARTED")), @XmlEnumValue("DELIVERED") DELIVERED(String.valueOf("DELIVERED"));
-
-
-    private String value;
-
-    TypeEnum (String v) {
-        value = v;
-    }
-
-    public String value() {
-        return value;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(value);
-    }
-
-    public static TypeEnum fromValue(String v) {
-        for (TypeEnum b : TypeEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
-                return b;
-            }
-        }
-        return null;
-    }
-}
-
-  @ApiModelProperty(value = "")
-  private TypeEnum type = null;
  /**
    * Get guid
    * @return guid
   **/
   @JsonProperty("guid")
-  public UUID getGuid() {
+  public String getGuid() {
     return guid;
   }
 
-  public void setGuid(UUID guid) {
+  public void setGuid(String guid) {
     this.guid = guid;
   }
 
-  public OrderEvent guid(UUID guid) {
+  public OrderEvent guid(String guid) {
     this.guid = guid;
     return this;
   }
@@ -81,15 +53,15 @@ public enum TypeEnum {
    * @return orderId
   **/
   @JsonProperty("orderId")
-  public UUID getOrderId() {
+  public String getOrderId() {
     return orderId;
   }
 
-  public void setOrderId(UUID orderId) {
+  public void setOrderId(String orderId) {
     this.orderId = orderId;
   }
 
-  public OrderEvent orderId(UUID orderId) {
+  public OrderEvent orderId(String orderId) {
     this.orderId = orderId;
     return this;
   }
@@ -112,33 +84,32 @@ public enum TypeEnum {
     return this;
   }
 
- /**
-   * Get type
-   * @return type
-  **/
-  @JsonProperty("type")
-  public String getType() {
-    if (type == null) {
-      return null;
+    /**
+     * order event type
+     * @return type
+     **/
+    @JsonProperty("type")
+    public String getType() {
+        if (type == null) {
+            return null;
+        }
+        return type.name();
     }
-    return type.value();
-  }
 
-  public void setType(TypeEnum type) {
-    this.type = type;
-  }
+    public void setType(OrderEventTypes type) {
+        this.type = type;
+    }
 
-  public OrderEvent type(TypeEnum type) {
-    this.type = type;
-    return this;
-  }
-
+    public OrderEvent type(OrderEventTypes type) {
+        this.type = type;
+        return this;
+    }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class OrderEvent {\n");
-    
+
     sb.append("    guid: ").append(toIndentedString(guid)).append("\n");
     sb.append("    orderId: ").append(toIndentedString(orderId)).append("\n");
     sb.append("    payload: ").append(toIndentedString(payload)).append("\n");

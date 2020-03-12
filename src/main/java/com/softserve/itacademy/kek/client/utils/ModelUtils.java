@@ -3,7 +3,6 @@ package com.softserve.itacademy.kek.client.utils;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -14,6 +13,7 @@ import com.softserve.itacademy.kek.rest.model.OrderDetails;
 import com.softserve.itacademy.kek.rest.model.OrderEvent;
 import com.softserve.itacademy.kek.rest.model.OrderEventTypes;
 import com.softserve.itacademy.kek.rest.model.OrderList;
+import com.softserve.itacademy.kek.rest.model.Registration;
 import com.softserve.itacademy.kek.rest.model.Tenant;
 import com.softserve.itacademy.kek.rest.model.TenantDetails;
 import com.softserve.itacademy.kek.rest.model.User;
@@ -28,11 +28,23 @@ public class ModelUtils {
         user.setNickname(RandomStringUtils.randomAlphabetic(7));
         user.setPhone(RandomStringUtils.randomNumeric(10));
         UserDetails userDetails = new UserDetails();
-        userDetails.setImageURL("http://anyimage.com");
+        userDetails.setImageUrl("http://anyimage.com");
         userDetails.setPayload("avatar_image");
-        user.setDetails(userDetails);
+        user.setUserDetails(userDetails);
         return user;
     }
+
+
+    public static Registration getRegistrationWithName(String name, String email) {
+        Registration registration = new Registration();
+        registration.setName(Optional.ofNullable(name).orElse(RandomStringUtils.randomAlphabetic(5)));
+        registration.setEmail(email);
+        registration.setNickname(RandomStringUtils.randomAlphabetic(7));
+        registration.setPhone(RandomStringUtils.randomNumeric(10));
+        registration.setPassword("Password1");
+        return registration;
+    }
+
 
     public static AddressList getAddresses() {
         AddressList addressList = new AddressList();
@@ -92,7 +104,7 @@ public class ModelUtils {
 
     public static OrderEvent getOrderEvent(Order order, OrderEventTypes typeEnum) {
         OrderEvent orderEvent = new OrderEvent();
-        orderEvent.setOrder(order);
+        orderEvent.setOrderId(order.getGuid());
 //        orderEvent.setGuid(String.valueOf(UUID.randomUUID()));
         orderEvent.setPayload("{\"lat\":50.53132, \"lon\":30.62783}");
         orderEvent.setType(typeEnum);
@@ -101,7 +113,7 @@ public class ModelUtils {
 
     public static OrderEvent getOrderEvent(Order order, OrderEventTypes typeEnum, String payload) {
         OrderEvent orderEvent = new OrderEvent();
-        orderEvent.setOrder(order);
+        orderEvent.setOrderId(order.getGuid());
         orderEvent.setPayload(payload);
         orderEvent.setType(typeEnum);
         return orderEvent;
