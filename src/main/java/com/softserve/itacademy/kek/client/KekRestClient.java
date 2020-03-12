@@ -445,7 +445,7 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
     @POST
     @Path("/registration")
     @Consumes({ "application/vnd.softserve.registrationUser+json" })
-    @Produces({ "application/vnd.softserve.sessionpass+json" })
+    @Produces({ "application/vnd.softserve.session+json" })
     @ApiOperation(value = "userRegistration", tags={  })
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
