@@ -46,7 +46,8 @@ public interface OrdersApi {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    public OrderEvent addEvent(@PathParam("guid") String guid, OrderEvent orderEvent);
+    public OrderEvent addEvent(@PathParam("guid") String guid, OrderEvent orderEvent, @CookieParam("JSESSIONID") String cookie);
+
 
     /**
      * addOrder
@@ -63,7 +64,7 @@ public interface OrdersApi {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    public OrderList addOrder(OrderList newOrderList);
+    public OrderList addOrder(OrderList newOrderList, @CookieParam("JSESSIONID") String cookie);
 
     /**
      * deleteOrder

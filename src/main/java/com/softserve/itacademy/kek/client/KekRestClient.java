@@ -55,9 +55,9 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
     @Consumes({"application/vnd.softserve.event+json"})
     @Path("/orders/{orderGuid}/{actorGuid}/events")
     @POST
-    public OrderEvent addEvent(String orderGuid, OrderEvent event)
+    public OrderEvent addEvent(String orderGuid, OrderEvent event, @CookieParam("JSESSIONID") String cookie)
     {
-        return ordersApi.addEvent(orderGuid, event);
+        return ordersApi.addEvent(orderGuid, event, cookie);
     }
 
     @Override
@@ -68,9 +68,9 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
     @Consumes({"application/vnd.softserve.orderList+json"})
     @Path("/orders/{customerGuid}")
     @POST
-    public OrderList addOrder(OrderList orderList)
+    public OrderList addOrder(OrderList orderList, @CookieParam("JSESSIONID") String cookie)
     {
-        return ordersApi.addOrder(orderList);
+        return ordersApi.addOrder(orderList, cookie);
     }
 
     @Override

@@ -84,15 +84,16 @@ public class ModelUtils {
     }
 
     public static OrderDetails getOrderDetails() {
+        OrderDetails orderDetails = new OrderDetails();
+        orderDetails.setImageUrl("image url");
+        orderDetails.setPayload("payload");
         return new OrderDetails();
     }
 
 
-    public static Order getOrderFor(User customer, Tenant tenant) {
+    public static Order getOrderFor(Tenant tenant) {
         Order order = new Order();
-//        order.setGuid(customer.getGuid());
         order.setTenant(tenant.getGuid());
-//        order.setUser(customer.getGuid());
         order.setSummary("Summary message");
         order.setDetails(getOrderDetails());
         order.setTenant(tenant.getGuid());

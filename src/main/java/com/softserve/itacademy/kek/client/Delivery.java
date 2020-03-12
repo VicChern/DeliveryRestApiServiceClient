@@ -24,12 +24,12 @@ public class Delivery implements Runnable {
     private static final String ROUTE_TXT = "./src/main/resources/route.txt";
     private final static OrdersApi ordersApi = RestClientFactory.createRestApiClient(OrdersApi.class, HOST);
     private Queue<String> geolocations = new LinkedList<>();
-    private User currier;
     private Order order;
+    private String sessionId;
 
-    public Delivery(User currier, Order order) {
-        this.currier = currier;
+    public Delivery(Order order, String sessionId) {
         this.order = order;
+        this.sessionId = sessionId;
     }
 
     {
@@ -51,7 +51,8 @@ public class Delivery implements Runnable {
             String payload = geolocations.peek();
 
             final OrderEvent event = ordersApi.addEvent(order.getGuid(),
-                    ModelUtils.getOrderEvent(order, OrderEventTypes.STARTED, payload));
+                    ModelUtils.getOrderEvent(order, OrderEventTypes.STARTED, payload),
+                    sessionId);
 
             LOGGER.info("\n\n DELIVERY: Added new event {} for orderGuid={}", event, order.getGuid());
 
