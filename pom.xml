@@ -22,6 +22,7 @@
         <version.log4j>1.2.17</version.log4j>
         <version.gson>2.8.6</version.gson>
         <version.cxf>3.3.5</version.cxf>
+        <version.cxf.sse>3.3.5</version.cxf.sse>
     </properties>
 
     <dependencies>
@@ -71,6 +72,11 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-client</artifactId>
             <version>${version.cxf}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-sse</artifactId>
+            <version>${version.cxf.sse}</version>
         </dependency>
 
         <dependency>

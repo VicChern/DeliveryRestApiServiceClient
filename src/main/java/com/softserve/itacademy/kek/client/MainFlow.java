@@ -68,15 +68,30 @@ public class MainFlow
                 order.getGuid(),
                 currierRegistration.getGuid());
 
-        //http://localhost:8080/api/v1/orders/e5e010a3-2da8-47db-8d5a-c4a6c6f41281/tracking/
-        //http://localhost:8080/#/app-sse-controller/ed023c8f-9510-4021-a2ec-658ad78ac464
+
+        //TODO fix: SseEventSource doesn't handle event
+/*
+        String url = String.format("http://localhost:8080/api/v1/orders/%s/tracking/", order.getGuid());
+
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target(url);
+
+        try (SseEventSource source = SseEventSource.target(target).build()) {
+            source.register((inboundSseEvent) -> System.out.println("SSE yes"inboundSseEvent));
+            source.open();
+        } catch (RuntimeException ex) {
+            LOGGER.error("SSE doesn't work", ex);
+        }
+*/
+
+//http://localhost:8080/api/v1/orders/e5e010a3-2da8-47db-8d5a-c4a6c6f41281/tracking/
         //Currier started delivery: Currier add event (EventDTO, user_guid(currier)), event_type STARTED
         //System automatically added actor (user_guid(currier)) and role CURRIER (this step only if CURRIER is changed to another user)
         Delivery delivery = new Delivery(order, currierTemporaryDto.getSessionId());
         Thread thread = new Thread(delivery);
         thread.start();
 
-        try{
+        try {
             thread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -92,5 +107,4 @@ public class MainFlow
         LOGGER.info("\n\n STEP 7: Added new event {} for orderGuid={}", eventDelivered, order.getGuid());
 
     }
-
 }
