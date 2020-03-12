@@ -68,8 +68,19 @@ public class ModelUtils {
         return tenant;
     }
 
+    public static Tenant getTenantForUserGuid(String userGuid) {
+        Tenant tenant = new Tenant();
+        tenant.setOwner(userGuid);
+        tenant.setName("Deliver tenant" + RandomStringUtils.randomAlphabetic(3));
+        tenant.setDetails(getTenantDetails());
+        return tenant;
+    }
+
     public static TenantDetails getTenantDetails() {
-        return new TenantDetails();
+        TenantDetails tenantDetails = new TenantDetails();
+        tenantDetails.setImageUrl("image url");
+        tenantDetails.setPayload("payload");
+        return tenantDetails;
     }
 
     public static OrderDetails getOrderDetails() {
@@ -122,4 +133,5 @@ public class ModelUtils {
     public static User getUser() {
         return getUserWithName(null);
     }
+
 }

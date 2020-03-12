@@ -3,12 +3,14 @@ package com.softserve.itacademy.kek.client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.softserve.itacademy.kek.client.utils.ModelUtils;
 import com.softserve.itacademy.kek.rest.api.OrdersApi;
 import com.softserve.itacademy.kek.rest.api.RegistrationApi;
 import com.softserve.itacademy.kek.rest.api.TenantsApi;
 import com.softserve.itacademy.kek.rest.api.UsersApi;
 import com.softserve.itacademy.kek.rest.model.Registration;
-import com.softserve.itacademy.kek.rest.model.SessionDto;
+import com.softserve.itacademy.kek.rest.model.TemporaryDto;
+import com.softserve.itacademy.kek.rest.model.Tenant;
 
 import static com.softserve.itacademy.kek.client.utils.ModelUtils.getRegistrationWithName;
 
@@ -23,8 +25,26 @@ public class RegistrationFlow {
 
 
     public static void main(String[] args) {
-        final Registration registration = getRegistrationWithName("Tenant4", "mrttterrtyty.acoustic@gmail.com");
-        SessionDto sessionDtoId = registrationApi.userRegistration(registration);
-        System.out.println("sessionId: " + sessionDtoId);
+
+        final Registration tenantRegistration = getRegistrationWithName("Tenant2", "marina.acoustic2.acoustic@gmail.com");
+        TemporaryDto temporaryDto = registrationApi.userRegistration(tenantRegistration);
+        String tenantUserGuid = temporaryDto.getUserGuid();
+        LOGGER.info("\n\n STEP 1: Register new user for tenant, user guid: {}", tenantUserGuid);
+
+
+        final Tenant tenant = tenantApi.addTenant(ModelUtils.getTenantForUserGuid(tenantUserGuid), temporaryDto.getSessionId());
+        LOGGER.info("\n\n STEP 2: Added new tenant {} for user guid={}",
+                tenant,
+                tenantUserGuid);
+
+
+        final Registration customerRegistration = getRegistrationWithName("Customer2", "customer.acoustic@gmail.com");
+        TemporaryDto customerTemporaryDto = registrationApi.userRegistration(customerRegistration);
+        String customerGuid = customerTemporaryDto.getUserGuid();
+        LOGGER.info("\n\n STEP 3: Register new user for customer, user guid: {}", customerGuid);
+
+
+
+
     }
 }

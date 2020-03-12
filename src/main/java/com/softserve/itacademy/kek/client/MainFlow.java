@@ -42,10 +42,10 @@ public class MainFlow
         LOGGER.info("\n\n STEP 1: Added new users: for customer {}, for currier {}, for tenant {}",
                 user1, user2, user3);
 
-        final AddressList addresses = usersApi.addUserAddresses(customer.getGuid().toString(), ModelUtils.getAddresses());
+        final AddressList addresses = usersApi.addUserAddresses(customer.getGuid(), ModelUtils.getAddresses());
         LOGGER.info("\n\n STEP 2: Added addresses {} for customer guid={}", addresses, customer.getGuid());
 
-        final Tenant tenant = tenantApi.addTenant(ModelUtils.getTenantFor(userForTenant));
+        final Tenant tenant = tenantApi.addTenant(ModelUtils.getTenantFor(userForTenant), "it's need to add cookie");
         LOGGER.info("\n\n STEP 3: Added new tenant {} for user guid={}, name={}",
                 tenant,
                 userForTenant.getGuid(),

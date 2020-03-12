@@ -75,7 +75,7 @@ public interface TenantsApi {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    public Tenant addTenant(Tenant tenant);
+    public Tenant addTenant(Tenant tenant, @CookieParam("JSESSIONID") String cookie);
 
     /**
      * deleteTenantAddress

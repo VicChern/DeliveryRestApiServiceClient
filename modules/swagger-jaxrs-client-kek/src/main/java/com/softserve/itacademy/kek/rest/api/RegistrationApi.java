@@ -1,7 +1,7 @@
 package com.softserve.itacademy.kek.rest.api;
 
 import com.softserve.itacademy.kek.rest.model.Registration;
-import com.softserve.itacademy.kek.rest.model.SessionDto;
+import com.softserve.itacademy.kek.rest.model.TemporaryDto;
 
 import javax.ws.rs.*;
 
@@ -36,6 +36,6 @@ public interface RegistrationApi  {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found") })
-    public SessionDto userRegistration(Registration userData);
+    public TemporaryDto userRegistration(Registration userData);
 }
 

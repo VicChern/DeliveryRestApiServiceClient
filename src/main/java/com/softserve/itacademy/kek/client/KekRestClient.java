@@ -1,6 +1,7 @@
 package com.softserve.itacademy.kek.client;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -19,7 +20,7 @@ import com.softserve.itacademy.kek.rest.model.OrderEvent;
 import com.softserve.itacademy.kek.rest.model.OrderEventList;
 import com.softserve.itacademy.kek.rest.model.OrderList;
 import com.softserve.itacademy.kek.rest.model.Registration;
-import com.softserve.itacademy.kek.rest.model.SessionDto;
+import com.softserve.itacademy.kek.rest.model.TemporaryDto;
 import com.softserve.itacademy.kek.rest.model.Tenant;
 import com.softserve.itacademy.kek.rest.model.TenantList;
 import com.softserve.itacademy.kek.rest.model.TenantProperty;
@@ -140,9 +141,9 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
     @Consumes({"application/vnd.softserve.tenant+json"})
     @Path("/tenants")
     @POST
-    public Tenant addTenant(Tenant tenant)
+    public Tenant addTenant(Tenant tenant, @CookieParam("JSESSIONID") String cookie)
     {
-        return tenantsApi.addTenant(tenant);
+        return tenantsApi.addTenant(tenant, cookie);
     }
 
     @Override
@@ -453,7 +454,7 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found") })
-    public SessionDto userRegistration(Registration userData)
+    public TemporaryDto userRegistration(Registration userData)
     {
         return registrationApi.userRegistration(userData);
     }

@@ -2,9 +2,11 @@ package com.softserve.itacademy.kek.rest.model;
 
 import java.util.Objects;
 
-public class SessionDto {
+public class TemporaryDto {
 
     private String sessionId;
+
+    private String userGuid;
 
     public String getSessionId() {
         return sessionId;
@@ -14,23 +16,33 @@ public class SessionDto {
         this.sessionId = sessionId;
     }
 
+    public String getUserGuid() {
+        return userGuid;
+    }
+
+    public void setUserGuid(String userGuid) {
+        this.userGuid = userGuid;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SessionDto sessionDto = (SessionDto) o;
-        return Objects.equals(sessionId, sessionDto.sessionId);
+        TemporaryDto that = (TemporaryDto) o;
+        return Objects.equals(sessionId, that.sessionId) &&
+                Objects.equals(userGuid, that.userGuid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sessionId);
+        return Objects.hash(sessionId, userGuid);
     }
 
     @Override
     public String toString() {
-        return "Session{" +
+        return "TemporaryDto{" +
                 "sessionId='" + sessionId + '\'' +
+                ", userGuid='" + userGuid + '\'' +
                 '}';
     }
 }
