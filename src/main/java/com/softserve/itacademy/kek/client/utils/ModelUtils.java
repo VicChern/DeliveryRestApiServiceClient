@@ -35,10 +35,10 @@ public class ModelUtils {
     }
 
 
-    public static Registration getRegistrationWithName(String name, String email) {
+    public static Registration getRegistrationWithName(String name) {
         Registration registration = new Registration();
         registration.setName(Optional.ofNullable(name).orElse(RandomStringUtils.randomAlphabetic(5)));
-        registration.setEmail(email);
+        registration.setEmail(RandomStringUtils.randomAlphabetic(8)+ "@gmail.com");
         registration.setNickname(RandomStringUtils.randomAlphabetic(7));
         registration.setPhone(RandomStringUtils.randomNumeric(10));
         registration.setPassword("Password1");
@@ -106,18 +106,9 @@ public class ModelUtils {
         return orderList;
     }
 
-    public static OrderEvent getOrderEventFor(OrderEventTypes typeEnum) {
-        OrderEvent orderEvent = new OrderEvent();
-//        orderEvent.setGuid(String.valueOf(UUID.randomUUID()));
-        orderEvent.setPayload("{\"lat\":50.53132, \"lon\":30.62783}");
-        orderEvent.setType(typeEnum);
-        return orderEvent;
-    }
-
     public static OrderEvent getOrderEvent(Order order, OrderEventTypes typeEnum) {
         OrderEvent orderEvent = new OrderEvent();
         orderEvent.setOrderId(order.getGuid());
-//        orderEvent.setGuid(String.valueOf(UUID.randomUUID()));
         orderEvent.setPayload("{\"lat\":50.53132, \"lon\":30.62783}");
         orderEvent.setType(typeEnum);
         return orderEvent;
