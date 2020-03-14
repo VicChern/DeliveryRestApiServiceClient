@@ -26,6 +26,7 @@ public class Delivery implements Runnable {
     private Queue<String> geolocations = new LinkedList<>();
     private Order order;
     private String sessionId;
+    private volatile boolean completed;
 
     public Delivery(Order order, String sessionId) {
         this.order = order;
@@ -42,7 +43,10 @@ public class Delivery implements Runnable {
 
     @Override
     public void run() {
-        while(!geolocations.isEmpty()) {
+        while (!geolocations.isEmpty()) {
+            if (completed)
+                break;
+
             try {
                 Thread.sleep(3000L);
             } catch (InterruptedException e) {
@@ -58,5 +62,13 @@ public class Delivery implements Runnable {
 
             geolocations.poll();
         }
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    public boolean getCompleted() {
+        return this.completed;
     }
 }

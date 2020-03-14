@@ -1,5 +1,10 @@
 package com.softserve.itacademy.kek.client;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.sse.SseEventSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,36 +73,41 @@ public class MainFlow
                 order.getGuid(),
                 currierRegistration.getGuid());
 
-
-        //TODO fix: SseEventSource doesn't handle event
-/*
-        String url = String.format("http://localhost:8080/api/v1/orders/%s/tracking/", order.getGuid());
-
-        Client client = ClientBuilder.newClient();
-        WebTarget target = client.target(url);
-
-        try (SseEventSource source = SseEventSource.target(target).build()) {
-            source.register((inboundSseEvent) -> System.out.println("SSE yes"inboundSseEvent));
-            source.open();
-        } catch (RuntimeException ex) {
-            LOGGER.error("SSE doesn't work", ex);
-        }
-*/
-
 //http://localhost:8080/api/v1/orders/e5e010a3-2da8-47db-8d5a-c4a6c6f41281/tracking/
         //Currier started delivery: Currier add event (EventDTO, user_guid(currier)), event_type STARTED
         //System automatically added actor (user_guid(currier)) and role CURRIER (this step only if CURRIER is changed to another user)
         Delivery delivery = new Delivery(order, currierTemporaryDto.getSessionId());
-        Thread thread = new Thread(delivery);
-        thread.start();
+        Thread deliveryThread = new Thread(delivery);
+        deliveryThread.setDaemon(true);
+        deliveryThread.start();
 
         try {
-            thread.join();
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+        delivery.setCompleted(true);
+
         //Customer send request to get geolocation of an order
+        LOGGER.info("\n\n START TRACKING ORDER: order guid = {}", order.getGuid());
+
+        final String url = String.format("http://localhost:8080/api/v1/orders/%s/tracking/", order.getGuid()); //"c9d50a7b-5e67-403c-aeed-1a78fe124bc7");
+
+        final Client client = ClientBuilder.newClient();
+        final WebTarget target = client.target(url);
+
+        try (SseEventSource source = SseEventSource.target(target).build()) {
+            source.register(
+                    (inboundSseEvent) -> LOGGER.info("\n\n TRACKING ORDER: geolocation {}", inboundSseEvent.readData())
+            );//System.out.println("  geolocation: " + inboundSseEvent.readData()));
+            source.open();
+            Thread.sleep(15000);
+        } catch (Exception ex) {
+            LOGGER.error("SSE doesn't work", ex);
+        }
+
+        client.close();
 
         //Currier finished delivery: Currier added event (EventDTO, user_guid(currier)) with event_type DELIVERED
         final OrderEvent eventDelivered = KEK_API.addEvent(
