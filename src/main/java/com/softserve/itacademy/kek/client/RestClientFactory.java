@@ -1,5 +1,11 @@
 package com.softserve.itacademy.kek.client;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -8,20 +14,12 @@ import java.security.cert.X509Certificate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import org.apache.cxf.configuration.jsse.TLSClientParameters;
-import org.apache.cxf.ext.logging.LoggingInInterceptor;
-import org.apache.cxf.ext.logging.LoggingOutInterceptor;
 import org.apache.cxf.jaxrs.client.ClientConfiguration;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.WebClient;
@@ -30,16 +28,14 @@ import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RestClientFactory
-{
+public class RestClientFactory {
 
     public static final Long DEFAULT_TIMEOUT = 60 * 1000L; // 1 min
     public static final String KEK_REST_TRACING_PARAM = "kekRestTracing";
     private static final Logger logger = LoggerFactory.getLogger(RestClientFactory.class);
     private static boolean restTracingEnabled = false;
 
-    static
-    {
+    static {
 
         // removing SSLv3 from disabled list (GC still use it)
         Security.setProperty("jdk.tls.disabledAlgorithms", "");
@@ -54,13 +50,11 @@ public class RestClientFactory
         logger.info("{} = {}", KEK_REST_TRACING_PARAM, restTracingEnabled);
     }
 
-    public static boolean isRestTracingEnabled()
-    {
+    public static boolean isRestTracingEnabled() {
         return restTracingEnabled;
     }
 
-    private static void hackSSL(ClientConfiguration configuration, int timeout)
-    {
+    private static void hackSSL(ClientConfiguration configuration, int timeout) {
 
         HTTPConduit httpConduit = configuration.getHttpConduit();
 
@@ -75,21 +69,17 @@ public class RestClientFactory
         tlsParams.setKeyManagers(new KeyManager[0]);
 
         TrustManager[] trustAllCerts = new TrustManager[]{
-                new X509TrustManager()
-                {
-                    public X509Certificate[] getAcceptedIssuers()
-                    {
+                new X509TrustManager() {
+                    public X509Certificate[] getAcceptedIssuers() {
 
                         return null;
                     }
 
-                    public void checkClientTrusted(X509Certificate[] certs, String authType)
-                    {
+                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
 
                     }
 
-                    public void checkServerTrusted(X509Certificate[] certs, String authType)
-                    {
+                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
 
                     }
                 }
@@ -103,15 +93,12 @@ public class RestClientFactory
 
         tlsParams.setHostnameVerifier(allHostsValid);
 
-        try
-        {
+        try {
             SSLContext sslContext = SSLContext.getInstance("TLS");
             sslContext.init(new KeyManager[0], trustAllCerts, new SecureRandom());
             SSLSocketFactory socketFactory = sslContext.getSocketFactory();
             tlsParams.setSSLSocketFactory(socketFactory);
-        }
-        catch (KeyManagementException | NoSuchAlgorithmException ex)
-        {
+        } catch (KeyManagementException | NoSuchAlgorithmException ex) {
             logger.error("Can't init SSL/TLS for rest client", ex);
             System.exit(-1);
         }
@@ -119,16 +106,14 @@ public class RestClientFactory
         httpConduit.setTlsClientParameters(tlsParams);
     }
 
-    public static <T> T createRestApiClient(Class<T> clientClass, String endpointUrl)
-    {
+    public static <T> T createRestApiClient(Class<T> clientClass, String endpointUrl) {
 
         return createRestApiClient(clientClass, endpointUrl, DEFAULT_TIMEOUT);
     }
 
     public static <T> T createRestApiClient(Class<T> clientClass,
                                             String endpointUrl,
-                                            Long timeout)
-    {
+                                            Long timeout) {
 
         ObjectMapper mapper = new ObjectMapper()
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL);
