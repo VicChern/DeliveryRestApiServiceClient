@@ -100,7 +100,7 @@ public class MainFlow
         try (SseEventSource source = SseEventSource.target(target).build()) {
             source.register(
                     (inboundSseEvent) -> LOGGER.info("\n\n TRACKING ORDER: geolocation {}", inboundSseEvent.readData())
-            );//System.out.println("  geolocation: " + inboundSseEvent.readData()));
+            );
             source.open();
             Thread.sleep(15000);
         } catch (Exception ex) {
