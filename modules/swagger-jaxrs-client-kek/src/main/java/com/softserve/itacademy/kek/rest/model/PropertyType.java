@@ -11,46 +11,46 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class TenantDetails  {
+public class PropertyType  {
   
   @ApiModelProperty(value = "")
-  private String imageUrl = null;
+  private String name = null;
 
   @ApiModelProperty(value = "")
-  private String payload = null;
+  private String schema = null;
  /**
-   * Get imageUrl
-   * @return imageUrl
+   * Get name
+   * @return name
   **/
-  @JsonProperty("imageUrl")
-  public String getImageUrl() {
-    return imageUrl;
+  @JsonProperty("name")
+  public String getName() {
+    return name;
   }
 
-  public void setImageUrl(String imageUrl) {
-    this.imageUrl = imageUrl;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public TenantDetails imageUrl(String imageUrl) {
-    this.imageUrl = imageUrl;
+  public PropertyType name(String name) {
+    this.name = name;
     return this;
   }
 
  /**
-   * Get payload
-   * @return payload
+   * Get schema
+   * @return schema
   **/
-  @JsonProperty("payload")
-  public String getPayload() {
-    return payload;
+  @JsonProperty("schema")
+  public String getSchema() {
+    return schema;
   }
 
-  public void setPayload(String payload) {
-    this.payload = payload;
+  public void setSchema(String schema) {
+    this.schema = schema;
   }
 
-  public TenantDetails payload(String payload) {
-    this.payload = payload;
+  public PropertyType schema(String schema) {
+    this.schema = schema;
     return this;
   }
 
@@ -58,10 +58,10 @@ public class TenantDetails  {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TenantDetails {\n");
+    sb.append("class PropertyType {\n");
     
-    sb.append("    imageUrl: ").append(toIndentedString(imageUrl)).append("\n");
-    sb.append("    payload: ").append(toIndentedString(payload)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    schema: ").append(toIndentedString(schema)).append("\n");
     sb.append("}");
     return sb.toString();
   }

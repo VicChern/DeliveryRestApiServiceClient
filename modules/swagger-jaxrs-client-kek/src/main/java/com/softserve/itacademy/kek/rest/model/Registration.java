@@ -1,13 +1,20 @@
 package com.softserve.itacademy.kek.rest.model;
 
+import com.softserve.itacademy.kek.rest.model.IUserDetails;
+import java.util.UUID;
+
 import io.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class User  {
+public class Registration  {
   
-  @ApiModelProperty(value = "")
-  private UserDetails userDetails = null;
-
   @ApiModelProperty(value = "")
   private String email = null;
 
@@ -21,25 +28,13 @@ public class User  {
   private String nickname = null;
 
   @ApiModelProperty(value = "")
+  private String password = null;
+
+  @ApiModelProperty(value = "")
   private String phone = null;
- /**
-   * Get details
-   * @return details
-  **/
-  @JsonProperty("details")
-  public UserDetails getUserDetails() {
-    return userDetails;
-  }
 
-  public void setUserDetails(UserDetails userDetails) {
-    this.userDetails = userDetails;
-  }
-
-  public User details(UserDetails userDetails) {
-    this.userDetails = userDetails;
-    return this;
-  }
-
+  @ApiModelProperty(value = "")
+  private IUserDetails userDetails = null;
  /**
    * Get email
    * @return email
@@ -53,7 +48,7 @@ public class User  {
     this.email = email;
   }
 
-  public User email(String email) {
+  public Registration email(String email) {
     this.email = email;
     return this;
   }
@@ -71,7 +66,7 @@ public class User  {
     this.guid = guid;
   }
 
-  public User guid(String guid) {
+  public Registration guid(String guid) {
     this.guid = guid;
     return this;
   }
@@ -89,7 +84,7 @@ public class User  {
     this.name = name;
   }
 
-  public User name(String name) {
+  public Registration name(String name) {
     this.name = name;
     return this;
   }
@@ -107,8 +102,26 @@ public class User  {
     this.nickname = nickname;
   }
 
-  public User nickname(String nickname) {
+  public Registration nickname(String nickname) {
     this.nickname = nickname;
+    return this;
+  }
+
+ /**
+   * Get password
+   * @return password
+  **/
+  @JsonProperty("password")
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public Registration password(String password) {
+    this.password = password;
     return this;
   }
 
@@ -125,8 +138,26 @@ public class User  {
     this.phone = phone;
   }
 
-  public User phone(String phone) {
+  public Registration phone(String phone) {
     this.phone = phone;
+    return this;
+  }
+
+ /**
+   * Get userDetails
+   * @return userDetails
+  **/
+  @JsonProperty("userDetails")
+  public IUserDetails getUserDetails() {
+    return userDetails;
+  }
+
+  public void setUserDetails(IUserDetails userDetails) {
+    this.userDetails = userDetails;
+  }
+
+  public Registration userDetails(IUserDetails userDetails) {
+    this.userDetails = userDetails;
     return this;
   }
 
@@ -134,14 +165,15 @@ public class User  {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class User {\n");
+    sb.append("class Registration {\n");
     
-    sb.append("    details: ").append(toIndentedString(userDetails)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    guid: ").append(toIndentedString(guid)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    nickname: ").append(toIndentedString(nickname)).append("\n");
+    sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
+    sb.append("    userDetails: ").append(toIndentedString(userDetails)).append("\n");
     sb.append("}");
     return sb.toString();
   }

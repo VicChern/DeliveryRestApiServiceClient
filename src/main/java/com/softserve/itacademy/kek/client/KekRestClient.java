@@ -1,6 +1,7 @@
 package com.softserve.itacademy.kek.client;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -9,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import com.softserve.itacademy.kek.rest.api.OrdersApi;
+import com.softserve.itacademy.kek.rest.api.RegistrationApi;
 import com.softserve.itacademy.kek.rest.api.TenantsApi;
 import com.softserve.itacademy.kek.rest.api.UsersApi;
 import com.softserve.itacademy.kek.rest.model.Address;
@@ -17,6 +19,8 @@ import com.softserve.itacademy.kek.rest.model.Order;
 import com.softserve.itacademy.kek.rest.model.OrderEvent;
 import com.softserve.itacademy.kek.rest.model.OrderEventList;
 import com.softserve.itacademy.kek.rest.model.OrderList;
+import com.softserve.itacademy.kek.rest.model.Registration;
+import com.softserve.itacademy.kek.rest.model.TemporaryDto;
 import com.softserve.itacademy.kek.rest.model.Tenant;
 import com.softserve.itacademy.kek.rest.model.TenantList;
 import com.softserve.itacademy.kek.rest.model.TenantProperty;
@@ -28,17 +32,19 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
+public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, RegistrationApi
 {
     private OrdersApi ordersApi;
     private TenantsApi tenantsApi;
     private UsersApi usersApi;
+    private RegistrationApi registrationApi;
 
     public KekRestClient(String endpointUrl)
     {
         this.ordersApi = RestClientFactory.createRestApiClient(OrdersApi.class, endpointUrl);
         this.tenantsApi = RestClientFactory.createRestApiClient(TenantsApi.class, endpointUrl);
         this.usersApi = RestClientFactory.createRestApiClient(UsersApi.class, endpointUrl);
+        this.registrationApi = RestClientFactory.createRestApiClient(RegistrationApi.class, endpointUrl);
     }
 
     @Override
@@ -49,9 +55,9 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
     @Consumes({"application/vnd.softserve.event+json"})
     @Path("/orders/{orderGuid}/{actorGuid}/events")
     @POST
-    public OrderEvent addEvent(String orderGuid, String actorGuid, OrderEvent event)
+    public OrderEvent addEvent(String orderGuid, OrderEvent event, @CookieParam("JSESSIONID") String cookie)
     {
-        return ordersApi.addEvent(orderGuid, actorGuid, event);
+        return ordersApi.addEvent(orderGuid, event, cookie);
     }
 
     @Override
@@ -62,9 +68,9 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
     @Consumes({"application/vnd.softserve.orderList+json"})
     @Path("/orders/{customerGuid}")
     @POST
-    public OrderList addOrder(OrderList orderList, String customerGuid)
+    public OrderList addOrder(OrderList orderList, @CookieParam("JSESSIONID") String cookie)
     {
-        return ordersApi.addOrder(orderList, customerGuid);
+        return ordersApi.addOrder(orderList, cookie);
     }
 
     @Override
@@ -135,9 +141,9 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
     @Consumes({"application/vnd.softserve.tenant+json"})
     @Path("/tenants")
     @POST
-    public Tenant addTenant(Tenant tenant)
+    public Tenant addTenant(Tenant tenant, @CookieParam("JSESSIONID") String cookie)
     {
-        return tenantsApi.addTenant(tenant);
+        return tenantsApi.addTenant(tenant, cookie);
     }
 
     @Override
@@ -427,8 +433,29 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi
     @Consumes({"application/vnd.softserve.address+json"})
     @Path("/users/{guid}/addresses/{addrguid}")
     @PUT
-    public Address modifyUserAddress(String guid, String addrguid, Address address)
+    public Address modifyUserAddress(Address address, String addrguid, String guid)
     {
-        return usersApi.modifyUserAddress(guid, addrguid, address);
+        return usersApi.modifyUserAddress(address, addrguid, guid);
+
+    }
+
+    /**
+     * userRegistration
+     *
+     */
+    @POST
+    @Path("/registration")
+    @Consumes({ "application/vnd.softserve.registrationUser+json" })
+    @Produces({ "application/vnd.softserve.session+json" })
+    @ApiOperation(value = "userRegistration", tags={  })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found") })
+    public TemporaryDto userRegistration(Registration userData)
+    {
+        return registrationApi.userRegistration(userData);
     }
 }

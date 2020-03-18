@@ -1,45 +1,37 @@
-package com.softserve.itacademy.kek.rest.model;
+package com.softserve.itacademy.kek.rest.old.model;
 
-import java.util.UUID;
 
-import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 
 public class Address  {
   
   @ApiModelProperty(value = "")
-  private String address = null;
+  private String guid = null;
 
   @ApiModelProperty(value = "")
   private String alias = null;
 
   @ApiModelProperty(value = "")
-  private String guid = null;
+  private String address = null;
 
   @ApiModelProperty(value = "")
   private String notes = null;
  /**
-   * Get address
-   * @return address
+   * Get guid
+   * @return guid
   **/
-  @JsonProperty("address")
-  public String getAddress() {
-    return address;
+  @JsonProperty("guid")
+  public String getGuid() {
+    return guid;
   }
 
-  public void setAddress(String address) {
-    this.address = address;
+  public void setGuid(String guid) {
+    this.guid = guid;
   }
 
-  public Address address(String address) {
-    this.address = address;
+  public Address guid(String guid) {
+    this.guid = guid;
     return this;
   }
 
@@ -62,20 +54,20 @@ public class Address  {
   }
 
  /**
-   * Get guid
-   * @return guid
+   * Get address
+   * @return address
   **/
-  @JsonProperty("guid")
-  public String getGuid() {
-    return guid;
+  @JsonProperty("address")
+  public String getAddress() {
+    return address;
   }
 
-  public void setGuid(String guid) {
-    this.guid = guid;
+  public void setAddress(String address) {
+    this.address = address;
   }
 
-  public Address guid(String guid) {
-    this.guid = guid;
+  public Address address(String address) {
+    this.address = address;
     return this;
   }
 
@@ -103,9 +95,9 @@ public class Address  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Address {\n");
     
-    sb.append("    address: ").append(toIndentedString(address)).append("\n");
-    sb.append("    alias: ").append(toIndentedString(alias)).append("\n");
     sb.append("    guid: ").append(toIndentedString(guid)).append("\n");
+    sb.append("    alias: ").append(toIndentedString(alias)).append("\n");
+    sb.append("    address: ").append(toIndentedString(address)).append("\n");
     sb.append("    notes: ").append(toIndentedString(notes)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -115,7 +107,7 @@ public class Address  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -1,4 +1,4 @@
-package com.softserve.itacademy.kek.rest.model;
+package com.softserve.itacademy.kek.rest.old.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;

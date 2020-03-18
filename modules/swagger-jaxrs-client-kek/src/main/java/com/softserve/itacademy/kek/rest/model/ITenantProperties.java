@@ -1,11 +1,19 @@
 package com.softserve.itacademy.kek.rest.model;
 
+import com.softserve.itacademy.kek.rest.model.IPropertyType;
 import java.util.UUID;
 
 import io.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class TenantProperty {
+public class ITenantProperties  {
   
   @ApiModelProperty(value = "")
   private String guid = null;
@@ -31,7 +39,7 @@ public class TenantProperty {
     this.guid = guid;
   }
 
-  public TenantProperty guid(String guid) {
+  public ITenantProperties guid(String guid) {
     this.guid = guid;
     return this;
   }
@@ -49,7 +57,7 @@ public class TenantProperty {
     this.key = key;
   }
 
-  public TenantProperty key(String key) {
+  public ITenantProperties key(String key) {
     this.key = key;
     return this;
   }
@@ -67,7 +75,7 @@ public class TenantProperty {
     this.propertyType = propertyType;
   }
 
-  public TenantProperty propertyType(IPropertyType propertyType) {
+  public ITenantProperties propertyType(IPropertyType propertyType) {
     this.propertyType = propertyType;
     return this;
   }
@@ -85,7 +93,7 @@ public class TenantProperty {
     this.value = value;
   }
 
-  public TenantProperty value(String value) {
+  public ITenantProperties value(String value) {
     this.value = value;
     return this;
   }
@@ -94,7 +102,7 @@ public class TenantProperty {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TenantProperties {\n");
+    sb.append("class ITenantProperties {\n");
     
     sb.append("    guid: ").append(toIndentedString(guid)).append("\n");
     sb.append("    key: ").append(toIndentedString(key)).append("\n");

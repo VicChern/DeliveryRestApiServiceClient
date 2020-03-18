@@ -1,20 +1,22 @@
-package com.softserve.itacademy.kek.rest.model;
+package com.softserve.itacademy.kek.rest.old.model;
 
-import java.util.UUID;
 
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 
-public class TenantProperty {
+public class TenantProperty  {
   
   @ApiModelProperty(value = "")
   private String guid = null;
 
   @ApiModelProperty(value = "")
-  private String key = null;
+  private String tenant = null;
 
   @ApiModelProperty(value = "")
-  private IPropertyType propertyType = null;
+  private String type = null;
+
+  @ApiModelProperty(value = "")
+  private String key = null;
 
   @ApiModelProperty(value = "")
   private String value = null;
@@ -37,6 +39,42 @@ public class TenantProperty {
   }
 
  /**
+   * Get tenant
+   * @return tenant
+  **/
+  @JsonProperty("tenant")
+  public String getTenant() {
+    return tenant;
+  }
+
+  public void setTenant(String tenant) {
+    this.tenant = tenant;
+  }
+
+  public TenantProperty tenant(String tenant) {
+    this.tenant = tenant;
+    return this;
+  }
+
+ /**
+   * Get type
+   * @return type
+  **/
+  @JsonProperty("type")
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public TenantProperty type(String type) {
+    this.type = type;
+    return this;
+  }
+
+ /**
    * Get key
    * @return key
   **/
@@ -51,24 +89,6 @@ public class TenantProperty {
 
   public TenantProperty key(String key) {
     this.key = key;
-    return this;
-  }
-
- /**
-   * Get propertyType
-   * @return propertyType
-  **/
-  @JsonProperty("propertyType")
-  public IPropertyType getPropertyType() {
-    return propertyType;
-  }
-
-  public void setPropertyType(IPropertyType propertyType) {
-    this.propertyType = propertyType;
-  }
-
-  public TenantProperty propertyType(IPropertyType propertyType) {
-    this.propertyType = propertyType;
     return this;
   }
 
@@ -94,11 +114,12 @@ public class TenantProperty {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TenantProperties {\n");
+    sb.append("class TenantProperty {\n");
     
     sb.append("    guid: ").append(toIndentedString(guid)).append("\n");
+    sb.append("    tenant: ").append(toIndentedString(tenant)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    key: ").append(toIndentedString(key)).append("\n");
-    sb.append("    propertyType: ").append(toIndentedString(propertyType)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -108,7 +129,7 @@ public class TenantProperty {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
