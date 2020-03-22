@@ -79,33 +79,31 @@ public class MainFlow {
         deliveryThread.setDaemon(true);
         deliveryThread.start();
 
+        // to delivery process will be started (add an order event)
         try {
-            Thread.sleep(10000);
+            Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        delivery.setCompleted(true);
-
-        //Customer send request to get geolocation of an order
+        //Customer send request to track order
         LOGGER.info("\n\n START TRACKING ORDER: order guid = {}", order.getGuid());
 
         final String url = String.format("http://localhost:8080/api/v1/orders/%s/tracking/", order.getGuid()); //"c9d50a7b-5e67-403c-aeed-1a78fe124bc7");
 
-        final Client client = ClientBuilder.newClient();
-        final WebTarget target = client.target(url);
+        final SseClient sseClient = new SseClient();
 
-        try (SseEventSource source = SseEventSource.target(target).build()) {
-            source.register(
-                    (inboundSseEvent) -> LOGGER.info("\n\n TRACKING ORDER: geolocation {}", inboundSseEvent.readData())
-            );
-            source.open();
+        sseClient.open(url);
+
+        try {
             Thread.sleep(15000);
-        } catch (Exception ex) {
-            LOGGER.error("SSE doesn't work", ex);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
-        client.close();
+        sseClient.close();
+
+        delivery.setCompleted(true);
 
         //Currier finished delivery: Currier added event (EventDTO, user_guid(currier)) with event_type DELIVERED
         final OrderEvent eventDelivered = KEK_API.addEvent(
@@ -113,6 +111,5 @@ public class MainFlow {
                 ModelUtils.getOrderEvent(order, OrderEventTypes.DELIVERED),
                 currierTemporaryDto.getSessionId());
         LOGGER.info("\n\n STEP 7: Added new event {} for orderGuid={}", eventDelivered, order.getGuid());
-
     }
 }
