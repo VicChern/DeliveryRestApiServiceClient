@@ -16,7 +16,6 @@ import com.softserve.itacademy.kek.rest.api.OrdersApi;
 import com.softserve.itacademy.kek.rest.model.Order;
 import com.softserve.itacademy.kek.rest.model.OrderEvent;
 import com.softserve.itacademy.kek.rest.model.OrderEventTypes;
-import com.softserve.itacademy.kek.rest.model.User;
 
 public class Delivery implements Runnable {
     private final static Logger LOGGER = LoggerFactory.getLogger(Delivery.class);

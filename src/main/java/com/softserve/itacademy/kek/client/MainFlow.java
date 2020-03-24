@@ -9,24 +9,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.softserve.itacademy.kek.client.utils.ModelUtils;
+import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.Order;
 import com.softserve.itacademy.kek.rest.model.OrderEvent;
 import com.softserve.itacademy.kek.rest.model.OrderEventTypes;
-import com.softserve.itacademy.kek.rest.model.OrderList;
 import com.softserve.itacademy.kek.rest.model.Registration;
 import com.softserve.itacademy.kek.rest.model.TemporaryDto;
 import com.softserve.itacademy.kek.rest.model.Tenant;
 
 import static com.softserve.itacademy.kek.client.utils.ModelUtils.getRegistrationWithName;
 
-public class MainFlow
-{
+public class MainFlow {
     private final static Logger LOGGER = LoggerFactory.getLogger(MainFlow.class);
     private final static String HOST = "http://localhost:8080/api/v1";
     private final static KekRestClient KEK_API = new KekRestClient(HOST);
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         final Registration tenantRegistration = getRegistrationWithName("Tenant");
         TemporaryDto temporaryDto = KEK_API.userRegistration(tenantRegistration);
         String tenantUserGuid = temporaryDto.getUserGuid();
@@ -48,13 +46,13 @@ public class MainFlow
         //System automatically added actor (customer) and role CUSTOMER
         //System automatically added event (EventDTO) and event_type CREATED
         final Order orderStub = ModelUtils.getOrderFor(tenant);
-        final OrderList orderList = KEK_API.addOrder(ModelUtils.getSingletonOrderList(orderStub), customerTemporaryDto.getSessionId());
-        final Order order = orderList.getOrderList().get(0);
+        final ListWrapperDto<Order> orderList = KEK_API.addOrder(ModelUtils.getSingletonOrderList(orderStub),
+                customerTemporaryDto.getSessionId());
+        final Order order = orderList.getList().get(0);
         LOGGER.info("\n\n STEP 4: Added new order {} from customer guid={} for tenant guid={}",
                 order,
                 customerGuid,
                 tenant.getGuid());
-
 
         final Registration currierRegistration = getRegistrationWithName("Currier");
         TemporaryDto currierTemporaryDto = KEK_API.userRegistration(currierRegistration);

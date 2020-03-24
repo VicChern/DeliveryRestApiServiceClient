@@ -1,9 +1,9 @@
 package com.softserve.itacademy.kek.rest.old.model;
 
-import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 
-public class Order  {
+public class Order {
 
     @ApiModelProperty(value = "tenant id")
     /**
@@ -19,8 +19,10 @@ public class Order  {
 
     @ApiModelProperty(value = "")
     private OrderDetails details = null;
+
     /**
      * tenant id
+     *
      * @return tenant
      **/
     @JsonProperty("tenant")
@@ -39,6 +41,7 @@ public class Order  {
 
     /**
      * Get guid
+     *
      * @return guid
      **/
     @JsonProperty("guid")
@@ -57,6 +60,7 @@ public class Order  {
 
     /**
      * Get summary
+     *
      * @return summary
      **/
     @JsonProperty("summary")
@@ -75,6 +79,7 @@ public class Order  {
 
     /**
      * Get details
+     *
      * @return details
      **/
     @JsonProperty("details")

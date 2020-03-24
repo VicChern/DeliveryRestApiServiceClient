@@ -7,12 +7,11 @@ import java.util.Optional;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import com.softserve.itacademy.kek.rest.model.Address;
-import com.softserve.itacademy.kek.rest.model.AddressList;
+import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.Order;
 import com.softserve.itacademy.kek.rest.model.OrderDetails;
 import com.softserve.itacademy.kek.rest.model.OrderEvent;
 import com.softserve.itacademy.kek.rest.model.OrderEventTypes;
-import com.softserve.itacademy.kek.rest.model.OrderList;
 import com.softserve.itacademy.kek.rest.model.Registration;
 import com.softserve.itacademy.kek.rest.model.Tenant;
 import com.softserve.itacademy.kek.rest.model.TenantDetails;
@@ -24,7 +23,7 @@ public class ModelUtils {
     public static User getUserWithName(String name) {
         User user = new User();
         user.setName(Optional.ofNullable(name).orElse(RandomStringUtils.randomAlphabetic(5)));
-        user.setEmail(RandomStringUtils.randomAlphabetic(8)+ "@gmail.com");
+        user.setEmail(RandomStringUtils.randomAlphabetic(8) + "@gmail.com");
         user.setNickname(RandomStringUtils.randomAlphabetic(7));
         user.setPhone(RandomStringUtils.randomNumeric(10));
         UserDetails userDetails = new UserDetails();
@@ -38,7 +37,7 @@ public class ModelUtils {
     public static Registration getRegistrationWithName(String name) {
         Registration registration = new Registration();
         registration.setName(Optional.ofNullable(name).orElse(RandomStringUtils.randomAlphabetic(5)));
-        registration.setEmail(RandomStringUtils.randomAlphabetic(8)+ "@gmail.com");
+        registration.setEmail(RandomStringUtils.randomAlphabetic(8) + "@gmail.com");
         registration.setNickname(RandomStringUtils.randomAlphabetic(7));
         registration.setPhone(RandomStringUtils.randomNumeric(10));
         registration.setPassword("Password1");
@@ -46,10 +45,8 @@ public class ModelUtils {
     }
 
 
-    public static AddressList getAddresses() {
-        AddressList addressList = new AddressList();
-        addressList.setAddressList(List.of(getAddress(), getAddress()));
-        return addressList;
+    public static ListWrapperDto<Address> getAddresses() {
+        return new ListWrapperDto<>(List.of(getAddress(), getAddress()));
     }
 
     public static Address getAddress() {
@@ -100,10 +97,8 @@ public class ModelUtils {
         return order;
     }
 
-    public static OrderList getSingletonOrderList(Order order) {
-        OrderList orderList = new OrderList();
-        orderList.setOrderList(Collections.singletonList(order));
-        return orderList;
+    public static ListWrapperDto<Order> getSingletonOrderList(Order order) {
+        return new ListWrapperDto<>(Collections.singletonList(order));
     }
 
     public static OrderEvent getOrderEvent(Order order, OrderEventTypes typeEnum) {
