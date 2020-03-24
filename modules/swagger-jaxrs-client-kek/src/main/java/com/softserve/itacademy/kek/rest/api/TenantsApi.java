@@ -4,7 +4,6 @@ import com.softserve.itacademy.kek.rest.model.Address;
 import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.ResponseEntity;
 import com.softserve.itacademy.kek.rest.model.Tenant;
-import com.softserve.itacademy.kek.rest.model.TenantList;
 import com.softserve.itacademy.kek.rest.model.TenantProperty;
 import com.softserve.itacademy.kek.rest.model.TenantPropertyList;
 
@@ -157,14 +156,14 @@ public interface TenantsApi {
      */
     @GET
     @Path("/tenants")
-    @Produces({ "application/vnd.softserve.tenantlist+json" })
+    @Produces({ "application/vnd.softserve.tenantList+json" })
     @ApiOperation(value = "getTenantList", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = TenantList.class),
+        @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    public TenantList getTenantList();
+    public ListWrapperDto<Tenant> getTenantList();
 
     /**
      * getTenantProperties
