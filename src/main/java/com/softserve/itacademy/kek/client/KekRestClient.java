@@ -15,10 +15,10 @@ import com.softserve.itacademy.kek.rest.api.TenantsApi;
 import com.softserve.itacademy.kek.rest.api.UsersApi;
 import com.softserve.itacademy.kek.rest.model.Address;
 import com.softserve.itacademy.kek.rest.model.AddressList;
+import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.Order;
 import com.softserve.itacademy.kek.rest.model.OrderEvent;
 import com.softserve.itacademy.kek.rest.model.OrderEventList;
-import com.softserve.itacademy.kek.rest.model.OrderList;
 import com.softserve.itacademy.kek.rest.model.Registration;
 import com.softserve.itacademy.kek.rest.model.TemporaryDto;
 import com.softserve.itacademy.kek.rest.model.Tenant;
@@ -62,13 +62,13 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
 
     @Override
     @ApiResponses({
-            @ApiResponse(code = 200, message = "The newly created order object", response = Order.class)})
+            @ApiResponse(code = 200, message = "The newly created order object", response = ListWrapperDto.class)})
     @ApiOperation(value = "Creates a new order", tags = {})
     @Produces({"application/vnd.softserve.orderList+json"})
     @Consumes({"application/vnd.softserve.orderList+json"})
     @Path("/orders/{customerGuid}")
     @POST
-    public OrderList addOrder(OrderList orderList, @CookieParam("JSESSIONID") String cookie)
+    public ListWrapperDto<Order> addOrder(ListWrapperDto<Order> orderList, @CookieParam("JSESSIONID") String cookie)
     {
         return ordersApi.addOrder(orderList, cookie);
     }
@@ -110,12 +110,12 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
 
     @Override
     @ApiResponses({
-            @ApiResponse(code = 200, message = "The order object", response = Order.class)})
+            @ApiResponse(code = 200, message = "The order object", response = ListWrapperDto.class)})
     @ApiOperation(value = "Searches for orders", tags = {})
     @Produces({"application/vnd.softserve.order+json"})
     @Path("/orders")
     @GET
-    public OrderList getOrderList()
+    public ListWrapperDto<Order> getOrderList()
     {
         return ordersApi.getOrderList();
     }

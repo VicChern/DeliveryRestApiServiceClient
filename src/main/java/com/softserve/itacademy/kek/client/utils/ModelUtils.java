@@ -8,11 +8,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import com.softserve.itacademy.kek.rest.model.Address;
 import com.softserve.itacademy.kek.rest.model.AddressList;
+import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.Order;
 import com.softserve.itacademy.kek.rest.model.OrderDetails;
 import com.softserve.itacademy.kek.rest.model.OrderEvent;
 import com.softserve.itacademy.kek.rest.model.OrderEventTypes;
-import com.softserve.itacademy.kek.rest.model.OrderList;
 import com.softserve.itacademy.kek.rest.model.Registration;
 import com.softserve.itacademy.kek.rest.model.Tenant;
 import com.softserve.itacademy.kek.rest.model.TenantDetails;
@@ -100,10 +100,8 @@ public class ModelUtils {
         return order;
     }
 
-    public static OrderList getSingletonOrderList(Order order) {
-        OrderList orderList = new OrderList();
-        orderList.setOrderList(Collections.singletonList(order));
-        return orderList;
+    public static ListWrapperDto<Order> getSingletonOrderList(Order order) {
+        return new ListWrapperDto<>(Collections.singletonList(order));
     }
 
     public static OrderEvent getOrderEvent(Order order, OrderEventTypes typeEnum) {

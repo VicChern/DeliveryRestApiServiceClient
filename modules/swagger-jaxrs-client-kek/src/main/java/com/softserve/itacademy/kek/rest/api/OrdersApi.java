@@ -1,25 +1,17 @@
 package com.softserve.itacademy.kek.rest.api;
 
+import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.Order;
 import com.softserve.itacademy.kek.rest.model.OrderEvent;
 import com.softserve.itacademy.kek.rest.model.OrderEventList;
-import com.softserve.itacademy.kek.rest.model.OrderList;
 import com.softserve.itacademy.kek.rest.model.ResponseEntity;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.List;
-import java.util.Map;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.MediaType;
-import org.apache.cxf.jaxrs.ext.multipart.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
-import io.swagger.jaxrs.PATCH;
 
 /**
  * KEK
@@ -59,12 +51,12 @@ public interface OrdersApi {
     @Produces({ "application/vnd.softserve.orderlist+json" })
     @ApiOperation(value = "addOrder", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = OrderList.class),
+        @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
         @ApiResponse(code = 201, message = "Created"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    public OrderList addOrder(OrderList newOrderList, @CookieParam("JSESSIONID") String cookie);
+    public ListWrapperDto<Order> addOrder(ListWrapperDto<Order> newOrderList, @CookieParam("JSESSIONID") String cookie);
 
     /**
      * deleteOrder
@@ -105,11 +97,11 @@ public interface OrdersApi {
     @Produces({ "application/vnd.softserve.orderlist+json" })
     @ApiOperation(value = "getOrderList", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = OrderList.class),
+        @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    public OrderList getOrderList();
+    public ListWrapperDto<Order> getOrderList();
 
     /**
      * getOrder
