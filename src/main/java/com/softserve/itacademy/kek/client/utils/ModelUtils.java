@@ -23,7 +23,7 @@ public class ModelUtils {
     public static User getUserWithName(String name) {
         User user = new User();
         user.setName(Optional.ofNullable(name).orElse(RandomStringUtils.randomAlphabetic(5)));
-        user.setEmail(RandomStringUtils.randomAlphabetic(8)+ "@gmail.com");
+        user.setEmail(RandomStringUtils.randomAlphabetic(8) + "@gmail.com");
         user.setNickname(RandomStringUtils.randomAlphabetic(7));
         user.setPhone(RandomStringUtils.randomNumeric(10));
         UserDetails userDetails = new UserDetails();
@@ -37,7 +37,7 @@ public class ModelUtils {
     public static Registration getRegistrationWithName(String name) {
         Registration registration = new Registration();
         registration.setName(Optional.ofNullable(name).orElse(RandomStringUtils.randomAlphabetic(5)));
-        registration.setEmail(RandomStringUtils.randomAlphabetic(8)+ "@gmail.com");
+        registration.setEmail(RandomStringUtils.randomAlphabetic(8) + "@gmail.com");
         registration.setNickname(RandomStringUtils.randomAlphabetic(7));
         registration.setPhone(RandomStringUtils.randomNumeric(10));
         registration.setPassword("Password1");

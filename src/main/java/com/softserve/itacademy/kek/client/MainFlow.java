@@ -19,14 +19,12 @@ import com.softserve.itacademy.kek.rest.model.Tenant;
 
 import static com.softserve.itacademy.kek.client.utils.ModelUtils.getRegistrationWithName;
 
-public class MainFlow
-{
+public class MainFlow {
     private final static Logger LOGGER = LoggerFactory.getLogger(MainFlow.class);
     private final static String HOST = "http://localhost:8080/api/v1";
     private final static KekRestClient KEK_API = new KekRestClient(HOST);
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         final Registration tenantRegistration = getRegistrationWithName("Tenant");
         TemporaryDto temporaryDto = KEK_API.userRegistration(tenantRegistration);
         String tenantUserGuid = temporaryDto.getUserGuid();

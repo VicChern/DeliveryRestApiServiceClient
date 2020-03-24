@@ -3,158 +3,165 @@ package com.softserve.itacademy.kek.rest.old.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 
-public class User  {
-  
-  @ApiModelProperty(value = "")
-  private String guid = null;
+public class User {
 
-  @ApiModelProperty(value = "")
-  private String name = null;
+    @ApiModelProperty(value = "")
+    private String guid = null;
 
-  @ApiModelProperty(value = "")
-  private String nickname = null;
+    @ApiModelProperty(value = "")
+    private String name = null;
 
-  @ApiModelProperty(value = "")
-  private String email = null;
+    @ApiModelProperty(value = "")
+    private String nickname = null;
 
-  @ApiModelProperty(value = "")
-  private String phone = null;
+    @ApiModelProperty(value = "")
+    private String email = null;
 
-  @ApiModelProperty(value = "")
-  private UserDetails details = null;
- /**
-   * Get guid
-   * @return guid
-  **/
-  @JsonProperty("guid")
-  public String getGuid() {
-    return guid;
-  }
+    @ApiModelProperty(value = "")
+    private String phone = null;
 
-  public void setGuid(String guid) {
-    this.guid = guid;
-  }
+    @ApiModelProperty(value = "")
+    private UserDetails details = null;
 
-  public User guid(String guid) {
-    this.guid = guid;
-    return this;
-  }
-
- /**
-   * Get name
-   * @return name
-  **/
-  @JsonProperty("name")
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public User name(String name) {
-    this.name = name;
-    return this;
-  }
-
- /**
-   * Get nickname
-   * @return nickname
-  **/
-  @JsonProperty("nickname")
-  public String getNickname() {
-    return nickname;
-  }
-
-  public void setNickname(String nickname) {
-    this.nickname = nickname;
-  }
-
-  public User nickname(String nickname) {
-    this.nickname = nickname;
-    return this;
-  }
-
- /**
-   * Get email
-   * @return email
-  **/
-  @JsonProperty("email")
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public User email(String email) {
-    this.email = email;
-    return this;
-  }
-
- /**
-   * Get phone
-   * @return phone
-  **/
-  @JsonProperty("phone")
-  public String getPhone() {
-    return phone;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-
-  public User phone(String phone) {
-    this.phone = phone;
-    return this;
-  }
-
- /**
-   * Get details
-   * @return details
-  **/
-  @JsonProperty("details")
-  public UserDetails getDetails() {
-    return details;
-  }
-
-  public void setDetails(UserDetails details) {
-    this.details = details;
-  }
-
-  public User details(UserDetails details) {
-    this.details = details;
-    return this;
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class User {\n");
-    
-    sb.append("    guid: ").append(toIndentedString(guid)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    nickname: ").append(toIndentedString(nickname)).append("\n");
-    sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
-    sb.append("    details: ").append(toIndentedString(details)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+    /**
+     * Get guid
+     *
+     * @return guid
+     **/
+    @JsonProperty("guid")
+    public String getGuid() {
+        return guid;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
+    }
+
+    public User guid(String guid) {
+        this.guid = guid;
+        return this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return name
+     **/
+    @JsonProperty("name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public User name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    /**
+     * Get nickname
+     *
+     * @return nickname
+     **/
+    @JsonProperty("nickname")
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public User nickname(String nickname) {
+        this.nickname = nickname;
+        return this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return email
+     **/
+    @JsonProperty("email")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public User email(String email) {
+        this.email = email;
+        return this;
+    }
+
+    /**
+     * Get phone
+     *
+     * @return phone
+     **/
+    @JsonProperty("phone")
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public User phone(String phone) {
+        this.phone = phone;
+        return this;
+    }
+
+    /**
+     * Get details
+     *
+     * @return details
+     **/
+    @JsonProperty("details")
+    public UserDetails getDetails() {
+        return details;
+    }
+
+    public void setDetails(UserDetails details) {
+        this.details = details;
+    }
+
+    public User details(UserDetails details) {
+        this.details = details;
+        return this;
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class User {\n");
+
+        sb.append("    guid: ").append(toIndentedString(guid)).append("\n");
+        sb.append("    name: ").append(toIndentedString(name)).append("\n");
+        sb.append("    nickname: ").append(toIndentedString(nickname)).append("\n");
+        sb.append("    email: ").append(toIndentedString(email)).append("\n");
+        sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
+        sb.append("    details: ").append(toIndentedString(details)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private static String toIndentedString(Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
 }
 

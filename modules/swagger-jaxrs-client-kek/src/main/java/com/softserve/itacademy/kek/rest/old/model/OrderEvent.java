@@ -3,7 +3,7 @@ package com.softserve.itacademy.kek.rest.old.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 
-public class OrderEvent  {
+public class OrderEvent {
 
     @ApiModelProperty(value = "")
     private String guid = null;
@@ -20,8 +20,10 @@ public class OrderEvent  {
 
     @ApiModelProperty(value = "")
     private String payload = null;
+
     /**
      * Get guid
+     *
      * @return guid
      **/
     @JsonProperty("guid")
@@ -40,6 +42,7 @@ public class OrderEvent  {
 
     /**
      * Get order
+     *
      * @return order
      **/
     @JsonProperty("order")
@@ -58,6 +61,7 @@ public class OrderEvent  {
 
     /**
      * order event type
+     *
      * @return type
      **/
     @JsonProperty("type")
@@ -79,6 +83,7 @@ public class OrderEvent  {
 
     /**
      * Get payload
+     *
      * @return payload
      **/
     @JsonProperty("payload")

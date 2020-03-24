@@ -33,6 +33,6 @@ public interface SseApi {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found")})
-    public SseEmitter trackOrderUsingGET(@PathParam("orderGuid") String orderGuid);
+    SseEmitter trackOrderUsingGET(@PathParam("orderGuid") String orderGuid);
 }
 
