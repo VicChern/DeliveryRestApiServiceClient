@@ -4,7 +4,6 @@ import com.softserve.itacademy.kek.rest.model.Address;
 import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.ResponseEntity;
 import com.softserve.itacademy.kek.rest.model.User;
-import com.softserve.itacademy.kek.rest.model.UserList;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -134,11 +133,11 @@ public interface UsersApi {
     @Produces({ "application/vnd.softserve.userlist+json" })
     @ApiOperation(value = "getUserList", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = UserList.class),
+        @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    public UserList getUserList();
+    public ListWrapperDto<User> getUserList();
 
     /**
      * getUser

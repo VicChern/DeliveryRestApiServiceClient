@@ -22,7 +22,6 @@ import com.softserve.itacademy.kek.rest.model.TemporaryDto;
 import com.softserve.itacademy.kek.rest.model.Tenant;
 import com.softserve.itacademy.kek.rest.model.TenantProperty;
 import com.softserve.itacademy.kek.rest.model.User;
-import com.softserve.itacademy.kek.rest.model.UserList;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -412,12 +411,14 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
 
     @Override
     @ApiResponses({
-            @ApiResponse(code = 200, message = "List of users", response = User.class, responseContainer = "List")})
+            @ApiResponse(code = 200, message = "List of users",
+                    response = ListWrapperDto.class,
+                    responseContainer = "List")})
     @ApiOperation(value = "Searches for users", tags = {})
-    @Produces({"application/vnd.softserve.user+json"})
+    @Produces({"application/vnd.softserve.userList+json"})
     @Path("/users")
     @GET
-    public UserList getUserList()
+    public ListWrapperDto<User> getUserList()
     {
         return usersApi.getUserList();
     }
