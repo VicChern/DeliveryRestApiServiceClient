@@ -14,7 +14,6 @@ import com.softserve.itacademy.kek.rest.api.RegistrationApi;
 import com.softserve.itacademy.kek.rest.api.TenantsApi;
 import com.softserve.itacademy.kek.rest.api.UsersApi;
 import com.softserve.itacademy.kek.rest.model.Address;
-import com.softserve.itacademy.kek.rest.model.AddressList;
 import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.Order;
 import com.softserve.itacademy.kek.rest.model.OrderEvent;
@@ -150,11 +149,11 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
     @ApiResponses({
             @ApiResponse(code = 200, message = "List of added tenant addresses", response = Address.class, responseContainer = "List")})
     @ApiOperation(value = "Adds a new addresses", tags = {})
-    @Produces({"application/vnd.softserve.address+json"})
-    @Consumes({"application/vnd.softserve.address+json"})
+    @Produces({"application/vnd.softserve.addressList+json"})
+    @Consumes({"application/vnd.softserve.addressList+json"})
     @Path("/tenants/{guid}/addresses")
     @POST
-    public AddressList addTenantAddresses(String guid, AddressList addresses)
+    public ListWrapperDto<Address> addTenantAddresses(String guid, ListWrapperDto<Address> addresses)
     {
         return tenantsApi.addTenantAddresses(guid, addresses);
     }
@@ -231,12 +230,14 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
 
     @Override
     @ApiResponses({
-            @ApiResponse(code = 200, message = "List of tenant addresses", response = Address.class, responseContainer = "List")})
+            @ApiResponse(code = 200, message = "List of tenant addresses",
+                    response = ListWrapperDto.class,
+                    responseContainer = "List")})
     @ApiOperation(value = "Finds addressess of the specific tenant", tags = {})
-    @Produces({"application/vnd.softserve.address+json"})
+    @Produces({"application/vnd.softserve.addressList+json"})
     @Path("/tenants/{guid}/addresses")
     @GET
-    public AddressList getTenantAddresses(String guid)
+    public ListWrapperDto<Address> getTenantAddresses(String guid)
     {
         return tenantsApi.getTenantAddresses(guid);
     }
@@ -331,13 +332,15 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
 
     @Override
     @ApiResponses({
-            @ApiResponse(code = 200, message = "List of added user addresses", response = Address.class, responseContainer = "List")})
+            @ApiResponse(code = 200, message = "List of added user addresses",
+                    response = ListWrapperDto.class,
+                    responseContainer = "List")})
     @ApiOperation(value = "Adds a new addresses", tags = {})
     @Produces({"application/vnd.softserve.addressList+json"})
     @Consumes({"application/vnd.softserve.addressList+json"})
     @Path("/users/{guid}/addresses")
     @POST
-    public AddressList addUserAddresses(String guid, AddressList addresses)
+    public ListWrapperDto<Address> addUserAddresses(String guid, ListWrapperDto<Address> addresses)
     {
         return usersApi.addUserAddresses(guid, addresses);
     }
@@ -390,12 +393,14 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
 
     @Override
     @ApiResponses({
-            @ApiResponse(code = 200, message = "List of user addresses", response = Address.class, responseContainer = "List")})
+            @ApiResponse(code = 200, message = "List of user addresses",
+                    response = ListWrapperDto.class,
+                    responseContainer = "List")})
     @ApiOperation(value = "Finds addressess of the specific user", tags = {})
-    @Produces({"application/vnd.softserve.address+json"})
+    @Produces({"application/vnd.softserve.addressList+json"})
     @Path("/users/{guid}/addresses")
     @GET
-    public AddressList getUserAddresses(String guid)
+    public ListWrapperDto<Address> getUserAddresses(String guid)
     {
         return usersApi.getUserAddresses(guid);
     }

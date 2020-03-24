@@ -1,14 +1,13 @@
 package com.softserve.itacademy.kek.rest.api;
 
 import com.softserve.itacademy.kek.rest.model.Address;
-import com.softserve.itacademy.kek.rest.model.AddressList;
+import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.ResponseEntity;
 import com.softserve.itacademy.kek.rest.model.Tenant;
 import com.softserve.itacademy.kek.rest.model.TenantList;
 import com.softserve.itacademy.kek.rest.model.TenantProperty;
 import com.softserve.itacademy.kek.rest.model.TenantPropertyList;
 
-import java.util.Map;
 import javax.ws.rs.*;
 
 import io.swagger.annotations.Api;
@@ -32,16 +31,16 @@ public interface TenantsApi {
      */
     @POST
     @Path("/tenants/{guid}/addresses")
-    @Consumes({ "application/vnd.softserve.address+json" })
-    @Produces({ "application/vnd.softserve.address+json" })
+    @Consumes({ "application/vnd.softserve.addressList+json" })
+    @Produces({ "application/vnd.softserve.addressList+json" })
     @ApiOperation(value = "addTenantAddresses", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = AddressList.class),
+        @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
         @ApiResponse(code = 201, message = "Created"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    public AddressList addTenantAddresses(@PathParam("guid") String guid, AddressList newAddresses);
+    public ListWrapperDto<Address> addTenantAddresses(@PathParam("guid") String guid, ListWrapperDto<Address> newAddresses);
 
     /**
      * addTenantProperties
@@ -143,14 +142,14 @@ public interface TenantsApi {
      */
     @GET
     @Path("/tenants/{guid}/addresses")
-    @Produces({ "application/vnd.softserve.addresslist+json" })
+    @Produces({ "application/vnd.softserve.addressList+json" })
     @ApiOperation(value = "getTenantAddresses", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = AddressList.class),
+        @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    public AddressList getTenantAddresses(@PathParam("guid") String guid);
+    public ListWrapperDto<Address> getTenantAddresses(@PathParam("guid") String guid);
 
     /**
      * getTenantList

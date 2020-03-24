@@ -1,7 +1,7 @@
 package com.softserve.itacademy.kek.rest.api;
 
 import com.softserve.itacademy.kek.rest.model.Address;
-import com.softserve.itacademy.kek.rest.model.AddressList;
+import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.ResponseEntity;
 import com.softserve.itacademy.kek.rest.model.User;
 import com.softserve.itacademy.kek.rest.model.UserList;
@@ -37,16 +37,16 @@ public interface UsersApi {
      */
     @POST
     @Path("/users/{guid}/addresses")
-    @Consumes({ "application/vnd.softserve.addresslist+json" })
-    @Produces({ "application/vnd.softserve.addresslist+json" })
+    @Consumes({ "application/vnd.softserve.addressList+json" })
+    @Produces({ "application/vnd.softserve.addressList+json" })
     @ApiOperation(value = "addUserAddresses", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = AddressList.class),
+        @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
         @ApiResponse(code = 201, message = "Created"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    public AddressList addUserAddresses(@PathParam("guid") String guid, AddressList newAddresses);
+    public ListWrapperDto<Address> addUserAddresses(@PathParam("guid") String guid, ListWrapperDto<Address> newAddresses);
 
     /**
      * addUser
@@ -116,14 +116,14 @@ public interface UsersApi {
      */
     @GET
     @Path("/users/{guid}/addresses")
-    @Produces({ "application/vnd.softserve.addresslist+json" })
+    @Produces({ "application/vnd.softserve.addressList+json" })
     @ApiOperation(value = "getUserAddresses", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = AddressList.class),
+        @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    public AddressList getUserAddresses(@PathParam("guid") String guid);
+    public ListWrapperDto<Address> getUserAddresses(@PathParam("guid") String guid);
 
     /**
      * getUserList

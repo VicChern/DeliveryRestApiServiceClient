@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import com.softserve.itacademy.kek.rest.model.Address;
-import com.softserve.itacademy.kek.rest.model.AddressList;
 import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.Order;
 import com.softserve.itacademy.kek.rest.model.OrderDetails;
@@ -46,10 +45,8 @@ public class ModelUtils {
     }
 
 
-    public static AddressList getAddresses() {
-        AddressList addressList = new AddressList();
-        addressList.setAddressList(List.of(getAddress(), getAddress()));
-        return addressList;
+    public static ListWrapperDto<Address> getAddresses() {
+        return new ListWrapperDto<>(List.of(getAddress(), getAddress()));
     }
 
     public static Address getAddress() {
