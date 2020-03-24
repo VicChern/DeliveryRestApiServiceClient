@@ -3,7 +3,6 @@ package com.softserve.itacademy.kek.rest.api;
 import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.Order;
 import com.softserve.itacademy.kek.rest.model.OrderEvent;
-import com.softserve.itacademy.kek.rest.model.OrderEventList;
 import com.softserve.itacademy.kek.rest.model.ResponseEntity;
 
 import javax.ws.rs.*;
@@ -82,11 +81,11 @@ public interface OrdersApi {
     @Produces({ "application/vnd.softserve.eventlist+json" })
     @ApiOperation(value = "getEvents", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = OrderEventList.class),
+        @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    public OrderEventList getEvents(@PathParam("guid") String guid);
+    public ListWrapperDto<OrderEvent> getEvents(@PathParam("guid") String guid);
 
     /**
      * getOrderList

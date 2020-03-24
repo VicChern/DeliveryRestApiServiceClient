@@ -17,7 +17,6 @@ import com.softserve.itacademy.kek.rest.model.Address;
 import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.Order;
 import com.softserve.itacademy.kek.rest.model.OrderEvent;
-import com.softserve.itacademy.kek.rest.model.OrderEventList;
 import com.softserve.itacademy.kek.rest.model.Registration;
 import com.softserve.itacademy.kek.rest.model.TemporaryDto;
 import com.softserve.itacademy.kek.rest.model.Tenant;
@@ -85,12 +84,14 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
 
     @Override
     @ApiResponses({
-            @ApiResponse(code = 200, message = "The list of order event objects", response = OrderEvent.class, responseContainer = "List")})
+            @ApiResponse(code = 200, message = "The list of order event objects",
+                    response = ListWrapperDto.class,
+                    responseContainer = "List")})
     @ApiOperation(value = "Finds the specific order events", tags = {})
-    @Produces({"application/vnd.softserve.event+json"})
+    @Produces({"application/vnd.softserve.eventList+json"})
     @Path("/orders/{guid}/events")
     @GET
-    public OrderEventList getEvents(String guid)
+    public ListWrapperDto<OrderEvent> getEvents(String guid)
     {
         return ordersApi.getEvents(guid);
     }
