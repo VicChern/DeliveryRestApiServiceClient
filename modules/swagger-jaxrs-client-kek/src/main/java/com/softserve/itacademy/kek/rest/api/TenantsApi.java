@@ -5,7 +5,6 @@ import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.ResponseEntity;
 import com.softserve.itacademy.kek.rest.model.Tenant;
 import com.softserve.itacademy.kek.rest.model.TenantProperty;
-import com.softserve.itacademy.kek.rest.model.TenantPropertyList;
 
 import javax.ws.rs.*;
 
@@ -51,12 +50,13 @@ public interface TenantsApi {
     @Produces({ "application/vnd.softserve.tenantproperty+json" })
     @ApiOperation(value = "addTenantProperties", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = TenantPropertyList.class),
+        @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
         @ApiResponse(code = 201, message = "Created"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    public TenantPropertyList addTenantProperties(@PathParam("guid") String guid, TenantPropertyList tenantPropertiesList);
+    public ListWrapperDto<TenantProperty> addTenantProperties(@PathParam("guid") String guid,
+                                                              ListWrapperDto<TenantProperty> tenantPropertiesList);
 
     /**
      * addTenant
@@ -174,11 +174,11 @@ public interface TenantsApi {
     @Produces({ "application/vnd.softserve.tenantproperty+json" })
     @ApiOperation(value = "getTenantProperties", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = TenantPropertyList.class),
+        @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    public TenantPropertyList getTenantProperties(@PathParam("guid") String guid);
+    public ListWrapperDto<TenantProperty> getTenantProperties(@PathParam("guid") String guid);
 
     /**
      * getTenantProperty

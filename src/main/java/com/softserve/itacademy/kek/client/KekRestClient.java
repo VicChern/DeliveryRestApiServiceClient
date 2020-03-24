@@ -21,7 +21,6 @@ import com.softserve.itacademy.kek.rest.model.Registration;
 import com.softserve.itacademy.kek.rest.model.TemporaryDto;
 import com.softserve.itacademy.kek.rest.model.Tenant;
 import com.softserve.itacademy.kek.rest.model.TenantProperty;
-import com.softserve.itacademy.kek.rest.model.TenantPropertyList;
 import com.softserve.itacademy.kek.rest.model.User;
 import com.softserve.itacademy.kek.rest.model.UserList;
 
@@ -160,13 +159,15 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
 
     @Override
     @ApiResponses({
-            @ApiResponse(code = 200, message = "List of added tenant properties", response = TenantProperty.class, responseContainer = "List")})
+            @ApiResponse(code = 200, message = "List of added tenant properties",
+                    response = ListWrapperDto.class,
+                    responseContainer = "List")})
     @ApiOperation(value = "Adds tenant properties", tags = {})
     @Produces({"application/vnd.softserve.tenantproperty+json"})
     @Consumes({"application/vnd.softserve.tenantproperty+json"})
     @Path("/tenants/{guid}/properties")
     @POST
-    public TenantPropertyList addTenantProperties(String guid, TenantPropertyList properties)
+    public ListWrapperDto<TenantProperty> addTenantProperties(String guid, ListWrapperDto<TenantProperty> properties)
     {
         return tenantsApi.addTenantProperties(guid, properties);
     }
@@ -258,12 +259,14 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
 
     @Override
     @ApiResponses({
-            @ApiResponse(code = 200, message = "List of tenant properties", response = TenantProperty.class, responseContainer = "List")})
+            @ApiResponse(code = 200, message = "List of tenant properties",
+                    response = ListWrapperDto.class,
+                    responseContainer = "List")})
     @ApiOperation(value = "Finds properties of the specific tenant", tags = {})
     @Produces({"application/vnd.softserve.tenantproperty+json"})
     @Path("/tenants/{guid}/properties")
     @GET
-    public TenantPropertyList getTenantProperties(String guid)
+    public ListWrapperDto<TenantProperty> getTenantProperties(String guid)
     {
         return tenantsApi.getTenantProperties(guid);
     }
