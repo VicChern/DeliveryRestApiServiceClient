@@ -13,6 +13,17 @@ public class IPropertyType {
     private String schema = null;
 
     /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private static String toIndentedString(java.lang.Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
+
+    /**
      * Get name
      *
      * @return name
@@ -50,7 +61,6 @@ public class IPropertyType {
         return this;
     }
 
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -60,17 +70,6 @@ public class IPropertyType {
         sb.append("    schema: ").append(toIndentedString(schema)).append("\n");
         sb.append("}");
         return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private static String toIndentedString(java.lang.Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
     }
 }
 

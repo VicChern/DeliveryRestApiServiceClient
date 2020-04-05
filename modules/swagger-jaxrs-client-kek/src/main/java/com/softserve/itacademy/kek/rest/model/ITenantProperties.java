@@ -18,6 +18,17 @@ public class ITenantProperties {
     private String value = null;
 
     /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private static String toIndentedString(java.lang.Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
+
+    /**
      * Get guid
      *
      * @return guid
@@ -93,7 +104,6 @@ public class ITenantProperties {
         return this;
     }
 
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -105,17 +115,6 @@ public class ITenantProperties {
         sb.append("    value: ").append(toIndentedString(value)).append("\n");
         sb.append("}");
         return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private static String toIndentedString(java.lang.Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
     }
 }
 

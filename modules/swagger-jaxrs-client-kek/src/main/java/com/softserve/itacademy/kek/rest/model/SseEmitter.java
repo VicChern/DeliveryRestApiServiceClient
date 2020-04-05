@@ -10,6 +10,17 @@ public class SseEmitter {
     private Long timeout = null;
 
     /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private static String toIndentedString(java.lang.Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
+
+    /**
      * Get timeout
      *
      * @return timeout
@@ -28,7 +39,6 @@ public class SseEmitter {
         return this;
     }
 
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -37,17 +47,6 @@ public class SseEmitter {
         sb.append("    timeout: ").append(toIndentedString(timeout)).append("\n");
         sb.append("}");
         return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private static String toIndentedString(java.lang.Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
     }
 }
 

@@ -27,6 +27,17 @@ public class Registration {
     private IUserDetails userDetails = null;
 
     /**
+     * Convert the given object to string with each line indented by 4 spaces
+     * (except the first line).
+     */
+    private static String toIndentedString(java.lang.Object o) {
+        if (o == null) {
+            return "null";
+        }
+        return o.toString().replace("\n", "\n    ");
+    }
+
+    /**
      * Get email
      *
      * @return email
@@ -159,7 +170,6 @@ public class Registration {
         return this;
     }
 
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -174,17 +184,6 @@ public class Registration {
         sb.append("    userDetails: ").append(toIndentedString(userDetails)).append("\n");
         sb.append("}");
         return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private static String toIndentedString(java.lang.Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
     }
 }
 

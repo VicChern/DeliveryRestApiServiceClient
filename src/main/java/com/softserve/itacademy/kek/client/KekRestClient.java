@@ -1,7 +1,6 @@
 package com.softserve.itacademy.kek.client;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -10,12 +9,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import java.util.Map;
-
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.Authorization;
 
 import com.softserve.itacademy.kek.rest.api.AuthApi;
 import com.softserve.itacademy.kek.rest.api.OrdersApi;
@@ -448,37 +444,35 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
 
     /**
      * signIn
-     *
      */
     @POST
     @Path("/signin")
-    @Consumes({ "application/vnd.softserve.signin+json" })
-    @Produces({ "application/vnd.softserve.token+json" })
-    @ApiOperation(value = "signIn", tags={  })
+    @Consumes({"application/vnd.softserve.signin+json"})
+    @Produces({"application/vnd.softserve.token+json"})
+    @ApiOperation(value = "signIn", tags = {})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
             @ApiResponse(code = 201, message = "Created"),
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
-            @ApiResponse(code = 404, message = "Not Found") })
+            @ApiResponse(code = 404, message = "Not Found")})
     public Token signIn(SignIn signInData) {
         return signInApi.signIn(signInData);
     }
 
     /**
      * profile
-     *
      */
     @GET
     @Path("/profile")
-    @Produces({ "application/vnd.softserve.user+json" })
-    @ApiOperation(value = "profile", tags={  })
+    @Produces({"application/vnd.softserve.user+json"})
+    @ApiOperation(value = "profile", tags = {})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = User.class),
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
-            @ApiResponse(code = 404, message = "Not Found") })
-    public User profile(@HeaderParam("Authorization") String token){
+            @ApiResponse(code = 404, message = "Not Found")})
+    public User profile(@HeaderParam("Authorization") String token) {
         return authApi.profile(token);
     }
 

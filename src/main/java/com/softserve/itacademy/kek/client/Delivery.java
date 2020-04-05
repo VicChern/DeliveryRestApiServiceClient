@@ -27,17 +27,17 @@ public class Delivery implements Runnable {
     private String token;
     private volatile boolean completed;
 
-    public Delivery(Order order, String token) {
-        this.order = order;
-        this.token = token;
-    }
-
     {
         try (BufferedReader br = Files.newBufferedReader(Paths.get(ROUTE_TXT))) {
             geolocations = br.lines().collect(Collectors.toCollection(LinkedList::new));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Delivery(Order order, String token) {
+        this.order = order;
+        this.token = token;
     }
 
     @Override
@@ -63,11 +63,11 @@ public class Delivery implements Runnable {
         }
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
     public boolean getCompleted() {
         return this.completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 }

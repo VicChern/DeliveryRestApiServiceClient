@@ -1,10 +1,5 @@
 package com.softserve.itacademy.kek.client;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.sse.SseEventSource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,11 +8,8 @@ import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.Order;
 import com.softserve.itacademy.kek.rest.model.OrderEvent;
 import com.softserve.itacademy.kek.rest.model.OrderEventTypes;
-
 import com.softserve.itacademy.kek.rest.model.Registration;
-import com.softserve.itacademy.kek.rest.model.ResponseEntity;
 import com.softserve.itacademy.kek.rest.model.SignIn;
-import com.softserve.itacademy.kek.rest.model.TemporaryDto;
 import com.softserve.itacademy.kek.rest.model.Tenant;
 import com.softserve.itacademy.kek.rest.model.Token;
 import com.softserve.itacademy.kek.rest.model.User;
@@ -100,7 +92,7 @@ public class MainFlow {
         //System automatically added actor (user_guid(currier)) and role CURRIER (this step only if CURRIER is changed to another user)
         Delivery delivery = new Delivery(order, currierToken.getToken());
         Thread deliveryThread = new Thread(delivery);
-     // deliveryThread.setDaemon(true);
+        // deliveryThread.setDaemon(true);
         deliveryThread.start();
 
         // to delivery process will be started (add an order event)
