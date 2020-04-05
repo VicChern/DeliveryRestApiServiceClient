@@ -4,6 +4,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -77,7 +78,7 @@ public interface TenantsApi {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found")})
-    Tenant addTenant(Tenant tenant, @CookieParam("JSESSIONID") String cookie);
+    Tenant addTenant(Tenant tenant, @HeaderParam("Authorization") String token);
 
     /**
      * deleteTenantAddress

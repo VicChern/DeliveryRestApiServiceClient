@@ -1,6 +1,7 @@
 package com.softserve.itacademy.kek.rest.api;
 
-import com.softserve.itacademy.kek.rest.model.User;
+import com.softserve.itacademy.kek.rest.model.SignIn;
+import com.softserve.itacademy.kek.rest.model.Token;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,21 +26,23 @@ import io.swagger.jaxrs.PATCH;
  */
 @Path("/")
 @Api(value = "/", description = "")
-public interface AuthApi  {
+public interface SignInApi  {
 
     /**
-     * profile
+     * signIn
      *
      */
-    @GET
-    @Path("/profile")
-    @Produces({ "application/vnd.softserve.user+json" })
-    @ApiOperation(value = "profile", tags={  })
+    @POST
+    @Path("/signin")
+    @Consumes({ "application/vnd.softserve.signin+json" })
+    @Produces({ "application/vnd.softserve.token+json" })
+    @ApiOperation(value = "signIn", tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = User.class),
+        @ApiResponse(code = 200, message = "OK", response = Token.class),
+        @ApiResponse(code = 201, message = "Created"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    public User profile(@HeaderParam("Authorization") String token);
+    public Token signIn(SignIn signInData);
 }
 

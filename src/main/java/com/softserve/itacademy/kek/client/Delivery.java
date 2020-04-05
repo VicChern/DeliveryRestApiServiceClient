@@ -24,12 +24,12 @@ public class Delivery implements Runnable {
     private final static OrdersApi ordersApi = RestClientFactory.createRestApiClient(OrdersApi.class, HOST);
     private Queue<String> geolocations = new LinkedList<>();
     private Order order;
-    private String sessionId;
+    private String token;
     private volatile boolean completed;
 
-    public Delivery(Order order, String sessionId) {
+    public Delivery(Order order, String token) {
         this.order = order;
-        this.sessionId = sessionId;
+        this.token = token;
     }
 
     {
@@ -55,7 +55,7 @@ public class Delivery implements Runnable {
 
             final OrderEvent event = ordersApi.addEvent(order.getGuid(),
                     ModelUtils.getOrderEvent(order, OrderEventTypes.STARTED, payload),
-                    sessionId);
+                    token);
 
             LOGGER.info("\n\n DELIVERY: Added new event {} for orderGuid={}", event, order.getGuid());
 

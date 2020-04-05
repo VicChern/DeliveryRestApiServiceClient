@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 import com.softserve.itacademy.kek.rest.model.Registration;
-import com.softserve.itacademy.kek.rest.model.TemporaryDto;
 
 /**
  * KEK
@@ -37,6 +36,6 @@ public interface RegistrationApi {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found")})
-    TemporaryDto userRegistration(Registration userData);
+    void userRegistration(Registration userData);
 }
 

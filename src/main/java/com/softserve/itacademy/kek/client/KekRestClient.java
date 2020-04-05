@@ -4,17 +4,23 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import java.util.Map;
+
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
 
+import com.softserve.itacademy.kek.rest.api.AuthApi;
 import com.softserve.itacademy.kek.rest.api.OrdersApi;
 import com.softserve.itacademy.kek.rest.api.RegistrationApi;
+import com.softserve.itacademy.kek.rest.api.SignInApi;
 import com.softserve.itacademy.kek.rest.api.TenantsApi;
 import com.softserve.itacademy.kek.rest.api.UsersApi;
 import com.softserve.itacademy.kek.rest.model.Address;
@@ -22,22 +28,28 @@ import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.Order;
 import com.softserve.itacademy.kek.rest.model.OrderEvent;
 import com.softserve.itacademy.kek.rest.model.Registration;
-import com.softserve.itacademy.kek.rest.model.TemporaryDto;
+import com.softserve.itacademy.kek.rest.model.ResponseEntity;
+import com.softserve.itacademy.kek.rest.model.SignIn;
 import com.softserve.itacademy.kek.rest.model.Tenant;
 import com.softserve.itacademy.kek.rest.model.TenantProperty;
+import com.softserve.itacademy.kek.rest.model.Token;
 import com.softserve.itacademy.kek.rest.model.User;
 
-public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, RegistrationApi {
+public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, RegistrationApi, SignInApi, AuthApi {
     private OrdersApi ordersApi;
     private TenantsApi tenantsApi;
     private UsersApi usersApi;
     private RegistrationApi registrationApi;
+    private SignInApi signInApi;
+    private AuthApi authApi;
 
     public KekRestClient(String endpointUrl) {
         this.ordersApi = RestClientFactory.createRestApiClient(OrdersApi.class, endpointUrl);
         this.tenantsApi = RestClientFactory.createRestApiClient(TenantsApi.class, endpointUrl);
         this.usersApi = RestClientFactory.createRestApiClient(UsersApi.class, endpointUrl);
         this.registrationApi = RestClientFactory.createRestApiClient(RegistrationApi.class, endpointUrl);
+        this.signInApi = RestClientFactory.createRestApiClient(SignInApi.class, endpointUrl);
+        this.authApi = RestClientFactory.createRestApiClient(AuthApi.class, endpointUrl);
     }
 
     @Override
@@ -48,8 +60,8 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
     @Consumes({"application/vnd.softserve.event+json"})
     @Path("/orders/{orderGuid}/{actorGuid}/events")
     @POST
-    public OrderEvent addEvent(String orderGuid, OrderEvent event, @CookieParam("JSESSIONID") String cookie) {
-        return ordersApi.addEvent(orderGuid, event, cookie);
+    public OrderEvent addEvent(String orderGuid, OrderEvent event, @HeaderParam("Authorization") String token) {
+        return ordersApi.addEvent(orderGuid, event, token);
     }
 
     @Override
@@ -60,8 +72,8 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
     @Consumes({"application/vnd.softserve.orderList+json"})
     @Path("/orders/{customerGuid}")
     @POST
-    public ListWrapperDto<Order> addOrder(ListWrapperDto<Order> orderList, @CookieParam("JSESSIONID") String cookie) {
-        return ordersApi.addOrder(orderList, cookie);
+    public ListWrapperDto<Order> addOrder(ListWrapperDto<Order> orderList, @HeaderParam("Authorization") String token) {
+        return ordersApi.addOrder(orderList, token);
     }
 
     @Override
@@ -129,8 +141,8 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
     @Consumes({"application/vnd.softserve.tenant+json"})
     @Path("/tenants")
     @POST
-    public Tenant addTenant(Tenant tenant, @CookieParam("JSESSIONID") String cookie) {
-        return tenantsApi.addTenant(tenant, cookie);
+    public Tenant addTenant(Tenant tenant, @HeaderParam("Authorization") String token) {
+        return tenantsApi.addTenant(tenant, token);
     }
 
     @Override
@@ -430,7 +442,44 @@ public class KekRestClient implements OrdersApi, TenantsApi, UsersApi, Registrat
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found")})
-    public TemporaryDto userRegistration(Registration userData) {
-        return registrationApi.userRegistration(userData);
+    public void userRegistration(Registration userData) {
+        registrationApi.userRegistration(userData);
     }
+
+    /**
+     * signIn
+     *
+     */
+    @POST
+    @Path("/signin")
+    @Consumes({ "application/vnd.softserve.signin+json" })
+    @Produces({ "application/vnd.softserve.token+json" })
+    @ApiOperation(value = "signIn", tags={  })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found") })
+    public Token signIn(SignIn signInData) {
+        return signInApi.signIn(signInData);
+    }
+
+    /**
+     * profile
+     *
+     */
+    @GET
+    @Path("/profile")
+    @Produces({ "application/vnd.softserve.user+json" })
+    @ApiOperation(value = "profile", tags={  })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = User.class),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found") })
+    public User profile(@HeaderParam("Authorization") String token){
+        return authApi.profile(token);
+    }
+
 }

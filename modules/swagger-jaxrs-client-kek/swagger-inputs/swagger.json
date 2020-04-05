@@ -9,23 +9,35 @@
   "basePath": "/api/v1",
   "tags": [
     {
-      "name": "auth-controller",
+      "name": "auth",
       "description": "Auth Controller"
     },
     {
-      "name": "order-controller",
+      "name": "order",
       "description": "Order Controller"
     },
     {
-      "name": "sse-controller",
+      "name": "registration",
+      "description": "Registration Controller"
+    },
+    {
+      "name": "sign-in",
+      "description": "Sign In Controller"
+    },
+    {
+      "name": "sse",
       "description": "Sse Controller"
     },
     {
-      "name": "tenant-controller",
+      "name": "statistics",
+      "description": "Statistics Controller"
+    },
+    {
+      "name": "tenant",
       "description": "Tenant Controller"
     },
     {
-      "name": "user-controller",
+      "name": "user",
       "description": "User Controller"
     }
   ],
@@ -33,10 +45,10 @@
     "/callback": {
       "get": {
         "tags": [
-          "auth-controller"
+          "auth"
         ],
         "summary": "getCallback",
-        "operationId": "getCallbackUsingGET",
+        "operationId": "getCallback",
         "produces": [
           "*/*"
         ],
@@ -58,7 +70,7 @@
       },
       "head": {
         "tags": [
-          "auth-controller"
+          "auth"
         ],
         "summary": "getCallback",
         "operationId": "getCallbackUsingHEAD",
@@ -86,10 +98,10 @@
       },
       "post": {
         "tags": [
-          "auth-controller"
+          "auth"
         ],
         "summary": "getCallback",
-        "operationId": "getCallbackUsingPOST",
+        "operationId": "getCallback",
         "consumes": [
           "application/json"
         ],
@@ -117,10 +129,10 @@
       },
       "put": {
         "tags": [
-          "auth-controller"
+          "auth"
         ],
         "summary": "getCallback",
-        "operationId": "getCallbackUsingPUT",
+        "operationId": "getCallback",
         "consumes": [
           "application/json"
         ],
@@ -148,10 +160,10 @@
       },
       "delete": {
         "tags": [
-          "auth-controller"
+          "auth"
         ],
         "summary": "getCallback",
-        "operationId": "getCallbackUsingDELETE",
+        "operationId": "getCallback",
         "produces": [
           "*/*"
         ],
@@ -173,7 +185,7 @@
       },
       "options": {
         "tags": [
-          "auth-controller"
+          "auth"
         ],
         "summary": "getCallback",
         "operationId": "getCallbackUsingOPTIONS",
@@ -201,7 +213,7 @@
       },
       "patch": {
         "tags": [
-          "auth-controller"
+          "auth"
         ],
         "summary": "getCallback",
         "operationId": "getCallbackUsingPATCH",
@@ -231,10 +243,10 @@
     "/login": {
       "get": {
         "tags": [
-          "auth-controller"
+          "auth"
         ],
         "summary": "login",
-        "operationId": "loginUsingGET",
+        "operationId": "login",
         "produces": [
           "*/*"
         ],
@@ -258,21 +270,18 @@
     "/orders": {
       "get": {
         "tags": [
-          "order-controller"
+          "order"
         ],
         "summary": "getOrderList",
-        "operationId": "getOrderListUsingGET",
+        "operationId": "getOrderList",
         "produces": [
-          "application/vnd.softserve.order+json"
+          "application/vnd.softserve.orderlist+json"
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/OrderDto"
-              }
+              "$ref": "#/definitions/ListWrapper«Order»"
             }
           },
           "401": {
@@ -289,24 +298,24 @@
       },
       "post": {
         "tags": [
-          "order-controller"
+          "order"
         ],
         "summary": "addOrder",
-        "operationId": "addOrderUsingPOST",
+        "operationId": "addOrder",
         "consumes": [
-          "application/json"
+          "application/vnd.softserve.orderlist+json"
         ],
         "produces": [
-          "*/*"
+          "application/vnd.softserve.orderlist+json"
         ],
         "parameters": [
           {
             "in": "body",
-            "name": "order",
-            "description": "order",
+            "name": "newOrderList",
+            "description": "newOrderList",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/OrderDto"
+              "$ref": "#/definitions/ListWrapper«Order»"
             }
           }
         ],
@@ -314,7 +323,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/OrderDto"
+              "$ref": "#/definitions/ListWrapper«Order»"
             }
           },
           "201": {
@@ -333,21 +342,21 @@
         "deprecated": false
       }
     },
-    "/orders/{id}": {
+    "/orders/{guid}": {
       "get": {
         "tags": [
-          "order-controller"
+          "order"
         ],
         "summary": "getOrder",
-        "operationId": "getOrderUsingGET",
+        "operationId": "getOrder",
         "produces": [
           "application/vnd.softserve.order+json"
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "guid",
             "in": "path",
-            "description": "id",
+            "description": "guid",
             "required": true,
             "type": "string"
           }
@@ -356,7 +365,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/OrderDto"
+              "$ref": "#/definitions/Order"
             }
           },
           "401": {
@@ -373,10 +382,10 @@
       },
       "put": {
         "tags": [
-          "order-controller"
+          "order"
         ],
         "summary": "modifyOrder",
-        "operationId": "modifyOrderUsingPUT",
+        "operationId": "modifyOrder",
         "consumes": [
           "application/vnd.softserve.order+json"
         ],
@@ -385,9 +394,9 @@
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "guid",
             "in": "path",
-            "description": "id",
+            "description": "guid",
             "required": true,
             "type": "string"
           },
@@ -397,7 +406,7 @@
             "description": "order",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/OrderDto"
+              "$ref": "#/definitions/Order"
             }
           }
         ],
@@ -405,7 +414,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/OrderDto"
+              "$ref": "#/definitions/Order"
             }
           },
           "201": {
@@ -425,18 +434,18 @@
       },
       "delete": {
         "tags": [
-          "order-controller"
+          "order"
         ],
         "summary": "deleteOrder",
-        "operationId": "deleteOrderUsingDELETE",
+        "operationId": "deleteOrder",
         "produces": [
           "*/*"
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "guid",
             "in": "path",
-            "description": "id",
+            "description": "guid",
             "required": true,
             "type": "string"
           }
@@ -461,21 +470,21 @@
         "deprecated": false
       }
     },
-    "/orders/{id}/events": {
+    "/orders/{guid}/events": {
       "get": {
         "tags": [
-          "order-controller"
+          "order"
         ],
         "summary": "getEvents",
-        "operationId": "getEventsUsingGET",
+        "operationId": "getEvents",
         "produces": [
-          "application/vnd.softserve.event+json"
+          "application/vnd.softserve.eventlist+json"
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "guid",
             "in": "path",
-            "description": "id",
+            "description": "guid",
             "required": true,
             "type": "string"
           }
@@ -484,10 +493,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/OrderEventDto"
-              }
+              "$ref": "#/definitions/ListWrapper«OrderEvent»"
             }
           },
           "401": {
@@ -504,10 +510,10 @@
       },
       "post": {
         "tags": [
-          "order-controller"
+          "order"
         ],
         "summary": "addEvent",
-        "operationId": "addEventUsingPOST",
+        "operationId": "addEvent",
         "consumes": [
           "application/vnd.softserve.event+json"
         ],
@@ -516,23 +522,29 @@
         ],
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/OrderEventDto"
-            }
-          },
-          {
-            "name": "id",
+            "name": "guid",
             "in": "path",
-            "description": "id",
+            "description": "guid",
             "required": true,
             "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "orderEvent",
+            "description": "orderEvent",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrderEvent"
+            }
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OrderEvent"
+            }
+          },
           "201": {
             "description": "Created"
           },
@@ -544,88 +556,30 @@
           },
           "404": {
             "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "$ref": "#/definitions/OrderEventDto"
-            }
           }
         },
         "deprecated": false
       }
     },
-    "/profile": {
+    "/orders/{orderGuid}/tracking/": {
       "get": {
         "tags": [
-          "auth-controller"
+          "sse"
         ],
-        "summary": "profile",
-        "operationId": "profileUsingGET",
+        "summary": "trackOrder",
+        "operationId": "trackOrder",
         "produces": [
           "*/*"
         ],
         "parameters": [
           {
-            "name": "authenticated",
-            "in": "query",
-            "required": false,
-            "type": "boolean"
-          },
-          {
-            "name": "authorities[0].authority",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "credentials",
-            "in": "query",
-            "required": false,
-            "type": "object"
-          },
-          {
-            "name": "details",
-            "in": "query",
-            "required": false,
-            "type": "object"
-          },
-          {
-            "name": "principal",
-            "in": "query",
-            "required": false,
-            "type": "object"
+            "name": "orderGuid",
+            "in": "path",
+            "description": "orderGuid",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "string"
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        },
-        "deprecated": false
-      }
-    },
-    "/request": {
-      "get": {
-        "tags": [
-          "sse-controller"
-        ],
-        "summary": "handleRequest",
-        "operationId": "handleRequestUsingGET",
-        "produces": [
-          "text/event-stream"
         ],
         "responses": {
           "200": {
@@ -647,24 +601,220 @@
         "deprecated": false
       }
     },
-    "/tenants": {
+    "/profile": {
       "get": {
         "tags": [
-          "tenant-controller"
+          "auth"
         ],
-        "summary": "getTenantList",
-        "operationId": "getTenantListUsingGET",
+        "summary": "profile",
+        "operationId": "profile",
         "produces": [
-          "application/vnd.softserve.tenant+json"
+          "application/vnd.softserve.user+json"
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/TenantDto"
-              }
+              "$ref": "#/definitions/User"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/registration": {
+      "post": {
+        "tags": [
+          "registration"
+        ],
+        "summary": "userRegistration",
+        "operationId": "userRegistration",
+        "consumes": [
+          "application/vnd.softserve.registrationuser+json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "userData",
+            "description": "userData",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Registration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/signin": {
+      "post": {
+        "tags": [
+          "sign-in"
+        ],
+        "summary": "signIn",
+        "operationId": "signIn",
+        "consumes": [
+          "application/vnd.softserve.signin+json"
+        ],
+        "produces": [
+          "application/vnd.softserve.token+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignIn"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Token"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/statistics/{guid}": {
+      "get": {
+        "tags": [
+          "statistics"
+        ],
+        "summary": "getListOfOrdersForCurrentTenant",
+        "operationId": "getListOfOrdersForCurrentTenant",
+        "produces": [
+          "application/vnd.softserve.orderlist+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Order»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/statistics/{guid}/actors": {
+      "get": {
+        "tags": [
+          "statistics"
+        ],
+        "summary": "getListOfActorsForCurrentTenant",
+        "operationId": "getListOfActorsForCurrentTenant",
+        "produces": [
+          "application/vnd.softserve.actorlist+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Actor»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/tenants": {
+      "get": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "getTenantList",
+        "operationId": "getTenantList",
+        "produces": [
+          "application/vnd.softserve.tenantlist+json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Tenant»"
             }
           },
           "401": {
@@ -681,10 +831,10 @@
       },
       "post": {
         "tags": [
-          "tenant-controller"
+          "tenant"
         ],
         "summary": "addTenant",
-        "operationId": "addTenantUsingPOST",
+        "operationId": "addTenant",
         "consumes": [
           "application/vnd.softserve.tenant+json"
         ],
@@ -694,11 +844,11 @@
         "parameters": [
           {
             "in": "body",
-            "name": "body",
-            "description": "body",
+            "name": "tenant",
+            "description": "tenant",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/TenantDto"
+              "$ref": "#/definitions/Tenant"
             }
           }
         ],
@@ -706,7 +856,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/TenantDto"
+              "$ref": "#/definitions/Tenant"
             }
           },
           "201": {
@@ -728,10 +878,10 @@
     "/tenants/{guid}": {
       "get": {
         "tags": [
-          "tenant-controller"
+          "tenant"
         ],
         "summary": "getTenant",
-        "operationId": "getTenantUsingGET",
+        "operationId": "getTenant",
         "produces": [
           "application/vnd.softserve.tenant+json"
         ],
@@ -748,7 +898,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/TenantDto"
+              "$ref": "#/definitions/Tenant"
             }
           },
           "401": {
@@ -765,10 +915,10 @@
       },
       "put": {
         "tags": [
-          "tenant-controller"
+          "tenant"
         ],
         "summary": "modifyTenant",
-        "operationId": "modifyTenantUsingPUT",
+        "operationId": "modifyTenant",
         "consumes": [
           "application/vnd.softserve.tenant+json"
         ],
@@ -777,23 +927,29 @@
         ],
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/TenantDto"
-            }
-          },
-          {
             "name": "guid",
             "in": "path",
             "description": "guid",
             "required": true,
             "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "tenant",
+            "description": "tenant",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Tenant"
+            }
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Tenant"
+            }
+          },
           "201": {
             "description": "Created"
           },
@@ -805,22 +961,16 @@
           },
           "404": {
             "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "$ref": "#/definitions/TenantDto"
-            }
           }
         },
         "deprecated": false
       },
       "delete": {
         "tags": [
-          "tenant-controller"
+          "tenant"
         ],
         "summary": "deleteTenant",
-        "operationId": "deleteTenantUsingDELETE",
+        "operationId": "deleteTenant",
         "produces": [
           "*/*"
         ],
@@ -856,12 +1006,12 @@
     "/tenants/{guid}/addresses": {
       "get": {
         "tags": [
-          "tenant-controller"
+          "tenant"
         ],
         "summary": "getTenantAddresses",
-        "operationId": "getTenantAddressesUsingGET",
+        "operationId": "getTenantAddresses",
         "produces": [
-          "application/vnd.softserve.address+json"
+          "application/vnd.softserve.addresslist+json"
         ],
         "parameters": [
           {
@@ -876,10 +1026,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/AddressDto"
-              }
+              "$ref": "#/definitions/ListWrapper«Address»"
             }
           },
           "401": {
@@ -896,10 +1043,10 @@
       },
       "post": {
         "tags": [
-          "tenant-controller"
+          "tenant"
         ],
         "summary": "addTenantAddresses",
-        "operationId": "addTenantAddressesUsingPOST",
+        "operationId": "addTenantAddresses",
         "consumes": [
           "application/vnd.softserve.address+json"
         ],
@@ -908,23 +1055,29 @@
         ],
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/AddressDto"
-            }
-          },
-          {
             "name": "guid",
             "in": "path",
             "description": "guid",
             "required": true,
             "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "newAddresses",
+            "description": "newAddresses",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Address»"
+            }
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Address»"
+            }
+          },
           "201": {
             "description": "Created"
           },
@@ -936,12 +1089,6 @@
           },
           "404": {
             "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "$ref": "#/definitions/AddressDto"
-            }
           }
         },
         "deprecated": false
@@ -950,10 +1097,10 @@
     "/tenants/{guid}/addresses/{addrguid}": {
       "get": {
         "tags": [
-          "tenant-controller"
+          "tenant"
         ],
         "summary": "getTenantAddress",
-        "operationId": "getTenantAddressUsingGET",
+        "operationId": "getTenantAddress",
         "produces": [
           "application/vnd.softserve.address+json"
         ],
@@ -977,7 +1124,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/AddressDto"
+              "$ref": "#/definitions/Address"
             }
           },
           "401": {
@@ -994,10 +1141,10 @@
       },
       "put": {
         "tags": [
-          "tenant-controller"
+          "tenant"
         ],
         "summary": "modifyTenantAddress",
-        "operationId": "modifyTenantAddressUsingPUT",
+        "operationId": "modifyTenantAddress",
         "consumes": [
           "application/vnd.softserve.address+json"
         ],
@@ -1013,27 +1160,27 @@
             "type": "string"
           },
           {
-            "in": "body",
-            "name": "body",
-            "description": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/AddressDto"
-            }
-          },
-          {
             "name": "guid",
             "in": "path",
             "description": "guid",
             "required": true,
             "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "tenantAddress",
+            "description": "tenantAddress",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Address"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/AddressDto"
+              "$ref": "#/definitions/Address"
             }
           },
           "201": {
@@ -1053,10 +1200,10 @@
       },
       "delete": {
         "tags": [
-          "tenant-controller"
+          "tenant"
         ],
         "summary": "deleteTenantAddress",
-        "operationId": "deleteTenantAddressUsingDELETE",
+        "operationId": "deleteTenantAddress",
         "produces": [
           "*/*"
         ],
@@ -1099,10 +1246,10 @@
     "/tenants/{guid}/properties": {
       "get": {
         "tags": [
-          "tenant-controller"
+          "tenant"
         ],
         "summary": "getTenantProperties",
-        "operationId": "getTenantPropertiesUsingGET",
+        "operationId": "getTenantProperties",
         "produces": [
           "application/vnd.softserve.tenantproperty+json"
         ],
@@ -1119,10 +1266,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/TenantPropertiesDto"
-              }
+              "$ref": "#/definitions/ListWrapper«TenantProperties»"
             }
           },
           "401": {
@@ -1139,39 +1283,39 @@
       },
       "post": {
         "tags": [
-          "tenant-controller"
+          "tenant"
         ],
         "summary": "addTenantProperties",
-        "operationId": "addTenantPropertiesUsingPOST",
+        "operationId": "addTenantProperties",
         "consumes": [
-          "application/vnd.softserve.tenantproperty+json"
+          "application/vnd.softserve.tenantpropertylist+json"
         ],
         "produces": [
-          "application/vnd.softserve.tenantproperty+json"
+          "application/vnd.softserve.tenantpropertylist+json"
         ],
         "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/TenantPropertiesDto"
-            }
-          },
           {
             "name": "guid",
             "in": "path",
             "description": "guid",
             "required": true,
             "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "tenantPropertiesList",
+            "description": "tenantPropertiesList",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«TenantProperties»"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/TenantPropertiesDto"
+              "$ref": "#/definitions/ListWrapper«TenantProperties»"
             }
           },
           "201": {
@@ -1193,10 +1337,10 @@
     "/tenants/{guid}/properties/{propguid}": {
       "get": {
         "tags": [
-          "tenant-controller"
+          "tenant"
         ],
         "summary": "getTenantProperty",
-        "operationId": "getTenantPropertyUsingGET",
+        "operationId": "getTenantProperty",
         "produces": [
           "application/vnd.softserve.tenantproperty+json"
         ],
@@ -1220,7 +1364,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/TenantPropertiesDto"
+              "$ref": "#/definitions/TenantProperties"
             }
           },
           "401": {
@@ -1237,10 +1381,10 @@
       },
       "put": {
         "tags": [
-          "tenant-controller"
+          "tenant"
         ],
         "summary": "modifyTenantProperty",
-        "operationId": "modifyTenantPropertyUsingPUT",
+        "operationId": "modifyTenantProperty",
         "consumes": [
           "application/vnd.softserve.tenantproperty+json"
         ],
@@ -1248,15 +1392,6 @@
           "application/vnd.softserve.tenantproperty+json"
         ],
         "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/TenantPropertiesDto"
-            }
-          },
           {
             "name": "guid",
             "in": "path",
@@ -1270,17 +1405,26 @@
             "description": "propguid",
             "required": true,
             "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "tenantProperties",
+            "description": "tenantProperties",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TenantProperties"
+            }
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TenantProperties"
+            }
+          },
           "201": {
             "description": "Created"
-          },
-          "202": {
-            "description": "Accepted",
-            "schema": {
-              "$ref": "#/definitions/TenantPropertiesDto"
-            }
           },
           "401": {
             "description": "Unauthorized"
@@ -1296,10 +1440,10 @@
       },
       "delete": {
         "tags": [
-          "tenant-controller"
+          "tenant"
         ],
         "summary": "deleteTenantProperty",
-        "operationId": "deleteTenantPropertyUsingDELETE",
+        "operationId": "deleteTenantProperty",
         "produces": [
           "*/*"
         ],
@@ -1342,21 +1486,18 @@
     "/users": {
       "get": {
         "tags": [
-          "user-controller"
+          "user"
         ],
         "summary": "getUserList",
-        "operationId": "getUserListUsingGET",
+        "operationId": "getUserList",
         "produces": [
-          "application/vnd.softserve.user+json"
+          "application/vnd.softserve.userlist+json"
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/UserDto"
-              }
+              "$ref": "#/definitions/ListWrapper«User»"
             }
           },
           "401": {
@@ -1373,10 +1514,10 @@
       },
       "post": {
         "tags": [
-          "user-controller"
+          "user"
         ],
         "summary": "addUser",
-        "operationId": "addUserUsingPOST",
+        "operationId": "addUser",
         "consumes": [
           "application/vnd.softserve.user+json"
         ],
@@ -1386,11 +1527,11 @@
         "parameters": [
           {
             "in": "body",
-            "name": "body",
-            "description": "body",
+            "name": "newUser",
+            "description": "newUser",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/UserDto"
+              "$ref": "#/definitions/User"
             }
           }
         ],
@@ -1398,7 +1539,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/UserDto"
+              "$ref": "#/definitions/User"
             }
           },
           "201": {
@@ -1417,21 +1558,21 @@
         "deprecated": false
       }
     },
-    "/users/{id}": {
+    "/users/{guid}": {
       "get": {
         "tags": [
-          "user-controller"
+          "user"
         ],
         "summary": "getUser",
-        "operationId": "getUserUsingGET",
+        "operationId": "getUser",
         "produces": [
           "application/vnd.softserve.user+json"
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "guid",
             "in": "path",
-            "description": "id",
+            "description": "guid",
             "required": true,
             "type": "string"
           }
@@ -1440,7 +1581,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/UserDto"
+              "$ref": "#/definitions/User"
             }
           },
           "401": {
@@ -1457,10 +1598,10 @@
       },
       "put": {
         "tags": [
-          "user-controller"
+          "user"
         ],
         "summary": "modifyUser",
-        "operationId": "modifyUserUsingPUT",
+        "operationId": "modifyUser",
         "consumes": [
           "application/vnd.softserve.user+json"
         ],
@@ -1469,27 +1610,27 @@
         ],
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UserDto"
-            }
-          },
-          {
-            "name": "id",
+            "name": "guid",
             "in": "path",
-            "description": "id",
+            "description": "guid",
             "required": true,
             "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "user",
+            "description": "user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/UserDto"
+              "$ref": "#/definitions/User"
             }
           },
           "201": {
@@ -1509,18 +1650,18 @@
       },
       "delete": {
         "tags": [
-          "user-controller"
+          "user"
         ],
         "summary": "deleteUser",
-        "operationId": "deleteUserUsingDELETE",
+        "operationId": "deleteUser",
         "produces": [
           "*/*"
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "guid",
             "in": "path",
-            "description": "id",
+            "description": "guid",
             "required": true,
             "type": "string"
           }
@@ -1545,21 +1686,21 @@
         "deprecated": false
       }
     },
-    "/users/{id}/addresses": {
+    "/users/{guid}/addresses": {
       "get": {
         "tags": [
-          "user-controller"
+          "user"
         ],
         "summary": "getUserAddresses",
-        "operationId": "getUserAddressesUsingGET",
+        "operationId": "getUserAddresses",
         "produces": [
-          "application/vnd.softserve.address+json"
+          "application/vnd.softserve.addresslist+json"
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "guid",
             "in": "path",
-            "description": "id",
+            "description": "guid",
             "required": true,
             "type": "string"
           }
@@ -1568,10 +1709,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/AddressDto"
-              }
+              "$ref": "#/definitions/ListWrapper«Address»"
             }
           },
           "401": {
@@ -1588,45 +1726,39 @@
       },
       "post": {
         "tags": [
-          "user-controller"
+          "user"
         ],
         "summary": "addUserAddresses",
-        "operationId": "addUserAddressesUsingPOST",
+        "operationId": "addUserAddresses",
         "consumes": [
-          "application/vnd.softserve.address+json"
+          "application/vnd.softserve.addresslist+json"
         ],
         "produces": [
-          "application/vnd.softserve.address+json"
+          "application/vnd.softserve.addresslist+json"
         ],
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "body",
-            "required": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/AddressDto"
-              }
-            }
-          },
-          {
-            "name": "id",
+            "name": "guid",
             "in": "path",
-            "description": "id",
+            "description": "guid",
             "required": true,
             "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "newAddresses",
+            "description": "newAddresses",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Address»"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/AddressDto"
-              }
+              "$ref": "#/definitions/ListWrapper«Address»"
             }
           },
           "201": {
@@ -1645,13 +1777,13 @@
         "deprecated": false
       }
     },
-    "/users/{id}/addresses/{addrguid}": {
+    "/users/{guid}/addresses/{addrguid}": {
       "get": {
         "tags": [
-          "user-controller"
+          "user"
         ],
         "summary": "getUserAddress",
-        "operationId": "getUserAddressUsingGET",
+        "operationId": "getUserAddress",
         "produces": [
           "application/vnd.softserve.address+json"
         ],
@@ -1664,9 +1796,9 @@
             "type": "string"
           },
           {
-            "name": "id",
+            "name": "guid",
             "in": "path",
-            "description": "id",
+            "description": "guid",
             "required": true,
             "type": "string"
           }
@@ -1675,7 +1807,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/AddressDto"
+              "$ref": "#/definitions/Address"
             }
           },
           "401": {
@@ -1692,10 +1824,10 @@
       },
       "put": {
         "tags": [
-          "user-controller"
+          "user"
         ],
         "summary": "modifyUserAddress",
-        "operationId": "modifyUserAddressUsingPUT",
+        "operationId": "modifyUserAddress",
         "consumes": [
           "application/vnd.softserve.address+json"
         ],
@@ -1704,6 +1836,15 @@
         ],
         "parameters": [
           {
+            "in": "body",
+            "name": "address",
+            "description": "address",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Address"
+            }
+          },
+          {
             "name": "addrguid",
             "in": "path",
             "description": "addrguid",
@@ -1711,18 +1852,9 @@
             "type": "string"
           },
           {
-            "in": "body",
-            "name": "body",
-            "description": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/AddressDto"
-            }
-          },
-          {
-            "name": "id",
+            "name": "guid",
             "in": "path",
-            "description": "id",
+            "description": "guid",
             "required": true,
             "type": "string"
           }
@@ -1731,7 +1863,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/AddressDto"
+              "$ref": "#/definitions/Address"
             }
           },
           "201": {
@@ -1751,10 +1883,10 @@
       },
       "delete": {
         "tags": [
-          "user-controller"
+          "user"
         ],
         "summary": "deleteUserAddress",
-        "operationId": "deleteUserAddressUsingDELETE",
+        "operationId": "deleteUserAddress",
         "produces": [
           "*/*"
         ],
@@ -1767,9 +1899,9 @@
             "type": "string"
           },
           {
-            "name": "id",
+            "name": "guid",
             "in": "path",
-            "description": "id",
+            "description": "guid",
             "required": true,
             "type": "string"
           }
@@ -1796,7 +1928,20 @@
     }
   },
   "definitions": {
-    "AddressDto": {
+    "Actor": {
+      "type": "object",
+      "properties": {
+        "alias": {
+          "type": "string"
+        },
+        "guid": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "title": "Actor"
+    },
+    "Address": {
       "type": "object",
       "properties": {
         "address": {
@@ -1806,15 +1951,16 @@
           "type": "string"
         },
         "guid": {
-          "type": "string"
+          "type": "string",
+          "format": "uuid"
         },
         "notes": {
           "type": "string"
         }
       },
-      "title": "AddressDto"
+      "title": "Address"
     },
-    "DetailsDto": {
+    "Details": {
       "type": "object",
       "properties": {
         "imageUrl": {
@@ -1824,9 +1970,21 @@
           "type": "string"
         }
       },
-      "title": "DetailsDto"
+      "title": "Details"
     },
-    "OrderDetailsDto": {
+    "IPropertyType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "string"
+        }
+      },
+      "title": "IPropertyType"
+    },
+    "ITenantDetails": {
       "type": "object",
       "properties": {
         "imageUrl": {
@@ -1836,37 +1994,146 @@
           "type": "string"
         }
       },
-      "title": "OrderDetailsDto"
+      "title": "ITenantDetails"
     },
-    "OrderDto": {
+    "IUserDetails": {
+      "type": "object",
+      "properties": {
+        "imageUrl": {
+          "type": "string"
+        },
+        "payload": {
+          "type": "string"
+        }
+      },
+      "title": "IUserDetails"
+    },
+    "ListWrapper«Actor»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Actor"
+          }
+        }
+      },
+      "title": "ListWrapper«Actor»"
+    },
+    "ListWrapper«Address»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Address"
+          }
+        }
+      },
+      "title": "ListWrapper«Address»"
+    },
+    "ListWrapper«Order»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Order"
+          }
+        }
+      },
+      "title": "ListWrapper«Order»"
+    },
+    "ListWrapper«OrderEvent»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderEvent"
+          }
+        }
+      },
+      "title": "ListWrapper«OrderEvent»"
+    },
+    "ListWrapper«Tenant»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Tenant"
+          }
+        }
+      },
+      "title": "ListWrapper«Tenant»"
+    },
+    "ListWrapper«TenantProperties»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TenantProperties"
+          }
+        }
+      },
+      "title": "ListWrapper«TenantProperties»"
+    },
+    "ListWrapper«User»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        }
+      },
+      "title": "ListWrapper«User»"
+    },
+    "OrderDetails": {
+      "type": "object",
+      "properties": {
+        "imageUrl": {
+          "type": "string"
+        },
+        "payload": {
+          "type": "string"
+        }
+      },
+      "title": "OrderDetails"
+    },
+    "Order": {
       "type": "object",
       "properties": {
         "details": {
-          "$ref": "#/definitions/OrderDetailsDto"
+          "$ref": "#/definitions/OrderDetails"
         },
         "guid": {
-          "type": "string"
+          "type": "string",
+          "format": "uuid"
         },
         "summary": {
           "type": "string"
         },
         "tenant": {
-          "type": "string"
-        },
-        "user": {
-          "type": "string"
+          "type": "string",
+          "format": "uuid"
         }
       },
-      "title": "OrderDto"
+      "title": "Order"
     },
-    "OrderEventDto": {
+    "OrderEvent": {
       "type": "object",
       "properties": {
         "guid": {
-          "type": "string"
+          "type": "string",
+          "format": "uuid"
         },
         "orderId": {
-          "type": "string"
+          "type": "string",
+          "format": "uuid"
         },
         "payload": {
           "type": "string"
@@ -1881,7 +2148,47 @@
           ]
         }
       },
-      "title": "OrderEventDto"
+      "title": "OrderEvent"
+    },
+    "PropertyType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "string"
+        }
+      },
+      "title": "PropertyType"
+    },
+    "Registration": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "guid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "userDetails": {
+          "$ref": "#/definitions/IUserDetails"
+        }
+      },
+      "title": "Registration"
     },
     "ResponseEntity": {
       "type": "object",
@@ -1969,6 +2276,18 @@
       },
       "title": "ResponseEntity"
     },
+    "SignIn": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "SignIn"
+    },
     "SseEmitter": {
       "type": "object",
       "properties": {
@@ -1979,7 +2298,7 @@
       },
       "title": "SseEmitter"
     },
-    "TenantDetailsDto": {
+    "TenantDetails": {
       "type": "object",
       "properties": {
         "imageUrl": {
@@ -1989,58 +2308,68 @@
           "type": "string"
         }
       },
-      "title": "TenantDetailsDto"
+      "title": "TenantDetails"
     },
-    "TenantDto": {
+    "Tenant": {
       "type": "object",
       "properties": {
         "details": {
-          "$ref": "#/definitions/TenantDetailsDto"
+          "$ref": "#/definitions/TenantDetails"
         },
         "guid": {
-          "type": "string"
+          "type": "string",
+          "format": "uuid"
         },
         "name": {
           "type": "string"
         },
         "owner": {
-          "type": "string"
+          "type": "string",
+          "format": "uuid"
         }
       },
-      "title": "TenantDto"
+      "title": "Tenant"
     },
-    "TenantPropertiesDto": {
+    "TenantProperties": {
       "type": "object",
       "properties": {
         "guid": {
-          "type": "string"
+          "type": "string",
+          "format": "uuid"
         },
         "key": {
           "type": "string"
         },
-        "tenant": {
-          "type": "string"
-        },
-        "type": {
-          "type": "string"
+        "propertyType": {
+          "$ref": "#/definitions/PropertyType"
         },
         "value": {
           "type": "string"
         }
       },
-      "title": "TenantPropertiesDto"
+      "title": "TenantProperties"
     },
-    "UserDto": {
+    "Token": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      },
+      "title": "Token"
+    },
+    "User": {
       "type": "object",
       "properties": {
         "details": {
-          "$ref": "#/definitions/DetailsDto"
+          "$ref": "#/definitions/Details"
         },
         "email": {
           "type": "string"
         },
         "guid": {
-          "type": "string"
+          "type": "string",
+          "format": "uuid"
         },
         "name": {
           "type": "string"
@@ -2052,7 +2381,7 @@
           "type": "string"
         }
       },
-      "title": "UserDto"
+      "title": "User"
     }
   }
 }

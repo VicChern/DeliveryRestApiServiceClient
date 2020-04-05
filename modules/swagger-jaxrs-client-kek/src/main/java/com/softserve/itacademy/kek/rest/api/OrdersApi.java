@@ -4,6 +4,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -43,7 +44,7 @@ public interface OrdersApi {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found")})
-    OrderEvent addEvent(@PathParam("guid") String guid, OrderEvent orderEvent, @CookieParam("JSESSIONID") String cookie);
+    OrderEvent addEvent(@PathParam("guid") String guid, OrderEvent orderEvent, @HeaderParam("Authorization") String token);
 
 
     /**
@@ -60,7 +61,7 @@ public interface OrdersApi {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found")})
-    ListWrapperDto<Order> addOrder(ListWrapperDto<Order> newOrderList, @CookieParam("JSESSIONID") String cookie);
+    ListWrapperDto<Order> addOrder(ListWrapperDto<Order> newOrderList, @HeaderParam("Authorization") String token);
 
     /**
      * deleteOrder

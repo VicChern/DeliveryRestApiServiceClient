@@ -13,6 +13,7 @@ import com.softserve.itacademy.kek.rest.model.OrderDetails;
 import com.softserve.itacademy.kek.rest.model.OrderEvent;
 import com.softserve.itacademy.kek.rest.model.OrderEventTypes;
 import com.softserve.itacademy.kek.rest.model.Registration;
+import com.softserve.itacademy.kek.rest.model.SignIn;
 import com.softserve.itacademy.kek.rest.model.Tenant;
 import com.softserve.itacademy.kek.rest.model.TenantDetails;
 import com.softserve.itacademy.kek.rest.model.User;
@@ -33,14 +34,20 @@ public class ModelUtils {
         return user;
     }
 
-
+//    {
+//        "name": "1123ister",
+//            "nickname": "s32ister",
+//            "email": "ister5@gmail.com",
+//            "phone": "+73872326784",
+//            "password": "234@94iSter"
+//    }
     public static Registration getRegistrationWithName(String name) {
         Registration registration = new Registration();
         registration.setName(Optional.ofNullable(name).orElse(RandomStringUtils.randomAlphabetic(5)));
         registration.setEmail(RandomStringUtils.randomAlphabetic(8) + "@gmail.com");
         registration.setNickname(RandomStringUtils.randomAlphabetic(7));
-        registration.setPhone(RandomStringUtils.randomNumeric(10));
-        registration.setPassword("Password1");
+        registration.setPhone("+3" + RandomStringUtils.randomNumeric(10));
+        registration.setPassword("234@94iSter");
         return registration;
     }
 
@@ -93,7 +100,6 @@ public class ModelUtils {
         order.setTenant(tenant.getGuid());
         order.setSummary("Summary message");
         order.setDetails(getOrderDetails());
-        order.setTenant(tenant.getGuid());
         return order;
     }
 
@@ -121,4 +127,10 @@ public class ModelUtils {
         return getUserWithName(null);
     }
 
+    public static SignIn getSignInData(String email, String password) {
+        SignIn signIn = new SignIn();
+        signIn.setEmail(email);
+        signIn.setPassword(password);
+        return signIn;
+    }
 }
