@@ -1,10 +1,10 @@
 {
-    "sourceFolder": "src/main/java",
-    "java8": "true",
-    "dateLibrary": "java8-localdatetime",
-    "artifactVersion": "1.0",
-    "artifactId": "swagger-jaxrs-client-kek",
-    "groupId": "com.softserve.itacademy.kek",
-    "apiPackage": "com.softserve.itacademy.kek.rest.api",
-    "modelPackage": "com.softserve.itacademy.kek.rest.model"
+  "sourceFolder": "src/main/java",
+  "java8": "true",
+  "dateLibrary": "java8-localdatetime",
+  "artifactVersion": "1.0",
+  "artifactId": "swagger-jaxrs-client-kek",
+  "groupId": "com.softserve.itacademy.kek",
+  "apiPackage": "com.softserve.itacademy.kek.rest.api",
+  "modelPackage": "com.softserve.itacademy.kek.rest.model"
 }

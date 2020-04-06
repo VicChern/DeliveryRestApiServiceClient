@@ -15,147 +15,165 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 import com.softserve.itacademy.kek.rest.model.Address;
-import com.softserve.itacademy.kek.rest.model.AddressList;
-import com.softserve.itacademy.kek.rest.model.ErrorList;
+import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
+import com.softserve.itacademy.kek.rest.model.ResponseEntity;
 import com.softserve.itacademy.kek.rest.model.User;
-import com.softserve.itacademy.kek.rest.model.UserList;
 
 /**
- * Kinda Express King
+ * KEK
  *
- * <p>BaaS for delivery services like Glovo, Uber or even for regular mail. Also, a simple web front-end should be provided as an example of a typical consumer's app.
- *
+ * <p>BaaS for delivery services like Glovo, Uber or even for regular mail.
  */
 @Path("/")
 @Api(value = "/", description = "")
-public interface UsersApi  {
+public interface UsersApi {
 
     /**
-     * Creates a new user
-     *
-     */
-    @POST
-    @Path("/users")
-    @Consumes({ "application/vnd.softserve.user+json" })
-    @Produces({ "application/vnd.softserve.user+json", "application/vnd.softserve.errorList+json" })
-    @ApiOperation(value = "Creates a new user", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The newly created user object", response = User.class),
-        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
-    public User addUser(User user);
-
-    /**
-     * Adds a new addresses
-     *
+     * addUserAddresses
      */
     @POST
     @Path("/users/{guid}/addresses")
-    @Consumes({ "application/vnd.softserve.addressList+json" })
-    @Produces({ "application/vnd.softserve.addressList+json", "application/vnd.softserve.errorList+json" })
-    @ApiOperation(value = "Adds a new addresses", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "List of added user addresses", response = AddressList.class),
-        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
-    public AddressList addUserAddresses(@PathParam("guid") String guid, AddressList addresses);
+    @Consumes({"application/vnd.softserve.addressList+json"})
+    @Produces({"application/vnd.softserve.addressList+json"})
+    @ApiOperation(value = "addUserAddresses", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found")})
+    ListWrapperDto<Address> addUserAddresses(@PathParam("guid") String guid, ListWrapperDto<Address> newAddresses);
 
     /**
-     * Deletes the specific user
-     *
+     * addUser
      */
-    @DELETE
-    @Path("/users/{guid}")
-    @ApiOperation(value = "Deletes the specific user", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Successful operation") })
-    public void deleteUser(@PathParam("guid") String guid);
+    @POST
+    @Path("/users")
+    @Consumes({"application/vnd.softserve.user+json"})
+    @Produces({"application/vnd.softserve.user+json"})
+    @ApiOperation(value = "addUser", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = User.class),
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found")})
+    User addUser(User newUser);
 
     /**
-     * Deletes the specific user address
-     *
+     * deleteUserAddress
      */
     @DELETE
     @Path("/users/{guid}/addresses/{addrguid}")
-    @ApiOperation(value = "Deletes the specific user address", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Successful operation") })
-    public void deleteUserAddress(@PathParam("guid") String guid, @PathParam("addrguid") String addrguid);
+    @Produces({"*/*"})
+    @ApiOperation(value = "deleteUserAddress", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
+            @ApiResponse(code = 204, message = "No Content"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden")})
+    void deleteUserAddress(@PathParam("addrguid") String addrguid, @PathParam("guid") String guid);
 
     /**
-     * Finds the specific user
-     *
+     * deleteUser
      */
-    @GET
+    @DELETE
     @Path("/users/{guid}")
-    @Produces({ "application/vnd.softserve.user+json" })
-    @ApiOperation(value = "Finds the specific user", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The user object", response = User.class) })
-    public User getUser(@PathParam("guid") String guid);
+    @Produces({"*/*"})
+    @ApiOperation(value = "deleteUser", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
+            @ApiResponse(code = 204, message = "No Content"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden")})
+    void deleteUser(@PathParam("guid") String guid);
 
     /**
-     * Finds addressess of the specific user
-     *
+     * getUserAddress
      */
     @GET
     @Path("/users/{guid}/addresses/{addrguid}")
-    @Produces({ "application/vnd.softserve.address+json" })
-    @ApiOperation(value = "Finds addressess of the specific user", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Specific user address", response = Address.class) })
-    public Address getUserAddress(@PathParam("guid") String guid, @PathParam("addrguid") String addrguid);
+    @Produces({"application/vnd.softserve.address+json"})
+    @ApiOperation(value = "getUserAddress", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Address.class),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found")})
+    Address getUserAddress(@PathParam("addrguid") String addrguid, @PathParam("guid") String guid);
 
     /**
-     * Finds addressess of the specific user
-     *
+     * getUserAddresses
      */
     @GET
     @Path("/users/{guid}/addresses")
-    @Produces({ "application/vnd.softserve.addressList+json" })
-    @ApiOperation(value = "Finds addressess of the specific user", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "List of user addresses", response = AddressList.class) })
-    public AddressList getUserAddresses(@PathParam("guid") String guid);
+    @Produces({"application/vnd.softserve.addressList+json"})
+    @ApiOperation(value = "getUserAddresses", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found")})
+    ListWrapperDto<Address> getUserAddresses(@PathParam("guid") String guid);
 
     /**
-     * Searches for users
-     *
-     * Finds all users
-     *
+     * getUserList
      */
     @GET
     @Path("/users")
-    @Produces({ "application/vnd.softserve.userList+json" })
-    @ApiOperation(value = "Searches for users", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "List of users", response = UserList.class) })
-    public UserList getUserList();
+    @Produces({"application/vnd.softserve.userlist+json"})
+    @ApiOperation(value = "getUserList", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found")})
+    ListWrapperDto<User> getUserList();
 
     /**
-     * Modifies the specific user
-     *
+     * getUser
      */
-    @PUT
+    @GET
     @Path("/users/{guid}")
-    @Consumes({ "application/vnd.softserve.user+json" })
-    @Produces({ "application/vnd.softserve.user+json", "application/vnd.softserve.errorList+json" })
-    @ApiOperation(value = "Modifies the specific user", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The modified user object", response = User.class),
-        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
-    public User modifyUser(@PathParam("guid") String guid, User user);
+    @Produces({"application/vnd.softserve.user+json"})
+    @ApiOperation(value = "getUser", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = User.class),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found")})
+    User getUser(@PathParam("guid") String guid);
 
     /**
-     * Modifies the specific user address
-     *
+     * modifyUserAddress
      */
     @PUT
     @Path("/users/{guid}/addresses/{addrguid}")
-    @Consumes({ "application/vnd.softserve.address+json" })
-    @Produces({ "application/vnd.softserve.address+json", "application/vnd.softserve.errorList+json" })
-    @ApiOperation(value = "Modifies the specific user address", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The modified address object", response = Address.class),
-        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
-    public Address modifyUserAddress(@PathParam("guid") String guid, @PathParam("addrguid") String addrguid, Address address);
+    @Consumes({"application/vnd.softserve.address+json"})
+    @Produces({"application/vnd.softserve.address+json"})
+    @ApiOperation(value = "modifyUserAddress", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Address.class),
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found")})
+    Address modifyUserAddress(Address address, @PathParam("addrguid") String addrguid, @PathParam("guid") String guid);
+
+    /**
+     * modifyUser
+     */
+    @PUT
+    @Path("/users/{guid}")
+    @Consumes({"application/vnd.softserve.user+json"})
+    @Produces({"application/vnd.softserve.user+json"})
+    @ApiOperation(value = "modifyUser", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = User.class),
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found")})
+    User modifyUser(@PathParam("guid") String guid, User user);
 }
 

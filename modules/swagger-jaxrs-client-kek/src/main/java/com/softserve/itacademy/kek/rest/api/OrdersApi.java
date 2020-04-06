@@ -3,6 +3,7 @@ package com.softserve.itacademy.kek.rest.api;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -14,111 +15,123 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-import com.softserve.itacademy.kek.rest.model.ErrorList;
+import com.softserve.itacademy.kek.rest.model.ListWrapperDto;
 import com.softserve.itacademy.kek.rest.model.Order;
 import com.softserve.itacademy.kek.rest.model.OrderEvent;
-import com.softserve.itacademy.kek.rest.model.OrderEventList;
-import com.softserve.itacademy.kek.rest.model.OrderList;
+import com.softserve.itacademy.kek.rest.model.ResponseEntity;
 
 /**
- * Kinda Express King
+ * KEK
  *
- * <p>BaaS for delivery services like Glovo, Uber or even for regular mail. Also, a simple web front-end should be provided as an example of a typical consumer's app.
- *
+ * <p>BaaS for delivery services like Glovo, Uber or even for regular mail.
  */
 @Path("/")
 @Api(value = "/", description = "")
-public interface OrdersApi  {
+public interface OrdersApi {
 
     /**
-     * Adds an order event
-     *
+     * addEvent
      */
     @POST
     @Path("/orders/{guid}/events")
-    @Consumes({ "application/vnd.softserve.event+json" })
-    @Produces({ "application/vnd.softserve.event+json", "application/vnd.softserve.errorList+json" })
-    @ApiOperation(value = "Adds an order event", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The list of order event objects", response = OrderEvent.class),
-        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
-    public OrderEvent addEvent(@PathParam("guid") String guid, OrderEvent event);
+    @Consumes({"application/vnd.softserve.event+json"})
+    @Produces({"application/vnd.softserve.event+json"})
+    @ApiOperation(value = "addEvent", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = OrderEvent.class),
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found")})
+    OrderEvent addEvent(@PathParam("guid") String guid, OrderEvent orderEvent, @HeaderParam("Authorization") String token);
+
 
     /**
-     * Creates a new order
-     *
+     * addOrder
      */
     @POST
     @Path("/orders")
-    @Consumes({ "application/vnd.softserve.order+json" })
-    @Produces({ "application/vnd.softserve.order+json", "application/vnd.softserve.errorList+json" })
-    @ApiOperation(value = "Creates a new order", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The newly created order object", response = Order.class),
-        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
-    public Order addOrder(Order order);
+    @Consumes({"application/vnd.softserve.orderlist+json"})
+    @Produces({"application/vnd.softserve.orderlist+json"})
+    @ApiOperation(value = "addOrder", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found")})
+    ListWrapperDto<Order> addOrder(ListWrapperDto<Order> newOrderList, @HeaderParam("Authorization") String token);
 
     /**
-     * Deletes the specific order
-     *
+     * deleteOrder
      */
     @DELETE
     @Path("/orders/{guid}")
-    @ApiOperation(value = "Deletes the specific order", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Successful operation") })
-    public void deleteOrder(@PathParam("guid") String guid);
+    @Produces({"*/*"})
+    @ApiOperation(value = "deleteOrder", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
+            @ApiResponse(code = 204, message = "No Content"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden")})
+    void deleteOrder(@PathParam("guid") String guid);
 
     /**
-     * Finds the specific order events
-     *
+     * getEvents
      */
     @GET
     @Path("/orders/{guid}/events")
-    @Produces({ "application/vnd.softserve.eventList+json" })
-    @ApiOperation(value = "Finds the specific order events", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The list of order event objects", response = OrderEventList.class) })
-    public OrderEventList getEvents(@PathParam("guid") String guid);
+    @Produces({"application/vnd.softserve.eventlist+json"})
+    @ApiOperation(value = "getEvents", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found")})
+    ListWrapperDto<OrderEvent> getEvents(@PathParam("guid") String guid);
 
     /**
-     * Finds the specific order
-     *
-     */
-    @GET
-    @Path("/orders/{guid}")
-    @Produces({ "application/vnd.softserve.order+json" })
-    @ApiOperation(value = "Finds the specific order", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The order object", response = Order.class) })
-    public Order getOrder(@PathParam("guid") String guid);
-
-    /**
-     * Searches for orders
-     *
-     * Finds all orders
-     *
+     * getOrderList
      */
     @GET
     @Path("/orders")
-    @Produces({ "application/vnd.softserve.orderList+json" })
-    @ApiOperation(value = "Searches for orders", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The order object", response = OrderList.class) })
-    public OrderList getOrderList();
+    @Produces({"application/vnd.softserve.orderlist+json"})
+    @ApiOperation(value = "getOrderList", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ListWrapperDto.class),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found")})
+    ListWrapperDto<Order> getOrderList();
 
     /**
-     * Modifies the specific order
-     *
+     * getOrder
+     */
+    @GET
+    @Path("/orders/{guid}")
+    @Produces({"application/vnd.softserve.order+json"})
+    @ApiOperation(value = "getOrder", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Order.class),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found")})
+    Order getOrder(@PathParam("guid") String guid);
+
+    /**
+     * modifyOrder
      */
     @PUT
     @Path("/orders/{guid}")
-    @Consumes({ "application/vnd.softserve.order+json" })
-    @Produces({ "application/vnd.softserve.order+json", "application/vnd.softserve.errorList+json" })
-    @ApiOperation(value = "Modifies the specific order", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The modified order object", response = Order.class),
-        @ApiResponse(code = 400, message = "Fields validation failed", response = ErrorList.class) })
-    public Order modifyOrder(@PathParam("guid") String guid, Order order);
+    @Consumes({"application/vnd.softserve.order+json"})
+    @Produces({"application/vnd.softserve.order+json"})
+    @ApiOperation(value = "modifyOrder", tags = {})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Order.class),
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found")})
+    Order modifyOrder(@PathParam("guid") String guid, Order order);
 }
 

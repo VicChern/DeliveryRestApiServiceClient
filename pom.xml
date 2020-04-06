@@ -15,6 +15,9 @@
     <name>Kinda Express King Client</name>
 
     <properties>
+        <java.version>11</java.version>
+
+        <version.compile.plugin>3.8.1</version.compile.plugin>
         <version.jackson.databind>2.10.2</version.jackson.databind>
         <version.spring.web>5.2.3.RELEASE</version.spring.web>
         <version.slf4j.api>1.7.13</version.slf4j.api>
@@ -25,6 +28,23 @@
     </properties>
 
     <dependencies>
+        <!-- CXF -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-client</artifactId>
+            <version>${version.cxf}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-sse</artifactId>
+            <version>${version.cxf}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-json-basic</artifactId>
+            <version>${version.cxf}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.softserve.itacademy.kek</groupId>
             <artifactId>swagger-jaxrs-client-kek</artifactId>
@@ -65,19 +85,6 @@
             <artifactId>gson</artifactId>
             <version>${version.gson}</version>
         </dependency>
-
-        <!-- CXF -->
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-rs-client</artifactId>
-            <version>${version.cxf}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-rs-json-basic</artifactId>
-            <version>${version.cxf}</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -85,9 +92,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compile.plugin}</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
         </plugins>

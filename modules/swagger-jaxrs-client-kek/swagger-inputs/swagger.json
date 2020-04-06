@@ -1,1 +1,2387 @@
-{"swagger":"2.0","info":{"description":"BaaS for delivery services like Glovo, Uber or even for regular mail.","version":"V1","title":"KEK"},"host":"localhost:8080","basePath":"/api/v1","tags":[{"name":"auth-controller","description":"Auth Controller"},{"name":"order-controller","description":"Order Controller"},{"name":"sse-controller","description":"Sse Controller"},{"name":"tenant-controller","description":"Tenant Controller"},{"name":"user-controller","description":"User Controller"}],"paths":{"/callback":{"get":{"tags":["auth-controller"],"summary":"getCallback","operationId":"getCallbackUsingGET","produces":["*/*"],"responses":{"200":{"description":"OK"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"head":{"tags":["auth-controller"],"summary":"getCallback","operationId":"getCallbackUsingHEAD","consumes":["application/json"],"produces":["*/*"],"responses":{"200":{"description":"OK"},"204":{"description":"No Content"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"}},"deprecated":false},"post":{"tags":["auth-controller"],"summary":"getCallback","operationId":"getCallbackUsingPOST","consumes":["application/json"],"produces":["*/*"],"responses":{"200":{"description":"OK"},"201":{"description":"Created"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"put":{"tags":["auth-controller"],"summary":"getCallback","operationId":"getCallbackUsingPUT","consumes":["application/json"],"produces":["*/*"],"responses":{"200":{"description":"OK"},"201":{"description":"Created"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"delete":{"tags":["auth-controller"],"summary":"getCallback","operationId":"getCallbackUsingDELETE","produces":["*/*"],"responses":{"200":{"description":"OK"},"204":{"description":"No Content"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"}},"deprecated":false},"options":{"tags":["auth-controller"],"summary":"getCallback","operationId":"getCallbackUsingOPTIONS","consumes":["application/json"],"produces":["*/*"],"responses":{"200":{"description":"OK"},"204":{"description":"No Content"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"}},"deprecated":false},"patch":{"tags":["auth-controller"],"summary":"getCallback","operationId":"getCallbackUsingPATCH","consumes":["application/json"],"produces":["*/*"],"responses":{"200":{"description":"OK"},"204":{"description":"No Content"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"}},"deprecated":false}},"/login":{"get":{"tags":["auth-controller"],"summary":"login","operationId":"loginUsingGET","produces":["*/*"],"responses":{"200":{"description":"OK"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false}},"/orders":{"get":{"tags":["order-controller"],"summary":"getOrderList","operationId":"getOrderListUsingGET","produces":["application/vnd.softserve.order+json"],"responses":{"200":{"description":"OK","schema":{"type":"array","items":{"$ref":"#/definitions/OrderDto"}}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"post":{"tags":["order-controller"],"summary":"addOrder","operationId":"addOrderUsingPOST","consumes":["application/json"],"produces":["*/*"],"parameters":[{"in":"body","name":"order","description":"order","required":true,"schema":{"$ref":"#/definitions/OrderDto"}}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/OrderDto"}},"201":{"description":"Created"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false}},"/orders/{id}":{"get":{"tags":["order-controller"],"summary":"getOrder","operationId":"getOrderUsingGET","produces":["application/vnd.softserve.order+json"],"parameters":[{"name":"id","in":"path","description":"id","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/OrderDto"}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"put":{"tags":["order-controller"],"summary":"modifyOrder","operationId":"modifyOrderUsingPUT","consumes":["application/vnd.softserve.order+json"],"produces":["application/vnd.softserve.order+json"],"parameters":[{"name":"id","in":"path","description":"id","required":true,"type":"string"},{"in":"body","name":"order","description":"order","required":true,"schema":{"$ref":"#/definitions/OrderDto"}}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/OrderDto"}},"201":{"description":"Created"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"delete":{"tags":["order-controller"],"summary":"deleteOrder","operationId":"deleteOrderUsingDELETE","produces":["*/*"],"parameters":[{"name":"id","in":"path","description":"id","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/ResponseEntity"}},"204":{"description":"No Content"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"}},"deprecated":false}},"/orders/{id}/events":{"get":{"tags":["order-controller"],"summary":"getEvents","operationId":"getEventsUsingGET","produces":["application/vnd.softserve.event+json"],"parameters":[{"name":"id","in":"path","description":"id","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"type":"array","items":{"$ref":"#/definitions/OrderEventDto"}}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"post":{"tags":["order-controller"],"summary":"addEvent","operationId":"addEventUsingPOST","consumes":["application/vnd.softserve.event+json"],"produces":["application/vnd.softserve.event+json"],"parameters":[{"in":"body","name":"body","description":"body","required":true,"schema":{"$ref":"#/definitions/OrderEventDto"}},{"name":"id","in":"path","description":"id","required":true,"type":"string"}],"responses":{"201":{"description":"Created"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"500":{"description":"Internal Server Error","schema":{"$ref":"#/definitions/OrderEventDto"}}},"deprecated":false}},"/profile":{"get":{"tags":["auth-controller"],"summary":"profile","operationId":"profileUsingGET","produces":["*/*"],"parameters":[{"name":"authenticated","in":"query","required":false,"type":"boolean"},{"name":"authorities[0].authority","in":"query","required":false,"type":"string"},{"name":"credentials","in":"query","required":false,"type":"object"},{"name":"details","in":"query","required":false,"type":"object"},{"name":"principal","in":"query","required":false,"type":"object"}],"responses":{"200":{"description":"OK","schema":{"type":"string"}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false}},"/request":{"get":{"tags":["sse-controller"],"summary":"handleRequest","operationId":"handleRequestUsingGET","produces":["text/event-stream"],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/SseEmitter"}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false}},"/tenants":{"get":{"tags":["tenant-controller"],"summary":"getTenantList","operationId":"getTenantListUsingGET","produces":["application/vnd.softserve.tenant+json"],"responses":{"200":{"description":"OK","schema":{"type":"array","items":{"$ref":"#/definitions/TenantDto"}}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"post":{"tags":["tenant-controller"],"summary":"addTenant","operationId":"addTenantUsingPOST","consumes":["application/vnd.softserve.tenant+json"],"produces":["application/vnd.softserve.tenant+json"],"parameters":[{"in":"body","name":"body","description":"body","required":true,"schema":{"$ref":"#/definitions/TenantDto"}}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/TenantDto"}},"201":{"description":"Created"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false}},"/tenants/{guid}":{"get":{"tags":["tenant-controller"],"summary":"getTenant","operationId":"getTenantUsingGET","produces":["application/vnd.softserve.tenant+json"],"parameters":[{"name":"guid","in":"path","description":"guid","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/TenantDto"}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"put":{"tags":["tenant-controller"],"summary":"modifyTenant","operationId":"modifyTenantUsingPUT","consumes":["application/vnd.softserve.tenant+json"],"produces":["application/vnd.softserve.tenant+json"],"parameters":[{"in":"body","name":"body","description":"body","required":true,"schema":{"$ref":"#/definitions/TenantDto"}},{"name":"guid","in":"path","description":"guid","required":true,"type":"string"}],"responses":{"201":{"description":"Created"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"500":{"description":"Internal Server Error","schema":{"$ref":"#/definitions/TenantDto"}}},"deprecated":false},"delete":{"tags":["tenant-controller"],"summary":"deleteTenant","operationId":"deleteTenantUsingDELETE","produces":["*/*"],"parameters":[{"name":"guid","in":"path","description":"guid","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/ResponseEntity"}},"204":{"description":"No Content"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"}},"deprecated":false}},"/tenants/{guid}/addresses":{"get":{"tags":["tenant-controller"],"summary":"getTenantAddresses","operationId":"getTenantAddressesUsingGET","produces":["application/vnd.softserve.address+json"],"parameters":[{"name":"guid","in":"path","description":"guid","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"type":"array","items":{"$ref":"#/definitions/AddressDto"}}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"post":{"tags":["tenant-controller"],"summary":"addTenantAddresses","operationId":"addTenantAddressesUsingPOST","consumes":["application/vnd.softserve.address+json"],"produces":["application/vnd.softserve.address+json"],"parameters":[{"in":"body","name":"body","description":"body","required":true,"schema":{"$ref":"#/definitions/AddressDto"}},{"name":"guid","in":"path","description":"guid","required":true,"type":"string"}],"responses":{"201":{"description":"Created"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"},"500":{"description":"Internal Server Error","schema":{"$ref":"#/definitions/AddressDto"}}},"deprecated":false}},"/tenants/{guid}/addresses/{addrguid}":{"get":{"tags":["tenant-controller"],"summary":"getTenantAddress","operationId":"getTenantAddressUsingGET","produces":["application/vnd.softserve.address+json"],"parameters":[{"name":"addrguid","in":"path","description":"addrguid","required":true,"type":"string"},{"name":"guid","in":"path","description":"guid","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/AddressDto"}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"put":{"tags":["tenant-controller"],"summary":"modifyTenantAddress","operationId":"modifyTenantAddressUsingPUT","consumes":["application/vnd.softserve.address+json"],"produces":["application/vnd.softserve.address+json"],"parameters":[{"name":"addrguid","in":"path","description":"addrguid","required":true,"type":"string"},{"in":"body","name":"body","description":"body","required":true,"schema":{"$ref":"#/definitions/AddressDto"}},{"name":"guid","in":"path","description":"guid","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/AddressDto"}},"201":{"description":"Created"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"delete":{"tags":["tenant-controller"],"summary":"deleteTenantAddress","operationId":"deleteTenantAddressUsingDELETE","produces":["*/*"],"parameters":[{"name":"addrguid","in":"path","description":"addrguid","required":true,"type":"string"},{"name":"guid","in":"path","description":"guid","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/ResponseEntity"}},"204":{"description":"No Content"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"}},"deprecated":false}},"/tenants/{guid}/properties":{"get":{"tags":["tenant-controller"],"summary":"getTenantProperties","operationId":"getTenantPropertiesUsingGET","produces":["application/vnd.softserve.tenantproperty+json"],"parameters":[{"name":"guid","in":"path","description":"guid","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"type":"array","items":{"$ref":"#/definitions/TenantPropertiesDto"}}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"post":{"tags":["tenant-controller"],"summary":"addTenantProperties","operationId":"addTenantPropertiesUsingPOST","consumes":["application/vnd.softserve.tenantproperty+json"],"produces":["application/vnd.softserve.tenantproperty+json"],"parameters":[{"in":"body","name":"body","description":"body","required":true,"schema":{"$ref":"#/definitions/TenantPropertiesDto"}},{"name":"guid","in":"path","description":"guid","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/TenantPropertiesDto"}},"201":{"description":"Created"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false}},"/tenants/{guid}/properties/{propguid}":{"get":{"tags":["tenant-controller"],"summary":"getTenantProperty","operationId":"getTenantPropertyUsingGET","produces":["application/vnd.softserve.tenantproperty+json"],"parameters":[{"name":"guid","in":"path","description":"guid","required":true,"type":"string"},{"name":"propguid","in":"path","description":"propguid","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/TenantPropertiesDto"}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"put":{"tags":["tenant-controller"],"summary":"modifyTenantProperty","operationId":"modifyTenantPropertyUsingPUT","consumes":["application/vnd.softserve.tenantproperty+json"],"produces":["application/vnd.softserve.tenantproperty+json"],"parameters":[{"in":"body","name":"body","description":"body","required":true,"schema":{"$ref":"#/definitions/TenantPropertiesDto"}},{"name":"guid","in":"path","description":"guid","required":true,"type":"string"},{"name":"propguid","in":"path","description":"propguid","required":true,"type":"string"}],"responses":{"201":{"description":"Created"},"202":{"description":"Accepted","schema":{"$ref":"#/definitions/TenantPropertiesDto"}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"delete":{"tags":["tenant-controller"],"summary":"deleteTenantProperty","operationId":"deleteTenantPropertyUsingDELETE","produces":["*/*"],"parameters":[{"name":"guid","in":"path","description":"guid","required":true,"type":"string"},{"name":"propguid","in":"path","description":"propguid","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/ResponseEntity"}},"204":{"description":"No Content"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"}},"deprecated":false}},"/users":{"get":{"tags":["user-controller"],"summary":"getUserList","operationId":"getUserListUsingGET","produces":["application/vnd.softserve.user+json"],"responses":{"200":{"description":"OK","schema":{"type":"array","items":{"$ref":"#/definitions/UserDto"}}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"post":{"tags":["user-controller"],"summary":"addUser","operationId":"addUserUsingPOST","consumes":["application/vnd.softserve.user+json"],"produces":["application/vnd.softserve.user+json"],"parameters":[{"in":"body","name":"body","description":"body","required":true,"schema":{"$ref":"#/definitions/UserDto"}}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/UserDto"}},"201":{"description":"Created"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false}},"/users/{id}":{"get":{"tags":["user-controller"],"summary":"getUser","operationId":"getUserUsingGET","produces":["application/vnd.softserve.user+json"],"parameters":[{"name":"id","in":"path","description":"id","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/UserDto"}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"put":{"tags":["user-controller"],"summary":"modifyUser","operationId":"modifyUserUsingPUT","consumes":["application/vnd.softserve.user+json"],"produces":["application/vnd.softserve.user+json"],"parameters":[{"in":"body","name":"body","description":"body","required":true,"schema":{"$ref":"#/definitions/UserDto"}},{"name":"id","in":"path","description":"id","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/UserDto"}},"201":{"description":"Created"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"delete":{"tags":["user-controller"],"summary":"deleteUser","operationId":"deleteUserUsingDELETE","produces":["*/*"],"parameters":[{"name":"id","in":"path","description":"id","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/ResponseEntity"}},"204":{"description":"No Content"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"}},"deprecated":false}},"/users/{id}/addresses":{"get":{"tags":["user-controller"],"summary":"getUserAddresses","operationId":"getUserAddressesUsingGET","produces":["application/vnd.softserve.address+json"],"parameters":[{"name":"id","in":"path","description":"id","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"type":"array","items":{"$ref":"#/definitions/AddressDto"}}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"post":{"tags":["user-controller"],"summary":"addUserAddresses","operationId":"addUserAddressesUsingPOST","consumes":["application/vnd.softserve.address+json"],"produces":["application/vnd.softserve.address+json"],"parameters":[{"in":"body","name":"body","description":"body","required":true,"schema":{"type":"array","items":{"$ref":"#/definitions/AddressDto"}}},{"name":"id","in":"path","description":"id","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"type":"array","items":{"$ref":"#/definitions/AddressDto"}}},"201":{"description":"Created"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false}},"/users/{id}/addresses/{addrguid}":{"get":{"tags":["user-controller"],"summary":"getUserAddress","operationId":"getUserAddressUsingGET","produces":["application/vnd.softserve.address+json"],"parameters":[{"name":"addrguid","in":"path","description":"addrguid","required":true,"type":"string"},{"name":"id","in":"path","description":"id","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/AddressDto"}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"put":{"tags":["user-controller"],"summary":"modifyUserAddress","operationId":"modifyUserAddressUsingPUT","consumes":["application/vnd.softserve.address+json"],"produces":["application/vnd.softserve.address+json"],"parameters":[{"name":"addrguid","in":"path","description":"addrguid","required":true,"type":"string"},{"in":"body","name":"body","description":"body","required":true,"schema":{"$ref":"#/definitions/AddressDto"}},{"name":"id","in":"path","description":"id","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/AddressDto"}},"201":{"description":"Created"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false},"delete":{"tags":["user-controller"],"summary":"deleteUserAddress","operationId":"deleteUserAddressUsingDELETE","produces":["*/*"],"parameters":[{"name":"addrguid","in":"path","description":"addrguid","required":true,"type":"string"},{"name":"id","in":"path","description":"id","required":true,"type":"string"}],"responses":{"200":{"description":"OK","schema":{"$ref":"#/definitions/ResponseEntity"}},"204":{"description":"No Content"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"}},"deprecated":false}}},"definitions":{"AddressDto":{"type":"object","properties":{"address":{"type":"string"},"alias":{"type":"string"},"guid":{"type":"string"},"notes":{"type":"string"}},"title":"AddressDto"},"DetailsDto":{"type":"object","properties":{"imageUrl":{"type":"string"},"payload":{"type":"string"}},"title":"DetailsDto"},"OrderDetailsDto":{"type":"object","properties":{"imageUrl":{"type":"string"},"payload":{"type":"string"}},"title":"OrderDetailsDto"},"OrderDto":{"type":"object","properties":{"details":{"$ref":"#/definitions/OrderDetailsDto"},"guid":{"type":"string"},"summary":{"type":"string"},"tenant":{"type":"string"},"user":{"type":"string"}},"title":"OrderDto"},"OrderEventDto":{"type":"object","properties":{"guid":{"type":"string"},"orderId":{"type":"string"},"payload":{"type":"string"},"type":{"type":"string","enum":["CREATED","ASSIGNED","STARTED","DELIVERED"]}},"title":"OrderEventDto"},"ResponseEntity":{"type":"object","properties":{"body":{"type":"object"},"statusCode":{"type":"string","enum":["100 CONTINUE","101 SWITCHING_PROTOCOLS","102 PROCESSING","103 CHECKPOINT","200 OK","201 CREATED","202 ACCEPTED","203 NON_AUTHORITATIVE_INFORMATION","204 NO_CONTENT","205 RESET_CONTENT","206 PARTIAL_CONTENT","207 MULTI_STATUS","208 ALREADY_REPORTED","226 IM_USED","300 MULTIPLE_CHOICES","301 MOVED_PERMANENTLY","302 FOUND","302 MOVED_TEMPORARILY","303 SEE_OTHER","304 NOT_MODIFIED","305 USE_PROXY","307 TEMPORARY_REDIRECT","308 PERMANENT_REDIRECT","400 BAD_REQUEST","401 UNAUTHORIZED","402 PAYMENT_REQUIRED","403 FORBIDDEN","404 NOT_FOUND","405 METHOD_NOT_ALLOWED","406 NOT_ACCEPTABLE","407 PROXY_AUTHENTICATION_REQUIRED","408 REQUEST_TIMEOUT","409 CONFLICT","410 GONE","411 LENGTH_REQUIRED","412 PRECONDITION_FAILED","413 PAYLOAD_TOO_LARGE","413 REQUEST_ENTITY_TOO_LARGE","414 URI_TOO_LONG","414 REQUEST_URI_TOO_LONG","415 UNSUPPORTED_MEDIA_TYPE","416 REQUESTED_RANGE_NOT_SATISFIABLE","417 EXPECTATION_FAILED","418 I_AM_A_TEAPOT","419 INSUFFICIENT_SPACE_ON_RESOURCE","420 METHOD_FAILURE","421 DESTINATION_LOCKED","422 UNPROCESSABLE_ENTITY","423 LOCKED","424 FAILED_DEPENDENCY","425 TOO_EARLY","426 UPGRADE_REQUIRED","428 PRECONDITION_REQUIRED","429 TOO_MANY_REQUESTS","431 REQUEST_HEADER_FIELDS_TOO_LARGE","451 UNAVAILABLE_FOR_LEGAL_REASONS","500 INTERNAL_SERVER_ERROR","501 NOT_IMPLEMENTED","502 BAD_GATEWAY","503 SERVICE_UNAVAILABLE","504 GATEWAY_TIMEOUT","505 HTTP_VERSION_NOT_SUPPORTED","506 VARIANT_ALSO_NEGOTIATES","507 INSUFFICIENT_STORAGE","508 LOOP_DETECTED","509 BANDWIDTH_LIMIT_EXCEEDED","510 NOT_EXTENDED","511 NETWORK_AUTHENTICATION_REQUIRED"]},"statusCodeValue":{"type":"integer","format":"int32"}},"title":"ResponseEntity"},"SseEmitter":{"type":"object","properties":{"timeout":{"type":"integer","format":"int64"}},"title":"SseEmitter"},"TenantDetailsDto":{"type":"object","properties":{"imageUrl":{"type":"string"},"payload":{"type":"string"}},"title":"TenantDetailsDto"},"TenantDto":{"type":"object","properties":{"details":{"$ref":"#/definitions/TenantDetailsDto"},"guid":{"type":"string"},"name":{"type":"string"},"owner":{"type":"string"}},"title":"TenantDto"},"TenantPropertiesDto":{"type":"object","properties":{"guid":{"type":"string"},"key":{"type":"string"},"tenant":{"type":"string"},"type":{"type":"string"},"value":{"type":"string"}},"title":"TenantPropertiesDto"},"UserDto":{"type":"object","properties":{"details":{"$ref":"#/definitions/DetailsDto"},"email":{"type":"string"},"guid":{"type":"string"},"name":{"type":"string"},"nickname":{"type":"string"},"phone":{"type":"string"}},"title":"UserDto"}}}
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "BaaS for delivery services like Glovo, Uber or even for regular mail.",
+    "version": "V1",
+    "title": "KEK"
+  },
+  "host": "localhost:8080",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "auth",
+      "description": "Auth Controller"
+    },
+    {
+      "name": "order",
+      "description": "Order Controller"
+    },
+    {
+      "name": "registration",
+      "description": "Registration Controller"
+    },
+    {
+      "name": "sign-in",
+      "description": "Sign In Controller"
+    },
+    {
+      "name": "sse",
+      "description": "Sse Controller"
+    },
+    {
+      "name": "statistics",
+      "description": "Statistics Controller"
+    },
+    {
+      "name": "tenant",
+      "description": "Tenant Controller"
+    },
+    {
+      "name": "user",
+      "description": "User Controller"
+    }
+  ],
+  "paths": {
+    "/callback": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "getCallback",
+        "operationId": "getCallback",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "head": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "getCallback",
+        "operationId": "getCallbackUsingHEAD",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "getCallback",
+        "operationId": "getCallback",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "getCallback",
+        "operationId": "getCallback",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "getCallback",
+        "operationId": "getCallback",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "deprecated": false
+      },
+      "options": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "getCallback",
+        "operationId": "getCallbackUsingOPTIONS",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "getCallback",
+        "operationId": "getCallbackUsingPATCH",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/login": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "login",
+        "operationId": "login",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/orders": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "getOrderList",
+        "operationId": "getOrderList",
+        "produces": [
+          "application/vnd.softserve.orderlist+json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Order»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "order"
+        ],
+        "summary": "addOrder",
+        "operationId": "addOrder",
+        "consumes": [
+          "application/vnd.softserve.orderlist+json"
+        ],
+        "produces": [
+          "application/vnd.softserve.orderlist+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "newOrderList",
+            "description": "newOrderList",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Order»"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Order»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/orders/{guid}": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "getOrder",
+        "operationId": "getOrder",
+        "produces": [
+          "application/vnd.softserve.order+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": "modifyOrder",
+        "operationId": "modifyOrder",
+        "consumes": [
+          "application/vnd.softserve.order+json"
+        ],
+        "produces": [
+          "application/vnd.softserve.order+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "order",
+            "description": "order",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "order"
+        ],
+        "summary": "deleteOrder",
+        "operationId": "deleteOrder",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/orders/{guid}/events": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "getEvents",
+        "operationId": "getEvents",
+        "produces": [
+          "application/vnd.softserve.eventlist+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«OrderEvent»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "order"
+        ],
+        "summary": "addEvent",
+        "operationId": "addEvent",
+        "consumes": [
+          "application/vnd.softserve.event+json"
+        ],
+        "produces": [
+          "application/vnd.softserve.event+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "orderEvent",
+            "description": "orderEvent",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrderEvent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OrderEvent"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/orders/{orderGuid}/tracking/": {
+      "get": {
+        "tags": [
+          "sse"
+        ],
+        "summary": "trackOrder",
+        "operationId": "trackOrder",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "orderGuid",
+            "in": "path",
+            "description": "orderGuid",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SseEmitter"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/profile": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "profile",
+        "operationId": "profile",
+        "produces": [
+          "application/vnd.softserve.user+json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/registration": {
+      "post": {
+        "tags": [
+          "registration"
+        ],
+        "summary": "userRegistration",
+        "operationId": "userRegistration",
+        "consumes": [
+          "application/vnd.softserve.registrationuser+json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "userData",
+            "description": "userData",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Registration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/signin": {
+      "post": {
+        "tags": [
+          "sign-in"
+        ],
+        "summary": "signIn",
+        "operationId": "signIn",
+        "consumes": [
+          "application/vnd.softserve.signin+json"
+        ],
+        "produces": [
+          "application/vnd.softserve.token+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SignIn"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Token"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/statistics/{guid}": {
+      "get": {
+        "tags": [
+          "statistics"
+        ],
+        "summary": "getListOfOrdersForCurrentTenant",
+        "operationId": "getListOfOrdersForCurrentTenant",
+        "produces": [
+          "application/vnd.softserve.orderlist+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Order»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/statistics/{guid}/actors": {
+      "get": {
+        "tags": [
+          "statistics"
+        ],
+        "summary": "getListOfActorsForCurrentTenant",
+        "operationId": "getListOfActorsForCurrentTenant",
+        "produces": [
+          "application/vnd.softserve.actorlist+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Actor»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/tenants": {
+      "get": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "getTenantList",
+        "operationId": "getTenantList",
+        "produces": [
+          "application/vnd.softserve.tenantlist+json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Tenant»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "addTenant",
+        "operationId": "addTenant",
+        "consumes": [
+          "application/vnd.softserve.tenant+json"
+        ],
+        "produces": [
+          "application/vnd.softserve.tenant+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "tenant",
+            "description": "tenant",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Tenant"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Tenant"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/tenants/{guid}": {
+      "get": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "getTenant",
+        "operationId": "getTenant",
+        "produces": [
+          "application/vnd.softserve.tenant+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Tenant"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "modifyTenant",
+        "operationId": "modifyTenant",
+        "consumes": [
+          "application/vnd.softserve.tenant+json"
+        ],
+        "produces": [
+          "application/vnd.softserve.tenant+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "tenant",
+            "description": "tenant",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Tenant"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Tenant"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "deleteTenant",
+        "operationId": "deleteTenant",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/tenants/{guid}/addresses": {
+      "get": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "getTenantAddresses",
+        "operationId": "getTenantAddresses",
+        "produces": [
+          "application/vnd.softserve.addresslist+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Address»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "addTenantAddresses",
+        "operationId": "addTenantAddresses",
+        "consumes": [
+          "application/vnd.softserve.address+json"
+        ],
+        "produces": [
+          "application/vnd.softserve.address+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "newAddresses",
+            "description": "newAddresses",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Address»"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Address»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/tenants/{guid}/addresses/{addrguid}": {
+      "get": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "getTenantAddress",
+        "operationId": "getTenantAddress",
+        "produces": [
+          "application/vnd.softserve.address+json"
+        ],
+        "parameters": [
+          {
+            "name": "addrguid",
+            "in": "path",
+            "description": "addrguid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Address"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "modifyTenantAddress",
+        "operationId": "modifyTenantAddress",
+        "consumes": [
+          "application/vnd.softserve.address+json"
+        ],
+        "produces": [
+          "application/vnd.softserve.address+json"
+        ],
+        "parameters": [
+          {
+            "name": "addrguid",
+            "in": "path",
+            "description": "addrguid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "tenantAddress",
+            "description": "tenantAddress",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Address"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Address"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "deleteTenantAddress",
+        "operationId": "deleteTenantAddress",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "addrguid",
+            "in": "path",
+            "description": "addrguid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/tenants/{guid}/properties": {
+      "get": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "getTenantProperties",
+        "operationId": "getTenantProperties",
+        "produces": [
+          "application/vnd.softserve.tenantproperty+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«TenantProperties»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "addTenantProperties",
+        "operationId": "addTenantProperties",
+        "consumes": [
+          "application/vnd.softserve.tenantpropertylist+json"
+        ],
+        "produces": [
+          "application/vnd.softserve.tenantpropertylist+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "tenantPropertiesList",
+            "description": "tenantPropertiesList",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«TenantProperties»"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«TenantProperties»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/tenants/{guid}/properties/{propguid}": {
+      "get": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "getTenantProperty",
+        "operationId": "getTenantProperty",
+        "produces": [
+          "application/vnd.softserve.tenantproperty+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "propguid",
+            "in": "path",
+            "description": "propguid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TenantProperties"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "modifyTenantProperty",
+        "operationId": "modifyTenantProperty",
+        "consumes": [
+          "application/vnd.softserve.tenantproperty+json"
+        ],
+        "produces": [
+          "application/vnd.softserve.tenantproperty+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "propguid",
+            "in": "path",
+            "description": "propguid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "tenantProperties",
+            "description": "tenantProperties",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TenantProperties"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TenantProperties"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "tenant"
+        ],
+        "summary": "deleteTenantProperty",
+        "operationId": "deleteTenantProperty",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "propguid",
+            "in": "path",
+            "description": "propguid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "getUserList",
+        "operationId": "getUserList",
+        "produces": [
+          "application/vnd.softserve.userlist+json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«User»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "addUser",
+        "operationId": "addUser",
+        "consumes": [
+          "application/vnd.softserve.user+json"
+        ],
+        "produces": [
+          "application/vnd.softserve.user+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "newUser",
+            "description": "newUser",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/users/{guid}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "getUser",
+        "operationId": "getUser",
+        "produces": [
+          "application/vnd.softserve.user+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "modifyUser",
+        "operationId": "modifyUser",
+        "consumes": [
+          "application/vnd.softserve.user+json"
+        ],
+        "produces": [
+          "application/vnd.softserve.user+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "user",
+            "description": "user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "deleteUser",
+        "operationId": "deleteUser",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/users/{guid}/addresses": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "getUserAddresses",
+        "operationId": "getUserAddresses",
+        "produces": [
+          "application/vnd.softserve.addresslist+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Address»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "addUserAddresses",
+        "operationId": "addUserAddresses",
+        "consumes": [
+          "application/vnd.softserve.addresslist+json"
+        ],
+        "produces": [
+          "application/vnd.softserve.addresslist+json"
+        ],
+        "parameters": [
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "newAddresses",
+            "description": "newAddresses",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Address»"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListWrapper«Address»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/users/{guid}/addresses/{addrguid}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "getUserAddress",
+        "operationId": "getUserAddress",
+        "produces": [
+          "application/vnd.softserve.address+json"
+        ],
+        "parameters": [
+          {
+            "name": "addrguid",
+            "in": "path",
+            "description": "addrguid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Address"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "modifyUserAddress",
+        "operationId": "modifyUserAddress",
+        "consumes": [
+          "application/vnd.softserve.address+json"
+        ],
+        "produces": [
+          "application/vnd.softserve.address+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "address",
+            "description": "address",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Address"
+            }
+          },
+          {
+            "name": "addrguid",
+            "in": "path",
+            "description": "addrguid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Address"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "deleteUserAddress",
+        "operationId": "deleteUserAddress",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "addrguid",
+            "in": "path",
+            "description": "addrguid",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "guid",
+            "in": "path",
+            "description": "guid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "Actor": {
+      "type": "object",
+      "properties": {
+        "alias": {
+          "type": "string"
+        },
+        "guid": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "title": "Actor"
+    },
+    "Address": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "alias": {
+          "type": "string"
+        },
+        "guid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "title": "Address"
+    },
+    "Details": {
+      "type": "object",
+      "properties": {
+        "imageUrl": {
+          "type": "string"
+        },
+        "payload": {
+          "type": "string"
+        }
+      },
+      "title": "Details"
+    },
+    "IPropertyType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "string"
+        }
+      },
+      "title": "IPropertyType"
+    },
+    "ITenantDetails": {
+      "type": "object",
+      "properties": {
+        "imageUrl": {
+          "type": "string"
+        },
+        "payload": {
+          "type": "string"
+        }
+      },
+      "title": "ITenantDetails"
+    },
+    "IUserDetails": {
+      "type": "object",
+      "properties": {
+        "imageUrl": {
+          "type": "string"
+        },
+        "payload": {
+          "type": "string"
+        }
+      },
+      "title": "IUserDetails"
+    },
+    "ListWrapper«Actor»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Actor"
+          }
+        }
+      },
+      "title": "ListWrapper«Actor»"
+    },
+    "ListWrapper«Address»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Address"
+          }
+        }
+      },
+      "title": "ListWrapper«Address»"
+    },
+    "ListWrapper«Order»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Order"
+          }
+        }
+      },
+      "title": "ListWrapper«Order»"
+    },
+    "ListWrapper«OrderEvent»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderEvent"
+          }
+        }
+      },
+      "title": "ListWrapper«OrderEvent»"
+    },
+    "ListWrapper«Tenant»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Tenant"
+          }
+        }
+      },
+      "title": "ListWrapper«Tenant»"
+    },
+    "ListWrapper«TenantProperties»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TenantProperties"
+          }
+        }
+      },
+      "title": "ListWrapper«TenantProperties»"
+    },
+    "ListWrapper«User»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        }
+      },
+      "title": "ListWrapper«User»"
+    },
+    "OrderDetails": {
+      "type": "object",
+      "properties": {
+        "imageUrl": {
+          "type": "string"
+        },
+        "payload": {
+          "type": "string"
+        }
+      },
+      "title": "OrderDetails"
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "details": {
+          "$ref": "#/definitions/OrderDetails"
+        },
+        "guid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "tenant": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "title": "Order"
+    },
+    "OrderEvent": {
+      "type": "object",
+      "properties": {
+        "guid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "orderId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "payload": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "CREATED",
+            "ASSIGNED",
+            "STARTED",
+            "DELIVERED"
+          ]
+        }
+      },
+      "title": "OrderEvent"
+    },
+    "PropertyType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "string"
+        }
+      },
+      "title": "PropertyType"
+    },
+    "Registration": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "guid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "userDetails": {
+          "$ref": "#/definitions/IUserDetails"
+        }
+      },
+      "title": "Registration"
+    },
+    "ResponseEntity": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "object"
+        },
+        "statusCode": {
+          "type": "string",
+          "enum": [
+            "100 CONTINUE",
+            "101 SWITCHING_PROTOCOLS",
+            "102 PROCESSING",
+            "103 CHECKPOINT",
+            "200 OK",
+            "201 CREATED",
+            "202 ACCEPTED",
+            "203 NON_AUTHORITATIVE_INFORMATION",
+            "204 NO_CONTENT",
+            "205 RESET_CONTENT",
+            "206 PARTIAL_CONTENT",
+            "207 MULTI_STATUS",
+            "208 ALREADY_REPORTED",
+            "226 IM_USED",
+            "300 MULTIPLE_CHOICES",
+            "301 MOVED_PERMANENTLY",
+            "302 FOUND",
+            "302 MOVED_TEMPORARILY",
+            "303 SEE_OTHER",
+            "304 NOT_MODIFIED",
+            "305 USE_PROXY",
+            "307 TEMPORARY_REDIRECT",
+            "308 PERMANENT_REDIRECT",
+            "400 BAD_REQUEST",
+            "401 UNAUTHORIZED",
+            "402 PAYMENT_REQUIRED",
+            "403 FORBIDDEN",
+            "404 NOT_FOUND",
+            "405 METHOD_NOT_ALLOWED",
+            "406 NOT_ACCEPTABLE",
+            "407 PROXY_AUTHENTICATION_REQUIRED",
+            "408 REQUEST_TIMEOUT",
+            "409 CONFLICT",
+            "410 GONE",
+            "411 LENGTH_REQUIRED",
+            "412 PRECONDITION_FAILED",
+            "413 PAYLOAD_TOO_LARGE",
+            "413 REQUEST_ENTITY_TOO_LARGE",
+            "414 URI_TOO_LONG",
+            "414 REQUEST_URI_TOO_LONG",
+            "415 UNSUPPORTED_MEDIA_TYPE",
+            "416 REQUESTED_RANGE_NOT_SATISFIABLE",
+            "417 EXPECTATION_FAILED",
+            "418 I_AM_A_TEAPOT",
+            "419 INSUFFICIENT_SPACE_ON_RESOURCE",
+            "420 METHOD_FAILURE",
+            "421 DESTINATION_LOCKED",
+            "422 UNPROCESSABLE_ENTITY",
+            "423 LOCKED",
+            "424 FAILED_DEPENDENCY",
+            "425 TOO_EARLY",
+            "426 UPGRADE_REQUIRED",
+            "428 PRECONDITION_REQUIRED",
+            "429 TOO_MANY_REQUESTS",
+            "431 REQUEST_HEADER_FIELDS_TOO_LARGE",
+            "451 UNAVAILABLE_FOR_LEGAL_REASONS",
+            "500 INTERNAL_SERVER_ERROR",
+            "501 NOT_IMPLEMENTED",
+            "502 BAD_GATEWAY",
+            "503 SERVICE_UNAVAILABLE",
+            "504 GATEWAY_TIMEOUT",
+            "505 HTTP_VERSION_NOT_SUPPORTED",
+            "506 VARIANT_ALSO_NEGOTIATES",
+            "507 INSUFFICIENT_STORAGE",
+            "508 LOOP_DETECTED",
+            "509 BANDWIDTH_LIMIT_EXCEEDED",
+            "510 NOT_EXTENDED",
+            "511 NETWORK_AUTHENTICATION_REQUIRED"
+          ]
+        },
+        "statusCodeValue": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ResponseEntity"
+    },
+    "SignIn": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "SignIn"
+    },
+    "SseEmitter": {
+      "type": "object",
+      "properties": {
+        "timeout": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "SseEmitter"
+    },
+    "TenantDetails": {
+      "type": "object",
+      "properties": {
+        "imageUrl": {
+          "type": "string"
+        },
+        "payload": {
+          "type": "string"
+        }
+      },
+      "title": "TenantDetails"
+    },
+    "Tenant": {
+      "type": "object",
+      "properties": {
+        "details": {
+          "$ref": "#/definitions/TenantDetails"
+        },
+        "guid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "title": "Tenant"
+    },
+    "TenantProperties": {
+      "type": "object",
+      "properties": {
+        "guid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "key": {
+          "type": "string"
+        },
+        "propertyType": {
+          "$ref": "#/definitions/PropertyType"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "title": "TenantProperties"
+    },
+    "Token": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      },
+      "title": "Token"
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "details": {
+          "$ref": "#/definitions/Details"
+        },
+        "email": {
+          "type": "string"
+        },
+        "guid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      },
+      "title": "User"
+    }
+  }
+}
