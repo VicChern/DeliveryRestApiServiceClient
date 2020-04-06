@@ -21,34 +21,24 @@ public class MainFlow {
 
     public static void main(String[] args) {
         // ------- TENANT -----
-        final Registration tenantRegistration = ModelUtils.getRegistrationWithName("Tenant");
-        KEK_API.userRegistration(tenantRegistration);
-        LOGGER.info("\n\n STEP 1: Register new user for tenant, user email: {}", tenantRegistration.getEmail());
-
-        SignIn signInData = ModelUtils.getSignInData(tenantRegistration.getEmail(), tenantRegistration.getPassword());
-        Token tenantToken = KEK_API.signIn(signInData);
-        LOGGER.info("\n\n STEP 2: User was authenticated, token={}", tenantToken.getToken());
+        Token tenantToken = getTokenFor("Tenant");
+        LOGGER.info("\n\n STEP 2: User for tenant was authenticated, token={}", tenantToken.getToken());
 
         User tenantProfile = KEK_API.profile(tenantToken.getToken());
-        LOGGER.info("\n\n STEP 3: User for tenant has guid={}", tenantProfile.getGuid());
+        LOGGER.info("\n\n STEP 3: Get tenant guid={}", tenantProfile.getGuid());
 
         final Tenant tenant = KEK_API.addTenant(ModelUtils.getTenantForUserGuid(tenantProfile.getGuid()),
                 tenantToken.getToken());
-        LOGGER.info("\n\n STEP 2: Added new tenant {} for user guid={}",
+        LOGGER.info("\n\n STEP 4: Added new tenant {} for user guid={}",
                 tenant,
                 tenantProfile.getGuid());
 
         // ------- CUSTOMER -----
-        final Registration customerRegistration = ModelUtils.getRegistrationWithName("Customer");
-        KEK_API.userRegistration(customerRegistration);
-        LOGGER.info("\n\n STEP 4: Register new user for customer, user email: {}", customerRegistration.getEmail());
-
-        SignIn signInDataForCustomer = ModelUtils.getSignInData(customerRegistration.getEmail(), customerRegistration.getPassword());
-        Token customerToken = KEK_API.signIn(signInDataForCustomer);
+        Token customerToken = getTokenFor("Customer");
         LOGGER.info("\n\n STEP 5: Customer was authenticated, token={}", customerToken.getToken());
 
         User customerProfile = KEK_API.profile(customerToken.getToken());
-        LOGGER.info("\n\n STEP 3: Customer has guid={}", customerProfile.getGuid());
+        LOGGER.info("\n\n STEP 6: Customer has guid={}", customerProfile.getGuid());
 
         //System automatically added actor (customer) and role CUSTOMER
         //System automatically added event (EventDTO) and event_type CREATED
@@ -56,22 +46,17 @@ public class MainFlow {
         final ListWrapperDto<Order> orderList = KEK_API.addOrder(ModelUtils.getSingletonOrderList(orderStub),
                 customerToken.getToken());
         final Order order = orderList.getList().get(0);
-        LOGGER.info("\n\n STEP 4: Added new order {} from customer guid={} for tenant guid={}",
+        LOGGER.info("\n\n STEP 7: Added new order {} from customer guid={} for tenant guid={}",
                 order,
                 customerProfile.getGuid(),
                 tenant.getGuid());
 
         // ------- CURRIER -----
-        final Registration currierRegistration = ModelUtils.getRegistrationWithName("Currier");
-        KEK_API.userRegistration(currierRegistration);
-        LOGGER.info("\n\n STEP 6: Register new user for customer, user email: {}", currierRegistration.getEmail());
-
-        SignIn signInDataForCurrier = ModelUtils.getSignInData(currierRegistration.getEmail(), currierRegistration.getPassword());
-        Token currierToken = KEK_API.signIn(signInDataForCurrier);
-        LOGGER.info("\n\n STEP 7: Currier was authenticated, token={}", currierToken.getToken());
+        Token currierToken = getTokenFor("Currier");
+        LOGGER.info("\n\n STEP 8: Currier was authenticated, token={}", currierToken.getToken());
 
         User currierProfile = KEK_API.profile(currierToken.getToken());
-        LOGGER.info("\n\n STEP 3: Currier has guid={}", currierProfile.getGuid());
+        LOGGER.info("\n\n STEP 9: Currier has guid={}", currierProfile.getGuid());
 
         //Currier takes order: Currier add event (EventDTO, user_guid(currier)), event_type ASSIGNED
         //System automatically added actor (user_guid(currier)) and role CURRIER
@@ -80,14 +65,11 @@ public class MainFlow {
                 ModelUtils.getOrderEvent(order, OrderEventTypes.ASSIGNED),
                 currierToken.getToken());
 
-        LOGGER.info("\n\n STEP 6: Added new event {} for orderGuid={}, for currier guid: {}",
-                eventAssigned,
-                order.getGuid(),
-                currierRegistration.getGuid());
+        LOGGER.info("\n\n STEP 10: Added new event {} for orderGuid={}", eventAssigned, order.getGuid());
 
 
-        //http://localhost:8080/api/v1/orders/b03ac67c-1c31-4760-a386-49948d0217a4/tracking/
-        //http://localhost:8080/#/app-sse-controller/d1ddada9-fe8d-4e7d-9035-4c0c523c6b7c
+        //http://localhost:8080/api/v1/tracking/orders/ead016d6-8734-4493-a6c8-4435fe570342/
+        //http://localhost:8080/#/app-sse-controller/ead016d6-8734-4493-a6c8-4435fe570342
         //Currier started delivery: Currier add event (EventDTO, user_guid(currier)), event_type STARTED
         //System automatically added actor (user_guid(currier)) and role CURRIER (this step only if CURRIER is changed to another user)
         Delivery delivery = new Delivery(order, currierToken.getToken());
@@ -126,6 +108,17 @@ public class MainFlow {
                 order.getGuid(),
                 ModelUtils.getOrderEvent(order, OrderEventTypes.DELIVERED),
                 currierToken.getToken());
-        LOGGER.info("\n\n STEP 7: Added new event {} for orderGuid={}", eventDelivered, order.getGuid());
+        LOGGER.info("\n\n STEP 11: Added new event {} for orderGuid={}", eventDelivered, order.getGuid());
     }
+
+
+    private static Token getTokenFor(final String role) {
+        final Registration registration = ModelUtils.getRegistrationWithName(role);
+        KEK_API.userRegistration(registration);
+        LOGGER.info("\n\n STEP 1: Register new user for {}, user email: {}", role, registration.getEmail());
+
+        SignIn signInData = ModelUtils.getSignInData(registration.getEmail(), registration.getPassword());
+        return KEK_API.signIn(signInData);
+    }
+
 }
