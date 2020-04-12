@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 import com.softserve.itacademy.kek.rest.model.Registration;
+import com.softserve.itacademy.kek.rest.model.Token;
 
 /**
  * KEK
@@ -28,7 +29,7 @@ public interface RegistrationApi {
     @POST
     @Path("/registration")
     @Consumes({"application/vnd.softserve.registrationUser+json"})
-    @Produces({"application/vnd.softserve.session+json"})
+    @Produces({"application/vnd.softserve.token+json"})
     @ApiOperation(value = "userRegistration", tags = {})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
@@ -36,6 +37,6 @@ public interface RegistrationApi {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found")})
-    void userRegistration(Registration userData);
+    Token userRegistration(Registration userData);
 }
 

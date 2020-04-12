@@ -46,7 +46,7 @@ public class ModelUtils {
         registration.setName(Optional.ofNullable(name).orElse(RandomStringUtils.randomAlphabetic(5)));
         registration.setEmail(RandomStringUtils.randomAlphabetic(8) + "@gmail.com");
         registration.setNickname(RandomStringUtils.randomAlphabetic(7));
-        registration.setPhone("+3" + RandomStringUtils.randomNumeric(10));
+        registration.setPhone("+7" + RandomStringUtils.randomNumeric(10));
         registration.setPassword("234@94iSter");
         return registration;
     }
